@@ -156,18 +156,121 @@
 
 /* ── Footer ───────────────────────────────────────────────────────────────── */
 .footer {
-  border-top: 1px solid rgba(196, 129, 58, 0.18);
-  padding-top: 24px;
-  font-size: 11px;
-  color: var(--muted);
-  letter-spacing: 0.05em;
-  line-height: 2;
+  position: relative;
+  border: 1px solid rgba(196, 129, 58, 0.22);
+  background:
+    linear-gradient(130deg, rgba(196, 129, 58, 0.12), rgba(196, 129, 58, 0.02) 48%),
+    rgba(16, 11, 7, 0.78);
+  box-shadow: inset 0 1px 0 rgba(232, 184, 75, 0.16);
+  padding: 18px 18px 16px;
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
   animation: fadeUp 0.5s ease 0.4s both;
 }
 
-.totalVotes {
+.footerTop {
+  margin-bottom: 12px;
+}
+
+.footerKicker {
+  margin: 0 0 6px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
   color: var(--earth);
-  margin-top: 4px;
+}
+
+.footerLead {
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.02rem;
+  color: var(--sand);
+  letter-spacing: 0.01em;
+}
+
+.footerMetaRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 11px 0 13px;
+  border-top: 1px solid rgba(196, 129, 58, 0.16);
+  border-bottom: 1px solid rgba(196, 129, 58, 0.16);
+}
+
+.contractBlock {
+  min-width: 0;
+}
+
+.metaLabel {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+
+.contractLink {
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  word-break: break-word;
+}
+
+.contractLink:hover {
+  color: var(--sand);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.networkChip {
+  flex-shrink: 0;
+  border: 1px solid rgba(232, 184, 75, 0.4);
+  color: var(--sand);
+  background: rgba(232, 184, 75, 0.08);
+  padding: 6px 10px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.footerBottom {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 11px;
+}
+
+.footerNote {
+  margin: 0;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  line-height: 1.7;
+}
+
+.totalVotes {
+  margin: 0;
+  white-space: nowrap;
+  font-size: 11px;
+  color: var(--earth);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 640px) {
+  .footerMetaRow,
+  .footerBottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .networkChip,
+  .totalVotes {
+    white-space: normal;
+  }
 }
 
 /* ── Keyframes ────────────────────────────────────────────────────────────── */

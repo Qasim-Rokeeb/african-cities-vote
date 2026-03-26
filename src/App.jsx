@@ -210,20 +210,33 @@ export default function App() {
 
         {/* Footer */}
         <footer className={styles.footer}>
-          <p>
-            Contract:{' '}
-            <a
-              href={`https://explorer.hiro.so/txid/${CONTRACT_ADDRESS}.${CONTRACT_NAME}?chain=mainnet`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {CONTRACT_ADDRESS.slice(0, 10)}...{CONTRACT_NAME}
-            </a>
-          </p>
-          <p>Powered by Stacks · Each vote is a permanent on-chain transaction</p>
-          {totalVotes > 0 && (
-            <p className={styles.totalVotes}>{totalVotes} total vote{totalVotes !== 1 ? 's' : ''} cast</p>
-          )}
+          <div className={styles.footerTop}>
+            <p className={styles.footerKicker}>Built for the Stacks Builder Challenge</p>
+            <p className={styles.footerLead}>On-chain voting for Africa's most iconic city</p>
+          </div>
+
+          <div className={styles.footerMetaRow}>
+            <div className={styles.contractBlock}>
+              <span className={styles.metaLabel}>Contract</span>
+              <a
+                className={styles.contractLink}
+                href={`https://explorer.hiro.so/txid/${CONTRACT_ADDRESS}.${CONTRACT_NAME}?chain=mainnet`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {CONTRACT_ADDRESS.slice(0, 12)}...{CONTRACT_NAME} ↗
+              </a>
+            </div>
+
+            <div className={styles.networkChip}>Stacks Mainnet</div>
+          </div>
+
+          <div className={styles.footerBottom}>
+            <p className={styles.footerNote}>Powered by Stacks · Every vote is a permanent transaction.</p>
+            {totalVotes > 0 && (
+              <p className={styles.totalVotes}>{totalVotes} total vote{totalVotes !== 1 ? 's' : ''} cast</p>
+            )}
+          </div>
         </footer>
 
       </div>
