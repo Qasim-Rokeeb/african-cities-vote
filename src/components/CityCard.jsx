@@ -8,6 +8,7 @@ export default function CityCard({ city, votes, totalVotes, selected, disabled, 
     <div
       className={[
         styles.card,
+        styles[city.id],
         selected  ? styles.selected  : '',
         disabled  ? styles.disabled  : '',
       ].join(' ')}
