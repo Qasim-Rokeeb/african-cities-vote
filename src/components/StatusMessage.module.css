@@ -1,0 +1,42 @@
+.status {
+  font-size: 13px;
+  padding: 14px 18px;
+  border-left: 3px solid var(--earth);
+  background: rgba(196, 129, 58, 0.07);
+  color: var(--sand);
+  margin-bottom: 20px;
+  line-height: 1.7;
+  animation: fadeUp 0.3s ease;
+}
+
+.status a {
+  color: var(--gold);
+}
+
+.error {
+  border-color: var(--rust);
+  color: #ffb4a0;
+  background: rgba(184, 76, 30, 0.08);
+}
+
+.success {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(232, 184, 75, 0.08);
+}
+
+.loading {
+  border-color: var(--muted);
+  color: var(--muted);
+  animation: fadeUp 0.3s ease, pulse 1.5s infinite;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.6; }
+}
