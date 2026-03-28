@@ -49,16 +49,25 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
     setStatus({ msg: `Opening wallet to vote for "${selected}"...`, type: 'loading' });
 
     try {
+      const fnArg = encodeStringAsciiCV(selected);
       const result = await provider.request('stx_callContract', {
+        // Some wallets expect a combined contract id, others accept split fields.
+        contract:       `${DEPLOYER}.${poll.id}`,
         contractAddress: DEPLOYER,
         contractName:    poll.id,
         functionName:    'vote',
-        functionArgs:    [encodeStringAsciiCV(selected)],
+        functionArgs:    [fnArg],
+        senderAddress:   walletAddress,
         network:         NETWORK,
         postConditions:  [],
       });
 
-      const txid = result?.result?.txid || result?.txid;
+      const txid =
+        result?.result?.txid ||
+        result?.result?.txId ||
+        result?.txid ||
+        result?.txId ||
+        result?.id;
       if (txid) {
         setHasVoted(true);
         setStatus({
@@ -67,10 +76,23 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
         });
         setTimeout(loadVotes, 5000);
       } else {
-        setStatus({ msg: 'Transaction cancelled or failed.', type: 'error' });
+        setStatus({ msg: 'Wallet did not return a transaction ID. Please approve and try again.', type: 'error' });
       }
     } catch (e) {
-      setStatus({ msg: `Error: ${e?.message || 'Transaction failed or was cancelled.'}`, type: 'error' });
+      const rawMessage =
+        e?.message ||
+        e?.error ||
+        e?.reason ||
+        e?.data?.message ||
+        '';
+      const msg = String(rawMessage);
+      const isCancelled = /cancel|reject|denied|declined|abort/i.test(msg);
+      setStatus({
+        msg: isCancelled
+          ? 'Transaction was cancelled in your wallet.'
+          : `Transaction failed: ${msg || 'Please try again.'}`,
+        type: 'error',
+      });
     } finally {
       setIsVoting(false);
     }
