@@ -1,0 +1,82 @@
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background: rgba(26, 16, 8, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(196, 129, 58, 0.15);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.brandIcon { font-size: 1.3rem; }
+
+.brandName {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--sand);
+  letter-spacing: 0.01em;
+}
+
+@media (max-width: 400px) {
+  .brandName { display: none; }
+}
+
+.wallet { display: flex; align-items: center; }
+
+.connectBtn {
+  background: var(--earth);
+  color: var(--sand);
+  border: none;
+  padding: 9px 18px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+}
+
+.connectBtn:hover {
+  background: var(--rust);
+  transform: translateY(-1px);
+}
+
+.connected {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--gold);
+  cursor: pointer;
+  padding: 6px 12px;
+  border: 1px solid rgba(232, 184, 75, 0.2);
+  transition: border-color 0.2s;
+}
+
+.connected:hover { border-color: rgba(232, 184, 75, 0.5); }
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.8); }
+}
