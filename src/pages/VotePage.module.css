@@ -105,6 +105,24 @@
 
 @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
 
+@media (max-width: 480px) {
+  .container { padding: 28px 14px 60px; }
+  .pollMeta {
+    top: 8px;
+    margin-bottom: 24px;
+    padding: 8px 10px;
+  }
+  .title { font-size: clamp(1.5rem, 7vw, 2rem); }
+  .voteBtn {
+    position: sticky;
+    bottom: 10px;
+    z-index: 4;
+    margin-bottom: 18px;
+  }
+  .pagination { flex-direction: column; }
+  .pageBtn { width: 100%; }
+}
+
 .optCard {
   background: var(--card); color: var(--deep);
   border: 2px solid transparent;
