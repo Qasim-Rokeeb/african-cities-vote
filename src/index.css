@@ -1,8 +1,4 @@
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
   --sand: #f0e6d3;
@@ -13,34 +9,22 @@
   --muted: #7a6550;
   --card: #faf5ec;
   --card-hover: #fffbf0;
+  --nav-h: 64px;
 }
 
-html, body, #root {
-  min-height: 100vh;
-}
+html, body, #root { min-height: 100vh; }
 
 body {
   background-color: var(--deep);
   color: var(--sand);
   font-family: 'DM Mono', monospace;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  color: var(--earth);
-  text-decoration: none;
-}
-a:hover {
-  color: var(--gold);
-}
+a { color: var(--earth); text-decoration: none; }
+a:hover { color: var(--gold); }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(22px); }
+  from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.5; }
 }

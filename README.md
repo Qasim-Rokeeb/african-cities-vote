@@ -1,69 +1,49 @@
-# 🗳️ African Cities Vote
+# 🌍 Africa Tech Votes
 
-An on-chain voting app built on the **Stacks blockchain**. Vote for Africa's greatest city — Lagos, Nairobi, Accra, or Cairo. One wallet, one vote. Forever on-chain.
+Five on-chain polls about tech & crypto in Africa, built on the **Stacks blockchain**.
 
-**Live contract:** `SP1MQ1TJJE8PQRDW2WBCFQSVHCZMWTHJSDM5EJBBQ.african-cities-vote`
+One wallet. One vote per poll. Permanent on the blockchain.
+
+---
+
+## Polls
+
+| # | Topic | Contract |
+|---|---|---|
+| 1 | Best African City for Tech | `african-cities-vote` |
+| 2 | Best Crypto Hub in Africa | `africa-crypto-hub` |
+| 3 | Most Popular Dev Stack in Africa | `africa-best-stack` |
+| 4 | Best Blockchain for African Devs | `africa-blockchain` |
+| 5 | Best African City to Launch a Startup | `africa-startup-city` |
+
+**Deployer:** `SP1MQ1TJJE8PQRDW2WBCFQSVHCZMWTHJSDM5EJBBQ`
 
 ---
 
 ## Tech Stack
 
-- **React 18** — frontend framework
-- **@stacks/connect** — wallet connection (Leather / Xverse)
-- **@stacks/transactions** — Clarity contract interaction
-- **Stacks Mainnet** — blockchain
+- **React 18**
+- **@stacks/connect** — wallet connection
+- **@stacks/transactions** — Clarity contract calls
+- **Stacks Mainnet**
 
 ---
 
-## Getting Started
-
-### Prerequisites
-- Node.js 16+
-- A Stacks wallet: [Leather](https://leather.io) or [Xverse](https://xverse.app)
-
-### Install & Run
+## Run Locally
 
 ```bash
 npm install
 npm start
 ```
 
-Opens at `http://localhost:3000`
-
-### Build for Production
+## Deploy
 
 ```bash
 npm run build
 ```
 
----
-
-## Deploy on Vercel
-
-1. Push this repo to GitHub
-2. Go to [vercel.com](https://vercel.com) → Import repository
-3. Click **Deploy** — no extra config needed
+Push to GitHub → Import on [Vercel](https://vercel.com) → Deploy.
 
 ---
 
-## Project Structure
-
-```
-src/
-├── App.jsx              # Main app logic & layout
-├── App.module.css       # App styles
-├── stacksUtils.js       # Contract config & Stacks helpers
-├── index.js             # React entry point
-├── index.css            # Global styles
-└── components/
-    ├── WalletConnect.jsx        # Wallet connect button
-    ├── WalletConnect.module.css
-    ├── CityCard.jsx             # Individual city vote card
-    ├── CityCard.module.css
-    ├── StatusMessage.jsx        # Status / error / success messages
-    └── StatusMessage.module.css
-```
-
----
-
-## Built for the Stacks Builder Challenge on Talent Protocol
+Built for the Stacks Builder Challenge on Talent Protocol.

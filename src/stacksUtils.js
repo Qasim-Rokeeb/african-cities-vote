@@ -1,94 +1,145 @@
-// ─── Contract Config ──────────────────────────────────────────────────────────
-export const CONTRACT_ADDRESS = 'SP1MQ1TJJE8PQRDW2WBCFQSVHCZMWTHJSDM5EJBBQ';
-export const CONTRACT_NAME    = 'african-cities-vote';
-export const STACKS_API       = 'https://api.hiro.so';
-export const NETWORK          = 'mainnet';
+// ─── Wallet address ───────────────────────────────────────────────────────────
+export const DEPLOYER = 'SP1MQ1TJJE8PQRDW2WBCFQSVHCZMWTHJSDM5EJBBQ';
+export const STACKS_API = 'https://api.hiro.so';
+export const NETWORK = 'mainnet';
 
-export const CITIES = [
-  { id: 'lagos',   label: 'Lagos',   country: 'Nigeria', flag: '🇳🇬' },
-  { id: 'nairobi', label: 'Nairobi', country: 'Kenya',   flag: '🇰🇪' },
-  { id: 'accra',   label: 'Accra',   country: 'Ghana',   flag: '🇬🇭' },
-  { id: 'cairo',   label: 'Cairo',   country: 'Egypt',   flag: '🇪🇬' },
+// ─── All 5 polls ──────────────────────────────────────────────────────────────
+export const POLLS = [
+  {
+    id: 'african-cities-vote',
+    title: 'Best African City for Tech',
+    question: 'Which city leads Africa\'s tech scene?',
+    emoji: '🏙️',
+    options: [
+      { id: 'lagos',   label: 'Lagos',   detail: 'Nigeria 🇳🇬' },
+      { id: 'nairobi', label: 'Nairobi', detail: 'Kenya 🇰🇪' },
+      { id: 'accra',   label: 'Accra',   detail: 'Ghana 🇬🇭' },
+      { id: 'cairo',   label: 'Cairo',   detail: 'Egypt 🇪🇬' },
+    ],
+  },
+  {
+    id: 'africa-crypto-hub',
+    title: 'Best Crypto Hub in Africa',
+    question: 'Which city is Africa\'s crypto capital?',
+    emoji: '₿',
+    options: [
+      { id: 'lagos',    label: 'Lagos',      detail: 'Nigeria 🇳🇬' },
+      { id: 'capetown', label: 'Cape Town',  detail: 'South Africa 🇿🇦' },
+      { id: 'nairobi',  label: 'Nairobi',    detail: 'Kenya 🇰🇪' },
+      { id: 'cairo',    label: 'Cairo',      detail: 'Egypt 🇪🇬' },
+    ],
+  },
+  {
+    id: 'africa-best-stack',
+    title: 'Most Popular Dev Stack in Africa',
+    question: 'What do African devs build with most?',
+    emoji: '⚡',
+    options: [
+      { id: 'react',    label: 'React',    detail: 'Frontend / Web' },
+      { id: 'python',   label: 'Python',   detail: 'Backend / AI' },
+      { id: 'rust',     label: 'Rust',     detail: 'Systems / Web3' },
+      { id: 'solidity', label: 'Solidity', detail: 'Smart Contracts' },
+    ],
+  },
+  {
+    id: 'africa-blockchain',
+    title: 'Best Blockchain for African Devs',
+    question: 'Which chain do African builders prefer?',
+    emoji: '🔗',
+    options: [
+      { id: 'stacks',   label: 'Stacks',   detail: 'Bitcoin L2' },
+      { id: 'ethereum', label: 'Ethereum', detail: 'EVM / DeFi' },
+      { id: 'solana',   label: 'Solana',   detail: 'High Speed' },
+      { id: 'cardano',  label: 'Cardano',  detail: 'Peer Reviewed' },
+    ],
+  },
+  {
+    id: 'africa-startup-city',
+    title: 'Best African City to Launch a Startup',
+    question: 'Where should African founders build?',
+    emoji: '🚀',
+    options: [
+      { id: 'lagos',   label: 'Lagos',   detail: 'Nigeria 🇳🇬' },
+      { id: 'kigali',  label: 'Kigali',  detail: 'Rwanda 🇷🇼' },
+      { id: 'nairobi', label: 'Nairobi', detail: 'Kenya 🇰🇪' },
+      { id: 'accra',   label: 'Accra',   detail: 'Ghana 🇬🇭' },
+    ],
+  },
 ];
 
-// ─── Fetch live vote counts from contract ─────────────────────────────────────
-export async function fetchVoteCounts() {
-  const res = await fetch(`${STACKS_API}/v2/contracts/call-read/${CONTRACT_ADDRESS}/${CONTRACT_NAME}/get-votes`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ sender: CONTRACT_ADDRESS, arguments: [] }),
-  });
-  const json = await res.json();
-
-  if (!json.okay || !json.result) return null;
-
-  // Decode Clarity (ok (tuple ...)) hex response
-  return decodeTupleResponse(json.result);
+// ─── Fetch vote counts for a contract ────────────────────────────────────────
+export async function fetchVoteCounts(contractName) {
+  try {
+    const res = await fetch(
+      `${STACKS_API}/v2/contracts/call-read/${DEPLOYER}/${contractName}/get-votes`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sender: DEPLOYER, arguments: [] }),
+      }
+    );
+    const json = await res.json();
+    if (!json.okay || !json.result) return null;
+    return decodeTupleUints(json.result);
+  } catch {
+    return null;
+  }
 }
 
-// ─── Check if a wallet has already voted ─────────────────────────────────────
-export async function checkHasVoted(walletAddress) {
+// ─── Check if wallet has voted ────────────────────────────────────────────────
+export async function checkHasVoted(contractName, walletAddress) {
   try {
-    const principalCV = encodePrincipalCV(walletAddress);
-    const res = await fetch(`${STACKS_API}/v2/contracts/call-read/${CONTRACT_ADDRESS}/${CONTRACT_NAME}/has-wallet-voted`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sender: walletAddress, arguments: [principalCV] }),
-    });
+    const principalHex = '0x' + Array.from(walletAddress)
+      .map(c => c.charCodeAt(0).toString(16).padStart(2, '0')).join('');
+    const res = await fetch(
+      `${STACKS_API}/v2/contracts/call-read/${DEPLOYER}/${contractName}/has-wallet-voted`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sender: walletAddress, arguments: [principalHex] }),
+      }
+    );
     const json = await res.json();
-    if (!json.okay || !json.result) return false;
-    // Clarity bool true = ends with '03'
-    return json.result.includes('03');
+    return json?.result?.includes('03') ?? false;
   } catch {
     return false;
   }
 }
 
-// ─── Encode city string as Clarity string-ascii CV ───────────────────────────
+// ─── Encode Clarity string-ascii CV ──────────────────────────────────────────
 export function encodeStringAsciiCV(str) {
-  const hex = Array.from(str).map(c => c.charCodeAt(0).toString(16).padStart(2, '0')).join('');
-  const lenHex = str.length.toString(16).padStart(8, '0');
-  return '0x0d' + lenHex + hex;
+  const hex = Array.from(str)
+    .map(c => c.charCodeAt(0).toString(16).padStart(2, '0')).join('');
+  return '0x0d' + str.length.toString(16).padStart(8, '0') + hex;
 }
 
-// ─── Encode principal CV ──────────────────────────────────────────────────────
-function encodePrincipalCV(address) {
-  const hex = Array.from(address).map(c => c.charCodeAt(0).toString(16).padStart(2, '0')).join('');
-  return '0x' + hex;
-}
-
-// ─── Decode Clarity tuple hex to JS object ────────────────────────────────────
-function decodeTupleResponse(hexResult) {
-  // The result is a hex-encoded Clarity value. We parse it manually for uints.
-  // Format: (ok (tuple (accra uint) (cairo uint) (lagos uint) (nairobi uint)))
-  // Each uint is encoded as: 0x01 + 16 bytes big-endian
+// ─── Decode Clarity (ok (tuple ...)) hex → { key: number } ───────────────────
+function decodeTupleUints(hexResult) {
   try {
     const clean = hexResult.startsWith('0x') ? hexResult.slice(2) : hexResult;
-    const bytes  = clean.match(/.{1,2}/g).map(b => parseInt(b, 16));
-
-    // Walk bytes to find uint (type=0x01) values — they appear in alphabetical key order
+    const bytes = clean.match(/.{1,2}/g).map(b => parseInt(b, 16));
     const uints = [];
     for (let i = 0; i < bytes.length - 16; i++) {
       if (bytes[i] === 0x01) {
-        const hexValue = bytes
-          .slice(i + 1, i + 17)
-          .map(b => b.toString(16).padStart(2, '0'))
-          .join('');
-        uints.push(Number.parseInt(hexValue, 16));
+        const val = bytes.slice(i + 1, i + 17)
+          .reduce((acc, b) => acc * 256 + b, 0);
+        uints.push(val);
         i += 16;
       }
     }
-
-    if (uints.length === 4) {
-      return {
-        accra:   uints[0],
-        cairo:   uints[1],
-        lagos:   uints[2],
-        nairobi: uints[3],
-      };
-    }
-    return { lagos: 0, nairobi: 0, accra: 0, cairo: 0 };
+    return uints; // returned as array; caller maps by index (alphabetical key order)
   } catch {
-    return { lagos: 0, nairobi: 0, accra: 0, cairo: 0 };
+    return [];
   }
+}
+
+// ─── Map raw uint array to option ids (alphabetical Clarity key order) ────────
+export function mapVotesToOptions(uints, options) {
+  // Clarity tuples are alphabetically sorted by key
+  const sorted = [...options].sort((a, b) => a.id.localeCompare(b.id));
+  const result = {};
+  sorted.forEach((opt, i) => {
+    result[opt.id] = uints[i] ?? 0;
+  });
+  return result;
 }
