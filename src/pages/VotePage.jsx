@@ -185,6 +185,12 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
           />
         )}
 
+        {selected && (
+          <div className={styles.selectionChip}>
+            Selected: {poll.options.find(o => o.id === selected)?.label}
+          </div>
+        )}
+
         {/* Vote button */}
         <button
           className={styles.voteBtn}
