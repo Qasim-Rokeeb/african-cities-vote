@@ -32,6 +32,9 @@
   position: relative; z-index: 1;
   max-width: 780px; margin: 0 auto;
   padding: 60px 24px 80px;
+  background: linear-gradient(180deg, rgba(26,16,8,0.42), rgba(26,16,8,0.22));
+  border: 1px solid rgba(196,129,58,0.22);
+  backdrop-filter: blur(2px);
 }
 
 .header {
@@ -52,7 +55,14 @@
   color: var(--sand); margin-bottom: 20px;
 }
 
-.accent { color: var(--gold); }
+.accent {
+  background: linear-gradient(90deg, var(--gold), #ffd97a, var(--earth));
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: accentShift 5s linear infinite;
+}
 
 .subtitle {
   font-size: 13px; color: var(--muted); line-height: 1.8;
@@ -74,6 +84,7 @@
   transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
   position: relative;
   animation: fadeUp 0.5s ease both;
+  isolation: isolate;
 }
 
 .pollCard::after {
@@ -85,13 +96,24 @@
   transition: transform 0.25s ease;
 }
 
+.pollCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(196,129,58,0.14);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
 .pollCard:hover {
   border-color: var(--earth);
   transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(196,129,58,0.18);
+  box-shadow: 0 16px 40px rgba(196,129,58,0.2);
 }
 
 .pollCard:hover::after { transform: scaleX(1); }
+.pollCard:hover::before { opacity: 1; }
 
 .pollEmoji {
   font-size: 2rem; margin-bottom: 12px; line-height: 1;
@@ -159,4 +181,9 @@
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes accentShift {
+  from { background-position: 0% 0; }
+  to { background-position: 200% 0; }
 }
