@@ -19,6 +19,13 @@
   display: flex; justify-content: space-between; align-items: center;
   margin-bottom: 36px;
   animation: fadeUp 0.4s ease both;
+  position: sticky;
+  top: 14px;
+  z-index: 3;
+  padding: 10px 12px;
+  background: rgba(26,16,8,0.72);
+  border: 1px solid rgba(196,129,58,0.2);
+  backdrop-filter: blur(6px);
 }
 
 .backBtn {
