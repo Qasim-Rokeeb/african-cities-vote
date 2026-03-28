@@ -196,7 +196,10 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
 
         {/* Vote button */}
         <button
-          className={styles.voteBtn}
+          className={[
+            styles.voteBtn,
+            walletAddress && selected && !hasVoted && !isVoting ? styles.readyToVote : '',
+          ].join(' ')}
           onClick={castVote}
           disabled={!walletAddress || !selected || hasVoted || isVoting}
         >
