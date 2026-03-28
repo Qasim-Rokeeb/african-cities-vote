@@ -182,6 +182,11 @@
 
 @media (max-width: 480px) {
   .grid { grid-template-columns: 1fr; }
+  .container { padding: 40px 16px 64px; }
+  .title { line-height: 1.05; }
+  .pollCard { padding: 22px 18px 16px; }
+  .pollFooter { gap: 12px; align-items: flex-end; }
+  .footer { line-height: 1.7; }
 }
 
 @keyframes fadeUp {
