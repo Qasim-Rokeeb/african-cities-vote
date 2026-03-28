@@ -29,6 +29,10 @@
   padding: 0;
 }
 .backBtn:hover { color: var(--sand); }
+.backBtn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
 
 .pollCounter {
   font-size: 11px; letter-spacing: 0.2em;
@@ -76,6 +80,10 @@
   clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
 }
 .connectBtn:hover { background: var(--rust); transform: translateY(-2px); }
+.connectBtn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
 
 .walletHint {
   margin-top: 8px; font-size: 11px; color: var(--muted);
@@ -110,6 +118,11 @@
   border-color: var(--earth);
   transform: translateY(-3px);
   box-shadow: 0 8px 24px rgba(196,129,58,0.18);
+}
+
+.optCard:focus-visible:not(.disabled) {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(232,184,75,0.3), 0 8px 24px rgba(196,129,58,0.2);
 }
 
 .optCard:hover:not(.disabled)::after { transform: scaleX(1); }
@@ -197,6 +210,10 @@
 .voteBtn:hover:not(:disabled) { background: var(--earth); color: var(--sand); transform: translateY(-2px); }
 .voteBtn:active:not(:disabled) { transform: translateY(0); }
 .voteBtn:disabled { opacity: 0.35; cursor: not-allowed; }
+.voteBtn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
 
 /* Pagination */
 .pagination {
@@ -214,6 +231,10 @@
 }
 .pageBtn:hover:not(:disabled) { border-color: var(--earth); color: var(--sand); }
 .pageBtn:disabled { opacity: 0.25; cursor: not-allowed; }
+.pageBtn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
 
 /* Footer */
 .footer {
