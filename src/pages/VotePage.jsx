@@ -164,11 +164,14 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
               >
                 <div className={styles.optLabel}>{opt.label}</div>
                 <div className={styles.optDetail}>{opt.detail}</div>
-                <div className={styles.optVotes}>
-                  {votes === null ? '—' : `${count} vote${count !== 1 ? 's' : ''}`}
+                <div className={[styles.optVotes, votes === null ? styles.loadingStat : ''].join(' ')}>
+                  {votes === null ? 'Loading votes...' : `${count} vote${count !== 1 ? 's' : ''}`}
                 </div>
                 <div className={styles.barBg}>
-                  <div className={styles.barFill} style={{ width: `${pct}%` }} />
+                  <div
+                    className={[styles.barFill, votes === null ? styles.barLoading : ''].join(' ')}
+                    style={{ width: `${pct}%` }}
+                  />
                 </div>
                 {pct > 0 && <div className={styles.pct}>{pct}%</div>}
                 {isSelected && <div className={styles.check}>✓</div>}
