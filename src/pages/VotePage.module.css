@@ -105,6 +105,24 @@
 
 @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
 
+@media (max-width: 480px) {
+  .container { padding: 28px 14px 60px; }
+  .pollMeta {
+    top: 8px;
+    margin-bottom: 24px;
+    padding: 8px 10px;
+  }
+  .title { font-size: clamp(1.5rem, 7vw, 2rem); }
+  .voteBtn {
+    position: sticky;
+    bottom: 10px;
+    z-index: 4;
+    margin-bottom: 18px;
+  }
+  .pagination { flex-direction: column; }
+  .pageBtn { width: 100%; }
+}
+
 .optCard {
   background: var(--card); color: var(--deep);
   border: 2px solid transparent;
@@ -250,6 +268,13 @@
   outline-offset: 3px;
 }
 
+.readyToVote {
+  background: linear-gradient(90deg, #f3c35c, #ffd97a, #f3c35c);
+  background-size: 220% 100%;
+  box-shadow: 0 12px 28px rgba(232,184,75,0.22);
+  animation: ctaShine 2.3s ease infinite;
+}
+
 /* Pagination */
 .pagination {
   display: flex; justify-content: space-between; gap: 12px;
@@ -284,4 +309,10 @@
 @keyframes shimmer {
   from { background-position: 200% 0; }
   to { background-position: -200% 0; }
+}
+
+@keyframes ctaShine {
+  0%   { background-position: 0% 0; }
+  50%  { background-position: 100% 0; }
+  100% { background-position: 0% 0; }
 }
