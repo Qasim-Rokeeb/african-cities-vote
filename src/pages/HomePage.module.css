@@ -162,6 +162,7 @@
   font-family: 'DM Mono', monospace;
   font-size: 12px;
   padding: 12px 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .searchInput::placeholder {
@@ -171,6 +172,8 @@
 .searchInput:focus-visible {
   outline: 2px solid rgba(232,184,75,0.55);
   outline-offset: 2px;
+  border-color: rgba(232,184,75,0.5);
+  box-shadow: 0 0 0 3px rgba(232,184,75,0.14);
 }
 
 /* Poll cards grid */
