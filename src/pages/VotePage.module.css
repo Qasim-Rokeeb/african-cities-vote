@@ -109,6 +109,11 @@
   color: var(--gold);
 }
 
+.refreshBtn:focus-visible {
+  outline: 2px solid rgba(232,184,75,0.75);
+  outline-offset: 3px;
+}
+
 /* Wallet prompt */
 .walletPrompt {
   margin-bottom: 28px;
