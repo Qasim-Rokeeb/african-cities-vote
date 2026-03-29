@@ -16,7 +16,11 @@ export default function App() {
 
   return (
     <WalletProvider>
-      <Navbar activePollIndex={activePoll} onNavigate={goHome} />
+      <Navbar
+        activePollIndex={activePoll}
+        totalPolls={POLLS.length}
+        onNavigate={goHome}
+      />
 
       {activePoll === -1 ? (
         <HomePage onSelectPoll={goToPoll} />
