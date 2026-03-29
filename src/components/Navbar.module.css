@@ -131,10 +131,13 @@
   padding: 6px 12px;
   border: 1px solid rgba(232, 184, 75, 0.2);
   background: rgba(232, 184, 75, 0.05);
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, transform 0.16s;
 }
 
-.connected:hover { border-color: rgba(232, 184, 75, 0.5); }
+.connected:hover {
+  border-color: rgba(232, 184, 75, 0.5);
+  transform: translateY(-1px);
+}
 
 .connected:focus-visible {
   outline: 2px solid rgba(232, 184, 75, 0.7);
