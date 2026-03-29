@@ -101,12 +101,13 @@
   text-transform: uppercase;
   padding: 8px 12px;
   cursor: pointer;
-  transition: border-color 0.2s, color 0.2s;
+  transition: border-color 0.2s, color 0.2s, transform 0.16s;
 }
 
 .refreshBtn:hover {
   border-color: var(--earth);
   color: var(--gold);
+  transform: translateY(-1px);
 }
 
 .refreshBtn:focus-visible {
