@@ -22,9 +22,23 @@
   cursor: pointer;
   user-select: none;
   min-width: fit-content;
+  transition: transform 0.18s ease;
 }
 
-.brandIcon { font-size: 1.3rem; }
+.brand:hover,
+.brand:focus-visible {
+  transform: translateY(-1px);
+}
+
+.brandIcon {
+  font-size: 1.3rem;
+  transition: transform 0.2s ease;
+}
+
+.brand:hover .brandIcon,
+.brand:focus-visible .brandIcon {
+  transform: rotate(-8deg) scale(1.04);
+}
 
 .brandName {
   font-family: 'Playfair Display', serif;
@@ -32,6 +46,12 @@
   font-weight: 700;
   color: var(--sand);
   letter-spacing: 0.01em;
+  transition: color 0.2s ease;
+}
+
+.brand:hover .brandName,
+.brand:focus-visible .brandName {
+  color: var(--gold);
 }
 
 .centerInfo {
