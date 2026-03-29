@@ -72,6 +72,43 @@
   margin-top: 8px; font-size: 12px; color: var(--earth);
 }
 
+.liveRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  animation: fadeUp 0.4s ease 0.08s both;
+}
+
+.livePill {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(232,184,75,0.35);
+  background: rgba(232,184,75,0.08);
+  padding: 7px 10px;
+}
+
+.refreshBtn {
+  border: 1px solid rgba(196,129,58,0.35);
+  background: transparent;
+  color: var(--sand);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.refreshBtn:hover {
+  border-color: var(--earth);
+  color: var(--gold);
+}
+
 /* Wallet prompt */
 .walletPrompt {
   margin-bottom: 28px;
@@ -121,6 +158,7 @@
   }
   .pagination { flex-direction: column; }
   .pageBtn { width: 100%; }
+  .liveRow { flex-direction: column; align-items: flex-start; }
 }
 
 .optCard {
@@ -218,6 +256,33 @@
 @keyframes popIn {
   from { transform: scale(0); opacity: 0; }
   to   { transform: scale(1); opacity: 1; }
+}
+
+.insightBox {
+  border: 1px solid rgba(196,129,58,0.25);
+  background: linear-gradient(140deg, rgba(196,129,58,0.09), rgba(26,16,8,0.65));
+  padding: 14px 16px;
+  margin-bottom: 16px;
+}
+
+.insightLabel {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--earth);
+  margin-bottom: 6px;
+}
+
+.insightTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.insightMeta {
+  color: var(--muted);
+  font-size: 12px;
 }
 
 /* Status */

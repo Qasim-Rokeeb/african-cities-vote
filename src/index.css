@@ -4,6 +4,7 @@
   --sand: #f0e6d3;
   --earth: #c4813a;
   --deep: #1a1008;
+  --deep-2: #2a190d;
   --rust: #b84c1e;
   --gold: #e8b84b;
   --muted: #7a6550;
@@ -13,16 +14,37 @@
 }
 
 html, body, #root { min-height: 100vh; }
+html { scroll-behavior: smooth; }
 
 body {
-  background-color: var(--deep);
+  position: relative;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(196, 129, 58, 0.2), transparent 40%),
+    radial-gradient(circle at 80% 10%, rgba(232, 184, 75, 0.08), transparent 30%),
+    linear-gradient(135deg, var(--deep), var(--deep-2));
   color: var(--sand);
   font-family: 'DM Mono', monospace;
   -webkit-font-smoothing: antialiased;
 }
 
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.2;
+  background-image: radial-gradient(rgba(240,230,211,0.25) 0.6px, transparent 0.6px);
+  background-size: 4px 4px;
+}
+
 a { color: var(--earth); text-decoration: none; }
 a:hover { color: var(--gold); }
+
+::selection {
+  background: rgba(232, 184, 75, 0.3);
+  color: var(--sand);
+}
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }

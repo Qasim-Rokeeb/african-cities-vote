@@ -68,6 +68,106 @@
   font-size: 13px; color: var(--muted); line-height: 1.8;
 }
 
+.statsStrip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 18px;
+  animation: fadeUp 0.5s ease 0.05s both;
+}
+
+.statCard {
+  padding: 12px;
+  border: 1px solid rgba(196,129,58,0.22);
+  background: linear-gradient(180deg, rgba(38,24,13,0.74), rgba(26,16,8,0.52));
+}
+
+.statLabel {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.statValue {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  color: var(--gold);
+}
+
+.featuredPoll {
+  border: 1px solid rgba(232,184,75,0.35);
+  background: linear-gradient(120deg, rgba(232,184,75,0.12), rgba(184,76,30,0.08));
+  padding: 18px;
+  margin-bottom: 18px;
+  animation: fadeUp 0.5s ease 0.08s both;
+}
+
+.featuredLabel {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+.featuredTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.featuredMeta {
+  color: var(--sand);
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.featuredCta {
+  border: 1px solid rgba(232,184,75,0.45);
+  background: rgba(232,184,75,0.2);
+  color: var(--sand);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.featuredCta:hover {
+  transform: translateY(-2px);
+  background: rgba(232,184,75,0.32);
+}
+
+.searchWrap {
+  margin-bottom: 18px;
+  animation: fadeUp 0.5s ease 0.1s both;
+}
+
+.searchInput {
+  width: 100%;
+  border: 1px solid rgba(196,129,58,0.25);
+  background: rgba(26,16,8,0.58);
+  color: var(--sand);
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  padding: 12px 14px;
+}
+
+.searchInput::placeholder {
+  color: var(--muted);
+}
+
+.searchInput:focus-visible {
+  outline: 2px solid rgba(232,184,75,0.55);
+  outline-offset: 2px;
+}
+
 /* Poll cards grid */
 .grid {
   display: grid;
@@ -180,7 +280,17 @@
   letter-spacing: 0.05em; line-height: 2;
 }
 
+.emptyState {
+  margin-bottom: 40px;
+  border: 1px dashed rgba(196,129,58,0.35);
+  color: var(--muted);
+  padding: 14px;
+  font-size: 12px;
+  text-align: center;
+}
+
 @media (max-width: 480px) {
+  .statsStrip { grid-template-columns: 1fr; }
   .grid { grid-template-columns: 1fr; }
   .container { padding: 40px 16px 64px; }
   .title { line-height: 1.05; }

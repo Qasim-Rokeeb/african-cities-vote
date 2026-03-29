@@ -11,6 +11,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
   const { walletAddress, connectWallet } = useWallet();
 
   const [votes,        setVotes]        = useState(null);
+  const [refreshIn,    setRefreshIn]    = useState(30);
   const [selected,     setSelected]     = useState(null);
   const [hasVoted,     setHasVoted]     = useState(false);
   const [isVoting,     setIsVoting]     = useState(false);
@@ -24,9 +25,23 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
 
   useEffect(() => {
     loadVotes();
-    const t = setInterval(loadVotes, 30_000);
+    setRefreshIn(30);
+    const t = setInterval(() => {
+      setRefreshIn(prev => {
+        if (prev <= 1) {
+          loadVotes();
+          return 30;
+        }
+        return prev - 1;
+      });
+    }, 1000);
     return () => clearInterval(t);
   }, [loadVotes]);
+
+  function refreshNow() {
+    loadVotes();
+    setRefreshIn(30);
+  }
 
   // ── Check if wallet voted when wallet connects ──────────────────────────────
   useEffect(() => {
@@ -101,6 +116,22 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
   // ── Derived ─────────────────────────────────────────────────────────────────
   const total = votes ? Object.values(votes).reduce((a, b) => a + b, 0) : 0;
   const cardsDisabled = hasVoted || isVoting || !walletAddress;
+  const ranked = poll.options
+    .map(opt => ({
+      id: opt.id,
+      label: opt.label,
+      votes: votes?.[opt.id] ?? 0,
+    }))
+    .sort((a, b) => b.votes - a.votes);
+  const leader = ranked[0];
+  const runnerUp = ranked[1];
+  const isTie = leader && runnerUp && leader.votes > 0 && leader.votes === runnerUp.votes;
+  const leaderShare = total > 0 && leader ? Math.round((leader.votes / total) * 100) : 0;
+  const turnoutLabel =
+    total === 0 ? 'No votes yet' :
+    total < 10 ? 'Early participation' :
+    total < 50 ? 'Growing momentum' :
+    'High participation';
 
   const btnLabel = () => {
     if (!walletAddress)  return 'Connect wallet first';
@@ -131,6 +162,13 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
             <p className={styles.totalVotes}>{total} vote{total !== 1 ? 's' : ''} cast</p>
           )}
         </header>
+
+        <div className={styles.liveRow}>
+          <span className={styles.livePill}>Live refresh in {refreshIn}s</span>
+          <button className={styles.refreshBtn} onClick={refreshNow}>
+            Refresh now
+          </button>
+        </div>
 
         {/* Wallet connect */}
         {!walletAddress && (
@@ -179,6 +217,20 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
             );
           })}
         </div>
+
+        <section className={styles.insightBox}>
+          <p className={styles.insightLabel}>Live Insight</p>
+          <h2 className={styles.insightTitle}>
+            {total === 0 && 'Waiting for first vote'}
+            {total > 0 && isTie && `Tie at the top: ${leader?.label} and ${runnerUp?.label}`}
+            {total > 0 && !isTie && leader && `${leader.label} is leading`}
+          </h2>
+          <p className={styles.insightMeta}>
+            {total === 0 && 'Connect your wallet and become the first voter on this poll.'}
+            {total > 0 && isTie && `${leader?.votes} votes each · ${turnoutLabel}`}
+            {total > 0 && !isTie && leader && `${leader.votes} votes · ${leaderShare}% share · ${turnoutLabel}`}
+          </p>
+        </section>
 
         {/* Status */}
         {status.msg && (
