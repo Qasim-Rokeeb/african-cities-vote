@@ -7,7 +7,7 @@ import {
 } from '../stacksUtils';
 import styles from './VotePage.module.css';
 
-export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, onPrev }) {
+export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, onPrev, onJumpToPoll }) {
   const { walletAddress, connectWallet } = useWallet();
 
   const [votes,        setVotes]        = useState(null);
@@ -145,6 +145,32 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
   return (
     <div className={styles.page}>
       <div className={styles.blob} />
+
+      <aside className={styles.timelineNav} aria-label="Poll timeline navigation">
+        <p className={styles.timelineTitle}>Poll Timeline</p>
+        <div className={styles.timelineList}>
+          {Array.from({ length: totalPolls }).map((_, idx) => {
+            const isActive = idx === pollIndex;
+            const isComplete = idx < pollIndex;
+
+            return (
+              <button
+                key={idx}
+                className={[
+                  styles.timelineItem,
+                  isActive ? styles.timelineActive : '',
+                  isComplete ? styles.timelineComplete : '',
+                ].join(' ')}
+                onClick={() => onJumpToPoll(idx)}
+                aria-current={isActive ? 'step' : undefined}
+              >
+                <span className={styles.timelineDot} />
+                <span className={styles.timelineText}>Poll {idx + 1}</span>
+              </button>
+            );
+          })}
+        </div>
+      </aside>
 
       <div className={styles.container}>
 

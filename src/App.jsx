@@ -32,6 +32,7 @@ export default function App() {
           onBack={goHome}
           onNext={goNext}
           onPrev={goPrev}
+          onJumpToPoll={goToPoll}
         />
       )}
     </WalletProvider>

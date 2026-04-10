@@ -19,6 +19,91 @@
   box-shadow: var(--shadow-soft);
 }
 
+.timelineNav {
+  position: fixed;
+  top: 160px;
+  left: max(18px, calc(50% - 520px));
+  width: 170px;
+  z-index: 2;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(196,129,58,0.22);
+  background: rgba(26,16,8,0.66);
+  backdrop-filter: blur(6px);
+}
+
+.timelineTitle {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.timelineList {
+  display: grid;
+  gap: 8px;
+}
+
+.timelineItem {
+  width: 100%;
+  border: 1px solid rgba(196,129,58,0.2);
+  border-radius: var(--radius-sm);
+  background: rgba(196,129,58,0.08);
+  color: var(--sand);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  transition: transform 0.16s, border-color 0.2s, background 0.2s;
+}
+
+.timelineItem:hover {
+  transform: translateX(2px);
+  border-color: rgba(232,184,75,0.5);
+  background: rgba(232,184,75,0.12);
+}
+
+.timelineItem:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+.timelineDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: rgba(122,101,80,0.8);
+  flex-shrink: 0;
+}
+
+.timelineText {
+  letter-spacing: 0.05em;
+}
+
+.timelineActive {
+  border-color: rgba(232,184,75,0.7);
+  background: linear-gradient(90deg, rgba(232,184,75,0.22), rgba(196,129,58,0.14));
+}
+
+.timelineActive .timelineDot {
+  background: var(--gold);
+  box-shadow: 0 0 0 5px rgba(232,184,75,0.2);
+}
+
+.timelineComplete .timelineDot {
+  background: var(--earth);
+}
+
+@media (max-width: 1150px) {
+  .timelineNav {
+    display: none;
+  }
+}
+
 /* Poll meta */
 .pollMeta {
   display: flex; justify-content: space-between; align-items: center;
