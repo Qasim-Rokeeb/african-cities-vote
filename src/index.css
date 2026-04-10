@@ -86,3 +86,56 @@ a:hover { color: var(--gold); }
     scroll-behavior: auto !important;
   }
 }
+
+.app-view-stage {
+  position: relative;
+  isolation: isolate;
+}
+
+.app-view-stage.phase-exiting {
+  animation-duration: var(--view-transition-ms, 320ms);
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.app-view-stage.phase-entering {
+  animation-duration: var(--view-transition-ms, 320ms);
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.app-view-stage.phase-exiting.dir-forward {
+  animation-name: viewExitForward;
+}
+
+.app-view-stage.phase-entering.dir-forward {
+  animation-name: viewEnterForward;
+}
+
+.app-view-stage.phase-exiting.dir-backward {
+  animation-name: viewExitBackward;
+}
+
+.app-view-stage.phase-entering.dir-backward {
+  animation-name: viewEnterBackward;
+}
+
+@keyframes viewExitForward {
+  from { opacity: 1; transform: translateX(0) translateY(0); }
+  to { opacity: 0; transform: translateX(-16px) translateY(2px); }
+}
+
+@keyframes viewEnterForward {
+  from { opacity: 0; transform: translateX(20px) translateY(2px); }
+  to { opacity: 1; transform: translateX(0) translateY(0); }
+}
+
+@keyframes viewExitBackward {
+  from { opacity: 1; transform: translateX(0) translateY(0); }
+  to { opacity: 0; transform: translateX(16px) translateY(2px); }
+}
+
+@keyframes viewEnterBackward {
+  from { opacity: 0; transform: translateX(-20px) translateY(2px); }
+  to { opacity: 1; transform: translateX(0) translateY(0); }
+}
