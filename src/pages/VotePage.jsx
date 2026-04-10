@@ -174,6 +174,18 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
     return `Vote for ${poll.options.find(o => o.id === selected)?.label} →`;
   };
 
+  const selectedLabel = poll.options.find(o => o.id === selected)?.label;
+  const mobileVoteDisabled = !walletAddress || !selected || hasVoted || isVoting;
+  const mobileCtaLabel = !walletAddress ? 'Connect Wallet' : btnLabel();
+
+  function handleMobileCta() {
+    if (!walletAddress) {
+      connectWallet();
+      return;
+    }
+    castVote();
+  }
+
   return (
     <div className={styles.page}>
       <div className={styles.blob} />
@@ -358,6 +370,35 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
         <p className={styles.voteHint}>
           Tip: review the live percentages above before you commit your final vote.
         </p>
+
+        <div className={styles.mobileActionBar}>
+          <div className={styles.mobileMetaRow}>
+            <span className={styles.mobileWalletState}>
+              <span
+                className={[
+                  styles.mobileStateDot,
+                  walletAddress ? styles.mobileStateDotConnected : styles.mobileStateDotDisconnected,
+                ].join(' ')}
+              />
+              {walletAddress ? 'Wallet connected' : 'Wallet not connected'}
+            </span>
+            <span
+              className={[
+                styles.mobileSelectedState,
+                selectedLabel ? '' : styles.mobileSelectedEmpty,
+              ].join(' ')}
+            >
+              {selectedLabel ? `Selected: ${selectedLabel}` : 'No option selected'}
+            </span>
+          </div>
+          <button
+            className={styles.mobileActionBtn}
+            onClick={handleMobileCta}
+            disabled={walletAddress ? mobileVoteDisabled : false}
+          >
+            {mobileCtaLabel}
+          </button>
+        </div>
 
         {/* Pagination */}
         <div className={styles.pagination}>
