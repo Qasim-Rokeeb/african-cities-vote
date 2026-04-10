@@ -372,6 +372,61 @@
 
 .pct { margin-top: 5px; font-size: 11px; color: var(--muted); }
 
+.momentumWrap {
+  margin-top: 10px;
+}
+
+.momentumHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+
+.momentumLabel {
+  font-size: 9px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.momentumDelta {
+  font-size: 10px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.momentumUp {
+  color: #2f8f64;
+}
+
+.momentumDown {
+  color: var(--rust);
+}
+
+.momentumTrack {
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(122,101,80,0.25);
+  overflow: hidden;
+}
+
+.momentumFill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, rgba(122,101,80,0.7), rgba(160,142,118,0.9));
+  transition: width 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.momentumFillUp {
+  background: linear-gradient(90deg, #2f8f64, #4bb57d);
+}
+
+.momentumFillDown {
+  background: linear-gradient(90deg, var(--rust), #e27f54);
+}
+
 .check {
   position: absolute; top: 12px; right: 14px;
   width: 22px; height: 22px;

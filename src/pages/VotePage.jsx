@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useWallet } from '../WalletContext';
 import {
   DEPLOYER, NETWORK,
@@ -16,14 +16,46 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
   const [hasVoted,     setHasVoted]     = useState(false);
   const [isVoting,     setIsVoting]     = useState(false);
   const [status,       setStatus]       = useState({ msg: '', type: '' });
+  const [momentum,     setMomentum]     = useState({});
+  const previousVotesRef = useRef(null);
 
   // ── Load votes ──────────────────────────────────────────────────────────────
   const loadVotes = useCallback(async () => {
     const raw = await fetchVoteCounts(poll.id);
-    if (raw) setVotes(mapVotesToOptions(raw, poll.options));
+    if (!raw) return;
+
+    const mapped = mapVotesToOptions(raw, poll.options);
+    const previous = previousVotesRef.current;
+
+    if (previous) {
+      const previousTotal = Object.values(previous).reduce((sum, n) => sum + n, 0);
+      const currentTotal = Object.values(mapped).reduce((sum, n) => sum + n, 0);
+      const nextMomentum = {};
+
+      poll.options.forEach(opt => {
+        const prevVotes = previous[opt.id] ?? 0;
+        const currentVotes = mapped[opt.id] ?? 0;
+        const prevShare = previousTotal > 0 ? (prevVotes / previousTotal) * 100 : 0;
+        const currentShare = currentTotal > 0 ? (currentVotes / currentTotal) * 100 : 0;
+        nextMomentum[opt.id] = Number((currentShare - prevShare).toFixed(1));
+      });
+
+      setMomentum(nextMomentum);
+    } else {
+      const initialMomentum = {};
+      poll.options.forEach(opt => {
+        initialMomentum[opt.id] = 0;
+      });
+      setMomentum(initialMomentum);
+    }
+
+    previousVotesRef.current = mapped;
+    setVotes(mapped);
   }, [poll]);
 
   useEffect(() => {
+    previousVotesRef.current = null;
+    setMomentum({});
     loadVotes();
     setRefreshIn(30);
     const t = setInterval(() => {
@@ -220,6 +252,11 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
             const count = votes?.[opt.id] ?? 0;
             const pct   = total > 0 ? Math.round((count / total) * 100) : 0;
             const isSelected = selected === opt.id;
+            const momentumDelta = momentum[opt.id] ?? 0;
+            const meterWidth = Math.min(Math.abs(momentumDelta) * 8, 100);
+            const momentumText = momentumDelta > 0
+              ? `+${momentumDelta.toFixed(1)} pp`
+              : `${momentumDelta.toFixed(1)} pp`;
 
             return (
               <div
@@ -246,6 +283,32 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
                   />
                 </div>
                 {pct > 0 && <div className={styles.pct}>{pct}%</div>}
+
+                <div className={styles.momentumWrap}>
+                  <div className={styles.momentumHeader}>
+                    <span className={styles.momentumLabel}>Confidence meter</span>
+                    <span
+                      className={[
+                        styles.momentumDelta,
+                        momentumDelta > 0 ? styles.momentumUp : '',
+                        momentumDelta < 0 ? styles.momentumDown : '',
+                      ].join(' ')}
+                    >
+                      {momentumText} since refresh
+                    </span>
+                  </div>
+                  <div className={styles.momentumTrack}>
+                    <div
+                      className={[
+                        styles.momentumFill,
+                        momentumDelta > 0 ? styles.momentumFillUp : '',
+                        momentumDelta < 0 ? styles.momentumFillDown : '',
+                      ].join(' ')}
+                      style={{ width: `${meterWidth}%` }}
+                    />
+                  </div>
+                </div>
+
                 {isSelected && <div className={styles.check}>✓</div>}
               </div>
             );
