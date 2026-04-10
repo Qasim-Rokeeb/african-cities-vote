@@ -132,6 +132,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
     total < 10 ? 'Early participation' :
     total < 50 ? 'Growing momentum' :
     'High participation';
+  const pollProgressPct = Math.round(((pollIndex + 1) / totalPolls) * 100);
 
   const btnLabel = () => {
     if (!walletAddress)  return 'Connect wallet first';
@@ -151,6 +152,13 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
         <div className={styles.pollMeta}>
           <button className={styles.backBtn} onClick={onBack}>← Back</button>
           <span className={styles.pollCounter}>Poll {pollIndex + 1} of {totalPolls}</span>
+        </div>
+
+        <div className={styles.pollJourney} aria-label="Poll journey progress">
+          <div className={styles.pollJourneyBar}>
+            <div className={styles.pollJourneyFill} style={{ width: `${pollProgressPct}%` }} />
+          </div>
+          <span className={styles.pollJourneyLabel}>{pollProgressPct}% complete</span>
         </div>
 
         <header className={styles.header}>
@@ -257,6 +265,10 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
         >
           {btnLabel()}
         </button>
+
+        <p className={styles.voteHint}>
+          Tip: review the live percentages above before you commit your final vote.
+        </p>
 
         {/* Pagination */}
         <div className={styles.pagination}>
