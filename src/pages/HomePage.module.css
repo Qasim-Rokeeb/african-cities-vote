@@ -139,6 +139,43 @@
   color: var(--gold);
 }
 
+.odometer {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 4px;
+  line-height: 1;
+}
+
+.odometerDigits {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.odometerWindow {
+  height: 1.1em;
+  overflow: hidden;
+}
+
+.odometerTrack {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.72s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.odometerDigit {
+  display: block;
+  height: 1.1em;
+  min-width: 0.62em;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.odometerSuffix {
+  font-size: 0.74em;
+  color: var(--sand);
+  transform: translateY(-0.05em);
+}
+
 .featuredPoll {
   border: 1px solid rgba(232,184,75,0.35);
   background: linear-gradient(120deg, rgba(232,184,75,0.12), rgba(184,76,30,0.08));

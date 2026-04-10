@@ -3,6 +3,31 @@ import { POLLS, fetchVoteCounts, mapVotesToOptions } from '../stacksUtils';
 import { useWallet } from '../WalletContext';
 import styles from './HomePage.module.css';
 
+function OdometerCounter({ value, suffix = '', ariaLabel }) {
+  const numeric = Math.max(0, Math.floor(Number(value) || 0));
+  const digits = String(numeric).split('');
+
+  return (
+    <span className={styles.odometer} aria-label={ariaLabel}>
+      <span className={styles.odometerDigits}>
+        {digits.map((digit, i) => (
+          <span className={styles.odometerWindow} key={i}>
+            <span
+              className={styles.odometerTrack}
+              style={{ transform: `translateY(-${Number(digit) * 1.1}em)` }}
+            >
+              {Array.from({ length: 10 }).map((_, n) => (
+                <span key={n} className={styles.odometerDigit}>{n}</span>
+              ))}
+            </span>
+          </span>
+        ))}
+      </span>
+      {suffix && <span className={styles.odometerSuffix}>{suffix}</span>}
+    </span>
+  );
+}
+
 export default function HomePage({ onSelectPoll }) {
   const { walletAddress } = useWallet();
   const [allVotes, setAllVotes] = useState({});
@@ -60,6 +85,11 @@ export default function HomePage({ onSelectPoll }) {
     [allVotes]
   );
 
+  const liveParticipation = useMemo(() => {
+    const activePolls = pollCards.filter(({ total }) => total > 0).length;
+    return Math.round((activePolls / POLLS.length) * 100);
+  }, [pollCards]);
+
   const openTrendingPoll = () => {
     if (featuredPoll) {
       onSelectPoll(featuredPoll.index);
@@ -101,11 +131,15 @@ export default function HomePage({ onSelectPoll }) {
         <div className={styles.statsStrip}>
           <div className={styles.statCard}>
             <span className={styles.statLabel}>Total On-chain Votes</span>
-            <strong className={styles.statValue}>{totalVotes}</strong>
+            <strong className={styles.statValue}>
+              <OdometerCounter value={totalVotes} ariaLabel={`${totalVotes} total on-chain votes`} />
+            </strong>
           </div>
           <div className={styles.statCard}>
-            <span className={styles.statLabel}>Live Polls</span>
-            <strong className={styles.statValue}>{POLLS.length}</strong>
+            <span className={styles.statLabel}>Live Participation</span>
+            <strong className={styles.statValue}>
+              <OdometerCounter value={liveParticipation} suffix="%" ariaLabel={`${liveParticipation} percent live participation`} />
+            </strong>
           </div>
           <div className={styles.statCard}>
             <span className={styles.statLabel}>Wallet</span>
