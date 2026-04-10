@@ -60,6 +60,18 @@ export default function HomePage({ onSelectPoll }) {
     [allVotes]
   );
 
+  const openTrendingPoll = () => {
+    if (featuredPoll) {
+      onSelectPoll(featuredPoll.index);
+      return;
+    }
+    onSelectPoll(0);
+  };
+
+  const scrollToPolls = () => {
+    document.getElementById('poll-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   return (
     <div className={styles.page}>
       <div className={styles.blob1} />
@@ -76,6 +88,14 @@ export default function HomePage({ onSelectPoll }) {
             Five on-chain polls about tech & crypto in Africa.<br />
             One wallet. One vote per poll. Permanent on the blockchain.
           </p>
+          <div className={styles.heroActions}>
+            <button className={styles.primaryHeroBtn} onClick={openTrendingPoll}>
+              Open Trending Poll
+            </button>
+            <button className={styles.secondaryHeroBtn} onClick={scrollToPolls}>
+              Browse All Polls
+            </button>
+          </div>
         </header>
 
         <div className={styles.statsStrip}>
@@ -122,7 +142,7 @@ export default function HomePage({ onSelectPoll }) {
           />
         </div>
 
-        <div className={styles.grid}>
+        <div id="poll-grid" className={styles.grid}>
           {filteredPolls.map(({ poll, index }, i) => (
             <div
               key={poll.id}

@@ -32,9 +32,12 @@
   position: relative; z-index: 1;
   max-width: 780px; margin: 0 auto;
   padding: 60px 24px 80px;
+  margin-top: 10px;
   background: linear-gradient(180deg, rgba(26,16,8,0.42), rgba(26,16,8,0.22));
   border: 1px solid rgba(196,129,58,0.22);
-  backdrop-filter: blur(2px);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(4px);
 }
 
 .header {
@@ -68,6 +71,44 @@
   font-size: 13px; color: var(--muted); line-height: 1.8;
 }
 
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.primaryHeroBtn,
+.secondaryHeroBtn {
+  border: 1px solid rgba(232,184,75,0.35);
+  background: rgba(232,184,75,0.14);
+  color: var(--sand);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: transform 0.18s, border-color 0.2s, background 0.2s;
+}
+
+.primaryHeroBtn {
+  background: linear-gradient(90deg, rgba(232,184,75,0.26), rgba(196,129,58,0.24));
+}
+
+.primaryHeroBtn:hover,
+.secondaryHeroBtn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(232,184,75,0.6);
+  background: rgba(232,184,75,0.24);
+}
+
+.primaryHeroBtn:focus-visible,
+.secondaryHeroBtn:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
 .statsStrip {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -80,6 +121,7 @@
   padding: 12px;
   border: 1px solid rgba(196,129,58,0.22);
   background: linear-gradient(180deg, rgba(38,24,13,0.74), rgba(26,16,8,0.52));
+  border-radius: var(--radius-sm);
 }
 
 .statLabel {
@@ -103,6 +145,7 @@
   padding: 18px;
   margin-bottom: 18px;
   animation: fadeUp 0.5s ease 0.08s both;
+  border-radius: var(--radius-md);
 }
 
 .featuredLabel {
@@ -150,8 +193,19 @@
 }
 
 .searchWrap {
+  position: relative;
   margin-bottom: 18px;
   animation: fadeUp 0.5s ease 0.1s both;
+}
+
+.searchWrap::before {
+  content: '⌕';
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
 }
 
 .searchInput {
@@ -161,8 +215,9 @@
   color: var(--sand);
   font-family: 'DM Mono', monospace;
   font-size: 12px;
-  padding: 12px 14px;
+  padding: 12px 14px 12px 34px;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  border-radius: var(--radius-sm);
 }
 
 .searchInput::placeholder {
@@ -193,6 +248,7 @@
   position: relative;
   animation: fadeUp 0.5s ease both;
   isolation: isolate;
+  border-radius: var(--radius-md);
 }
 
 .pollCard::after {
@@ -212,12 +268,13 @@
   opacity: 0;
   transition: opacity 0.25s ease;
   pointer-events: none;
+  border-radius: calc(var(--radius-md) - 2px);
 }
 
 .pollCard:hover {
   border-color: var(--earth);
   transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(196,129,58,0.2);
+  box-shadow: 0 16px 40px rgba(196,129,58,0.24);
 }
 
 .pollCard:hover::after { transform: scaleX(1); }
@@ -296,9 +353,11 @@
 
 .emptyState {
   margin-bottom: 40px;
-  border: 1px dashed rgba(196,129,58,0.35);
-  color: var(--muted);
-  padding: 14px;
+  border: 1px dashed rgba(196,129,58,0.4);
+  color: var(--sand);
+  background: rgba(26,16,8,0.38);
+  border-radius: var(--radius-md);
+  padding: 18px;
   font-size: 12px;
   text-align: center;
 }
@@ -307,6 +366,8 @@
   .statsStrip { grid-template-columns: 1fr; }
   .grid { grid-template-columns: 1fr; }
   .container { padding: 40px 16px 64px; }
+  .heroActions { width: 100%; }
+  .primaryHeroBtn, .secondaryHeroBtn { flex: 1 1 160px; }
   .title { line-height: 1.05; }
   .pollCard { padding: 22px 18px 16px; }
   .pollFooter { gap: 12px; align-items: flex-end; }

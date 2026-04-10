@@ -12,6 +12,11 @@
   position: relative; z-index: 1;
   max-width: 680px; margin: 0 auto;
   padding: 40px 24px 80px;
+  margin-top: 10px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, rgba(26,16,8,0.42), rgba(26,16,8,0.24));
+  border: 1px solid rgba(196,129,58,0.2);
+  box-shadow: var(--shadow-soft);
 }
 
 /* Poll meta */
@@ -20,12 +25,42 @@
   margin-bottom: 36px;
   animation: fadeUp 0.4s ease both;
   position: sticky;
-  top: 14px;
+  top: 78px;
   z-index: 3;
   padding: 10px 12px;
   background: rgba(26,16,8,0.72);
   border: 1px solid rgba(196,129,58,0.2);
   backdrop-filter: blur(6px);
+  border-radius: var(--radius-sm);
+}
+
+.pollJourney {
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: fadeUp 0.4s ease 0.03s both;
+}
+
+.pollJourneyBar {
+  flex: 1;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(196,129,58,0.18);
+  overflow: hidden;
+}
+
+.pollJourneyFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--earth), var(--gold));
+  transition: width 0.25s ease;
+}
+
+.pollJourneyLabel {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
 .backBtn {
@@ -89,6 +124,7 @@
   border: 1px solid rgba(232,184,75,0.35);
   background: rgba(232,184,75,0.08);
   padding: 7px 10px;
+  border-radius: 999px;
 }
 
 .refreshBtn {
@@ -102,6 +138,7 @@
   padding: 8px 12px;
   cursor: pointer;
   transition: border-color 0.2s, color 0.2s, transform 0.16s;
+  border-radius: var(--radius-sm);
 }
 
 .refreshBtn:hover {
@@ -151,7 +188,7 @@
 @media (max-width: 480px) {
   .container { padding: 28px 14px 60px; }
   .pollMeta {
-    top: 8px;
+    top: 70px;
     margin-bottom: 24px;
     padding: 8px 10px;
   }
@@ -174,6 +211,7 @@
   cursor: pointer; position: relative; overflow: hidden;
   transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
   user-select: none; outline: none;
+  border-radius: var(--radius-md);
 }
 
 .optCard::after {
@@ -186,7 +224,7 @@
 .optCard:hover:not(.disabled), .optCard:focus:not(.disabled) {
   border-color: var(--earth);
   transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(196,129,58,0.18);
+  box-shadow: 0 10px 26px rgba(196,129,58,0.2);
 }
 
 .optCard:focus-visible:not(.disabled) {
@@ -269,6 +307,7 @@
   background: linear-gradient(140deg, rgba(196,129,58,0.09), rgba(26,16,8,0.65));
   padding: 14px 16px;
   margin-bottom: 16px;
+  border-radius: var(--radius-md);
 }
 
 .insightLabel {
@@ -299,6 +338,7 @@
   color: var(--sand); margin-bottom: 16px;
   line-height: 1.7;
   animation: fadeUp 0.3s ease;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 .status a { color: var(--gold); }
 .error  { border-color: var(--rust); color: #ffb4a0; background: rgba(184,76,30,0.08); }
@@ -315,6 +355,7 @@
   color: var(--gold);
   font-size: 12px;
   letter-spacing: 0.04em;
+  border-radius: 999px;
 }
 
 /* Vote button */
@@ -329,6 +370,14 @@
   clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
   margin-bottom: 28px;
   animation: fadeUp 0.4s ease 0.25s both;
+}
+
+.voteHint {
+  margin-top: -16px;
+  margin-bottom: 22px;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.05em;
 }
 
 .voteBtn:hover:not(:disabled) { background: var(--earth); color: var(--sand); transform: translateY(-2px); }
@@ -359,6 +408,7 @@
   color: var(--muted); padding: 10px 18px;
   font-family: 'DM Mono', monospace; font-size: 12px;
   cursor: pointer; transition: border-color 0.2s, color 0.2s, transform 0.18s;
+  border-radius: var(--radius-sm);
 }
 .pageBtn:hover:not(:disabled) {
   border-color: var(--earth);
