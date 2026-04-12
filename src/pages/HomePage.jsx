@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { POLLS, fetchVoteCounts, mapVotesToOptions } from '../stacksUtils';
 import { useWallet } from '../WalletContext';
 import styles from './HomePage.module.css';
 
 const SPOTLIGHT_ROTATE_MS = 7000;
+const SPOTLIGHT_FADE_MS = 280;
 
 const CITY_SPOTLIGHTS = [
   {
@@ -70,6 +71,9 @@ export default function HomePage({ onSelectPoll }) {
   const [allVotes, setAllVotes] = useState({});
   const [query, setQuery] = useState('');
   const [spotlightIndex, setSpotlightIndex] = useState(0);
+  const [spotlightVisible, setSpotlightVisible] = useState(true);
+  const spotlightIndexRef = useRef(0);
+  const spotlightFadeTimerRef = useRef(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -92,13 +96,35 @@ export default function HomePage({ onSelectPoll }) {
     };
   }, []);
 
+  const transitionSpotlight = useCallback(nextIndex => {
+    if (nextIndex === spotlightIndexRef.current) return;
+
+    setSpotlightVisible(false);
+
+    if (spotlightFadeTimerRef.current) {
+      clearTimeout(spotlightFadeTimerRef.current);
+    }
+
+    spotlightFadeTimerRef.current = setTimeout(() => {
+      spotlightIndexRef.current = nextIndex;
+      setSpotlightIndex(nextIndex);
+      setSpotlightVisible(true);
+    }, SPOTLIGHT_FADE_MS);
+  }, []);
+
   useEffect(() => {
     const rotateId = setInterval(() => {
-      setSpotlightIndex(prev => (prev + 1) % CITY_SPOTLIGHTS.length);
+      const next = (spotlightIndexRef.current + 1) % CITY_SPOTLIGHTS.length;
+      transitionSpotlight(next);
     }, SPOTLIGHT_ROTATE_MS);
 
-    return () => clearInterval(rotateId);
-  }, []);
+    return () => {
+      clearInterval(rotateId);
+      if (spotlightFadeTimerRef.current) {
+        clearTimeout(spotlightFadeTimerRef.current);
+      }
+    };
+  }, [transitionSpotlight]);
 
   const pollCards = useMemo(
     () => POLLS.map((poll, i) => ({
@@ -176,7 +202,10 @@ export default function HomePage({ onSelectPoll }) {
           </div>
         </header>
 
-        <section className={styles.citySpotlight} aria-live="polite">
+        <section
+          className={`${styles.citySpotlight} ${!spotlightVisible ? styles.citySpotlightHidden : ''}`.trim()}
+          aria-live="polite"
+        >
           <div
             className={styles.citySpotlightImage}
             style={{ backgroundImage: `url(${activeSpotlight.photo})` }}
@@ -203,7 +232,7 @@ export default function HomePage({ onSelectPoll }) {
                     key={city.name}
                     type="button"
                     className={`${styles.citySpotlightDot} ${i === spotlightIndex ? styles.citySpotlightDotActive : ''}`.trim()}
-                    onClick={() => setSpotlightIndex(i)}
+                    onClick={() => transitionSpotlight(i)}
                     aria-label={`Show ${city.name} spotlight`}
                   />
                 ))}
