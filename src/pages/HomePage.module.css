@@ -87,6 +87,13 @@
   background: linear-gradient(125deg, rgba(42,26,14,0.82), rgba(26,16,8,0.74));
   overflow: hidden;
   animation: fadeUp 0.5s ease 0.03s both;
+  transition: opacity 0.28s ease, transform 0.28s ease, filter 0.28s ease;
+}
+
+.citySpotlightHidden {
+  opacity: 0;
+  transform: translateY(4px);
+  filter: saturate(0.88);
 }
 
 .citySpotlightImage {
