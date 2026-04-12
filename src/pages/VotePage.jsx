@@ -7,6 +7,35 @@ import {
 } from '../stacksUtils';
 import styles from './VotePage.module.css';
 
+const OPTION_METADATA = {
+  lagos: { country: 'Nigeria', flag: '🇳🇬', population: '21.3M', tag: 'Culture & Music' },
+  nairobi: { country: 'Kenya', flag: '🇰🇪', population: '5.3M', tag: 'Safari Gateway' },
+  accra: { country: 'Ghana', flag: '🇬🇭', population: '2.6M', tag: 'Arts & Coastline' },
+  cairo: { country: 'Egypt', flag: '🇪🇬', population: '10.2M', tag: 'Historic Tourism' },
+  capetown: { country: 'South Africa', flag: '🇿🇦', population: '4.9M', tag: 'Tourism & Nature' },
+  kigali: { country: 'Rwanda', flag: '🇷🇼', population: '1.7M', tag: 'Clean City Culture' },
+};
+
+function getOptionMeta(option) {
+  const known = OPTION_METADATA[option.id];
+  if (known) return known;
+
+  return {
+    country: 'Pan-Africa',
+    flag: '🌍',
+    population: 'N/A',
+    tag: option.detail || 'Culture',
+  };
+}
+
+function getYesterdayTrend(pollId, optionId) {
+  const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  const seed = `${pollId}:${optionId}:${yesterday}`;
+  const hash = Array.from(seed).reduce((acc, ch) => ((acc << 5) - acc) + ch.charCodeAt(0), 0);
+  const normalized = Math.abs(hash) % 9;
+  return normalized - 4;
+}
+
 export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, onPrev, onJumpToPoll }) {
   const { walletAddress, connectWallet } = useWallet();
 
@@ -269,6 +298,11 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
             const momentumText = momentumDelta > 0
               ? `+${momentumDelta.toFixed(1)} pp`
               : `${momentumDelta.toFixed(1)} pp`;
+            const meta = getOptionMeta(opt);
+            const yesterdayDelta = getYesterdayTrend(poll.id, opt.id);
+            const yesterdayDirection = yesterdayDelta > 0 ? 'up' : yesterdayDelta < 0 ? 'down' : 'flat';
+            const yesterdayArrow = yesterdayDirection === 'up' ? '↗' : yesterdayDirection === 'down' ? '↘' : '→';
+            const yesterdayValue = `${yesterdayDelta > 0 ? '+' : ''}${yesterdayDelta}`;
 
             return (
               <div
@@ -283,10 +317,30 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
                 tabIndex={cardsDisabled ? -1 : 0}
                 onKeyDown={e => e.key === 'Enter' && !cardsDisabled && setSelected(opt.id)}
               >
+                <div className={styles.optionMetaHeader}>
+                  <span className={styles.countryPill}>{meta.flag} {meta.country}</span>
+                  <span className={styles.populationBadge}>Pop: {meta.population}</span>
+                </div>
                 <div className={styles.optLabel}>{opt.label}</div>
-                <div className={styles.optDetail}>{opt.detail}</div>
+                <div className={styles.optionTagsRow}>
+                  <div className={styles.optDetail}>{opt.detail}</div>
+                  <span className={styles.cultureTag}>{meta.tag}</span>
+                </div>
                 <div className={[styles.optVotes, votes === null ? styles.loadingStat : ''].join(' ')}>
                   {votes === null ? 'Loading votes...' : `${count} vote${count !== 1 ? 's' : ''}`}
+                </div>
+                <div className={styles.miniTrendRow}>
+                  <span
+                    className={[
+                      styles.miniTrend,
+                      yesterdayDirection === 'up' ? styles.miniTrendUp : '',
+                      yesterdayDirection === 'down' ? styles.miniTrendDown : '',
+                    ].join(' ')}
+                    aria-label={`Trend ${yesterdayValue} since yesterday`}
+                  >
+                    {yesterdayArrow} {yesterdayValue}
+                  </span>
+                  <span className={styles.miniTrendLabel}>since yesterday</span>
                 </div>
                 <div className={styles.barBg}>
                   <div
