@@ -72,6 +72,7 @@ export default function HomePage({ onSelectPoll }) {
   const [query, setQuery] = useState('');
   const [spotlightIndex, setSpotlightIndex] = useState(0);
   const [spotlightVisible, setSpotlightVisible] = useState(true);
+  const [spotlightPaused, setSpotlightPaused] = useState(false);
   const spotlightIndexRef = useRef(0);
   const spotlightFadeTimerRef = useRef(null);
 
@@ -114,6 +115,7 @@ export default function HomePage({ onSelectPoll }) {
 
   useEffect(() => {
     const rotateId = setInterval(() => {
+      if (spotlightPaused) return;
       const next = (spotlightIndexRef.current + 1) % CITY_SPOTLIGHTS.length;
       transitionSpotlight(next);
     }, SPOTLIGHT_ROTATE_MS);
@@ -124,7 +126,13 @@ export default function HomePage({ onSelectPoll }) {
         clearTimeout(spotlightFadeTimerRef.current);
       }
     };
-  }, [transitionSpotlight]);
+  }, [spotlightPaused, transitionSpotlight]);
+
+  const onSpotlightBlur = e => {
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      setSpotlightPaused(false);
+    }
+  };
 
   const pollCards = useMemo(
     () => POLLS.map((poll, i) => ({
@@ -205,6 +213,10 @@ export default function HomePage({ onSelectPoll }) {
         <section
           className={`${styles.citySpotlight} ${!spotlightVisible ? styles.citySpotlightHidden : ''}`.trim()}
           aria-live="polite"
+          onMouseEnter={() => setSpotlightPaused(true)}
+          onMouseLeave={() => setSpotlightPaused(false)}
+          onFocusCapture={() => setSpotlightPaused(true)}
+          onBlurCapture={onSpotlightBlur}
         >
           <div
             className={styles.citySpotlightImage}
