@@ -78,6 +78,128 @@
   margin-top: 18px;
 }
 
+.citySpotlight {
+  display: grid;
+  grid-template-columns: minmax(180px, 270px) 1fr;
+  margin-bottom: 18px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(232,184,75,0.35);
+  background: linear-gradient(125deg, rgba(42,26,14,0.82), rgba(26,16,8,0.74));
+  overflow: hidden;
+  animation: fadeUp 0.5s ease 0.03s both;
+}
+
+.citySpotlightImage {
+  min-height: 210px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.citySpotlightImage::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(10,6,3,0.2), rgba(10,6,3,0.55));
+}
+
+.citySpotlightBody {
+  padding: 20px 20px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.citySpotlightLabel {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+.citySpotlightTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1.1;
+  color: var(--sand);
+  margin-bottom: 10px;
+}
+
+.citySpotlightTitle span {
+  display: block;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62em;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 7px;
+}
+
+.citySpotlightFact {
+  color: var(--sand);
+  font-size: 12px;
+  line-height: 1.7;
+  margin-bottom: 14px;
+  max-width: 48ch;
+}
+
+.citySpotlightActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.citySpotlightCta {
+  border: 1px solid rgba(232,184,75,0.5);
+  background: linear-gradient(90deg, rgba(232,184,75,0.24), rgba(196,129,58,0.22));
+  color: var(--sand);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: transform 0.18s, background 0.2s, border-color 0.2s;
+}
+
+.citySpotlightCta:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(90deg, rgba(232,184,75,0.3), rgba(196,129,58,0.28));
+  border-color: rgba(232,184,75,0.7);
+}
+
+.citySpotlightCta:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+.citySpotlightDots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.citySpotlightDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(232,184,75,0.35);
+  cursor: pointer;
+  transition: transform 0.18s, background 0.2s;
+}
+
+.citySpotlightDot:hover {
+  transform: scale(1.12);
+  background: rgba(232,184,75,0.52);
+}
+
+.citySpotlightDotActive {
+  background: var(--gold);
+}
+
 .primaryHeroBtn,
 .secondaryHeroBtn {
   border: 1px solid rgba(232,184,75,0.35);
@@ -405,6 +527,10 @@
   .container { padding: 40px 16px 64px; }
   .heroActions { width: 100%; }
   .primaryHeroBtn, .secondaryHeroBtn { flex: 1 1 160px; }
+  .citySpotlight { grid-template-columns: 1fr; }
+  .citySpotlightImage { min-height: 180px; }
+  .citySpotlightBody { padding: 16px 14px; }
+  .citySpotlightActions { align-items: flex-start; flex-direction: column; }
   .title { line-height: 1.05; }
   .pollCard { padding: 22px 18px 16px; }
   .pollFooter { gap: 12px; align-items: flex-end; }
