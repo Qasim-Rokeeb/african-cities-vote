@@ -44,7 +44,7 @@
 }
 
 .brandName {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-display);
   font-size: 1rem;
   font-weight: 700;
   color: var(--sand);
@@ -107,7 +107,7 @@
   color: var(--sand);
   border: none;
   padding: 9px 16px;
-  font-family: 'DM Mono', monospace;
+  font-family: var(--font-ui);
   font-size: 12px;
   letter-spacing: 0.05em;
   cursor: pointer;
