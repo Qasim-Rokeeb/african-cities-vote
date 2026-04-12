@@ -46,6 +46,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
   const [isVoting,     setIsVoting]     = useState(false);
   const [status,       setStatus]       = useState({ msg: '', type: '' });
   const [momentum,     setMomentum]     = useState({});
+  const [compareIds,   setCompareIds]   = useState([]);
   const previousVotesRef = useRef(null);
 
   // ── Load votes ──────────────────────────────────────────────────────────────
@@ -85,6 +86,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
   useEffect(() => {
     previousVotesRef.current = null;
     setMomentum({});
+    setCompareIds([]);
     loadVotes();
     setRefreshIn(30);
     const t = setInterval(() => {
@@ -215,6 +217,40 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
     castVote();
   }
 
+  function toggleCompare(optionId) {
+    setCompareIds(prev => {
+      if (prev.includes(optionId)) {
+        return prev.filter(id => id !== optionId);
+      }
+      if (prev.length >= 3) {
+        return prev;
+      }
+      return [...prev, optionId];
+    });
+  }
+
+  const comparedOptions = compareIds
+    .map(id => poll.options.find(opt => opt.id === id))
+    .filter(Boolean)
+    .map(opt => {
+      const count = votes?.[opt.id] ?? 0;
+      const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+      const meta = getOptionMeta(opt);
+      const yesterdayDelta = getYesterdayTrend(poll.id, opt.id);
+      const yesterdayDirection = yesterdayDelta > 0 ? 'up' : yesterdayDelta < 0 ? 'down' : 'flat';
+      const yesterdayArrow = yesterdayDirection === 'up' ? '↗' : yesterdayDirection === 'down' ? '↘' : '→';
+
+      return {
+        ...opt,
+        count,
+        pct,
+        meta,
+        yesterdayDelta,
+        yesterdayDirection,
+        yesterdayArrow,
+      };
+    });
+
   return (
     <div className={styles.page}>
       <div className={styles.blob} />
@@ -303,6 +339,8 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
             const yesterdayDirection = yesterdayDelta > 0 ? 'up' : yesterdayDelta < 0 ? 'down' : 'flat';
             const yesterdayArrow = yesterdayDirection === 'up' ? '↗' : yesterdayDirection === 'down' ? '↘' : '→';
             const yesterdayValue = `${yesterdayDelta > 0 ? '+' : ''}${yesterdayDelta}`;
+            const isCompared = compareIds.includes(opt.id);
+            const compareAtLimit = compareIds.length >= 3 && !isCompared;
 
             return (
               <div
@@ -320,6 +358,23 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
                 <div className={styles.optionMetaHeader}>
                   <span className={styles.countryPill}>{meta.flag} {meta.country}</span>
                   <span className={styles.populationBadge}>Pop: {meta.population}</span>
+                </div>
+                <div className={styles.compareRow}>
+                  <button
+                    type="button"
+                    className={[styles.compareBtn, isCompared ? styles.compareBtnActive : ''].join(' ')}
+                    onClick={e => {
+                      e.stopPropagation();
+                      toggleCompare(opt.id);
+                    }}
+                    disabled={compareAtLimit}
+                    aria-label={isCompared ? `Remove ${opt.label} from compare` : `Add ${opt.label} to compare`}
+                  >
+                    {isCompared ? 'Compared' : 'Compare'}
+                  </button>
+                  <span className={styles.compareHint}>
+                    {compareAtLimit ? 'Max 3 options' : `${compareIds.length}/3 selected`}
+                  </span>
                 </div>
                 <div className={styles.optLabel}>{opt.label}</div>
                 <div className={styles.optionTagsRow}>
@@ -380,6 +435,50 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
             );
           })}
         </div>
+
+        {compareIds.length > 0 && (
+          <section className={styles.compareDrawer} aria-label="Comparison drawer">
+            <div className={styles.compareDrawerHead}>
+              <div>
+                <p className={styles.compareDrawerLabel}>Compare Cities</p>
+                <h3 className={styles.compareDrawerTitle}>
+                  {compareIds.length < 2
+                    ? 'Select at least 2 options to compare side-by-side'
+                    : `Comparing ${compareIds.length} options`}
+                </h3>
+              </div>
+              <button
+                type="button"
+                className={styles.compareClearBtn}
+                onClick={() => setCompareIds([])}
+              >
+                Clear
+              </button>
+            </div>
+
+            <div className={styles.compareGrid}>
+              {comparedOptions.map(item => (
+                <article key={item.id} className={styles.compareCard}>
+                  <h4 className={styles.compareName}>{item.label}</h4>
+                  <p className={styles.compareCountry}>{item.meta.flag} {item.meta.country}</p>
+                  <p className={styles.compareStat}>Population: <strong>{item.meta.population}</strong></p>
+                  <p className={styles.compareStat}>Tag: <strong>{item.meta.tag}</strong></p>
+                  <p className={styles.compareStat}>Votes: <strong>{item.count}</strong></p>
+                  <p className={styles.compareStat}>Share: <strong>{item.pct}%</strong></p>
+                  <p
+                    className={[
+                      styles.compareStat,
+                      item.yesterdayDirection === 'up' ? styles.miniTrendUp : '',
+                      item.yesterdayDirection === 'down' ? styles.miniTrendDown : '',
+                    ].join(' ')}
+                  >
+                    Trend: <strong>{item.yesterdayArrow} {item.yesterdayDelta > 0 ? '+' : ''}{item.yesterdayDelta} since yesterday</strong>
+                  </p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
 
         <section className={styles.insightBox}>
           <p className={styles.insightLabel}>Live Insight</p>
