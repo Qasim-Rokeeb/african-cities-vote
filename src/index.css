@@ -179,3 +179,30 @@ button[aria-disabled='true'] {
   from { opacity: 0; transform: translateX(-20px) translateY(2px); }
   to { opacity: 1; transform: translateX(0) translateY(0); }
 }
+
+.back-to-top-btn {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 9;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 217, 122, 0.85);
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ffd97a, #ffcb55);
+  color: #1a1008;
+  font-family: var(--font-ui);
+  font-size: 10px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  box-shadow: 0 12px 26px rgba(26, 16, 8, 0.34);
+}
+
+@media (max-width: 480px) {
+  .back-to-top-btn {
+    right: 12px;
+    bottom: 78px;
+    min-height: 36px;
+    padding: 0 10px;
+  }
+}

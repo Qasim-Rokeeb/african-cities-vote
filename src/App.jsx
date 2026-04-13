@@ -13,6 +13,7 @@ export default function App() {
   const [pendingPoll, setPendingPoll] = useState(-1);
   const [transitionPhase, setTransitionPhase] = useState('idle');
   const [transitionDirection, setTransitionDirection] = useState('forward');
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   useEffect(() => {
     if (pendingPoll === activePoll) return;
@@ -34,6 +35,16 @@ export default function App() {
     };
   }, [pendingPoll, activePoll]);
 
+  useEffect(() => {
+    const onScroll = () => {
+      setShowBackToTop(window.scrollY > 360);
+    };
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   function navigateTo(nextPoll) {
     if (nextPoll === pendingPoll) return;
     setTransitionDirection(nextPoll > activePoll ? 'forward' : 'backward');
@@ -45,6 +56,9 @@ export default function App() {
   function goToPoll(i) { navigateTo(i); }
   function goNext() { navigateTo(Math.min(activePoll + 1, POLLS.length - 1)); }
   function goPrev() { navigateTo(Math.max(activePoll - 1, 0)); }
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   const transitionClass = [
     'app-view-stage',
@@ -75,6 +89,18 @@ export default function App() {
           />
         )}
       </main>
+
+      {showBackToTop && (
+        <button
+          type="button"
+          className="back-to-top-btn"
+          onClick={scrollToTop}
+          aria-label="Back to top"
+          title="Back to top"
+        >
+          ↑ Top
+        </button>
+      )}
     </WalletProvider>
   );
 }
