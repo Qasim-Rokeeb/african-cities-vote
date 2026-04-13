@@ -61,6 +61,19 @@ a:hover { color: var(--gold); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes buttonHoverGlow {
+  from {
+    filter: brightness(1);
+  }
+  to {
+    filter: brightness(1.06);
+  }
+}
+
+button:hover:not(:disabled) {
+  animation: buttonHoverGlow 180ms ease-out both;
+}
+
 * {
   scrollbar-width: thin;
   scrollbar-color: rgba(232, 184, 75, 0.5) rgba(26, 16, 8, 0.35);
