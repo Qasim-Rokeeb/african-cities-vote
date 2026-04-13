@@ -74,6 +74,11 @@ button:hover:not(:disabled) {
   animation: buttonHoverGlow 180ms ease-out both;
 }
 
+button:active:not(:disabled) {
+  transform: translateY(1px) scale(0.995);
+  filter: brightness(0.96);
+}
+
 * {
   scrollbar-width: thin;
   scrollbar-color: rgba(232, 184, 75, 0.5) rgba(26, 16, 8, 0.35);
