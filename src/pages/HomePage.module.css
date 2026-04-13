@@ -398,6 +398,60 @@
   color: var(--gold);
 }
 
+.leaderboardStrip {
+  margin-bottom: 22px;
+  border: 1px solid rgba(232,184,75,0.3);
+  border-radius: var(--radius-sm);
+  background: linear-gradient(110deg, rgba(232,184,75,0.14), rgba(94,143,132,0.14));
+  padding: 10px 12px;
+}
+
+.leaderboardLabel {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+.leaderboardRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.leaderItem {
+  border: 1px solid rgba(196,129,58,0.25);
+  border-radius: var(--radius-sm);
+  background: rgba(26,16,8,0.48);
+  padding: 8px;
+  display: grid;
+  gap: 3px;
+}
+
+.leaderRank {
+  font-size: 10px;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+}
+
+.leaderName {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--sand);
+}
+
+.leaderVotes {
+  font-size: 10px;
+  color: #c6b7a3;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  .leaderboardRow { grid-template-columns: 1fr; }
+}
+
 .odometer {
   display: inline-flex;
   align-items: flex-end;

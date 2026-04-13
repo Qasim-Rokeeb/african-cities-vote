@@ -102,6 +102,7 @@ function OdometerCounter({ value, suffix = '', ariaLabel }) {
 export default function HomePage({ onSelectPoll }) {
   const { walletAddress } = useWallet();
   const [allVotes, setAllVotes] = useState({});
+  const [cityLeaders, setCityLeaders] = useState([]);
   const [isLoadingVotes, setIsLoadingVotes] = useState(true);
   const [votesError, setVotesError] = useState('');
   const [todayBaseline, setTodayBaseline] = useState(0);
@@ -140,6 +141,23 @@ export default function HomePage({ onSelectPoll }) {
       setAllVotes(
         Object.fromEntries(entries.map(([id, total]) => [id, total ?? 0]))
       );
+
+      const cityPoll = POLLS.find(poll => poll.id === 'african-cities-vote') || POLLS[0];
+      const cityRaw = await fetchVoteCounts(cityPoll.id);
+      if (cityRaw) {
+        const mappedCityVotes = mapVotesToOptions(cityRaw, cityPoll.options);
+        const rankedCities = cityPoll.options
+          .map(option => ({
+            id: option.id,
+            label: option.label,
+            votes: mappedCityVotes[option.id] ?? 0,
+          }))
+          .sort((a, b) => b.votes - a.votes)
+          .slice(0, 3);
+        setCityLeaders(rankedCities);
+      } else {
+        setCityLeaders([]);
+      }
     } catch {
       setVotesError('Could not load live votes right now.');
     } finally {
@@ -436,6 +454,21 @@ export default function HomePage({ onSelectPoll }) {
             <strong className={styles.statValue}>{walletAddress ? 'Connected' : 'Not Connected'}</strong>
           </div>
         </div>
+
+        {cityLeaders.length > 0 && (
+          <section className={styles.leaderboardStrip} aria-label="Top 3 city leaderboard">
+            <p className={styles.leaderboardLabel}>Top 3 Cities</p>
+            <div className={styles.leaderboardRow}>
+              {cityLeaders.map((city, i) => (
+                <div key={city.id} className={styles.leaderItem}>
+                  <span className={styles.leaderRank}>#{i + 1}</span>
+                  <span className={styles.leaderName}>{city.label}</span>
+                  <span className={styles.leaderVotes}>{city.votes} vote{city.votes !== 1 ? 's' : ''}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
         <div className={styles.sectionDivider} aria-hidden="true" />
 
