@@ -10,6 +10,8 @@ const CITY_SPOTLIGHTS = [
   {
     name: 'Lagos',
     country: 'Nigeria',
+    population: '21.3M',
+    vibe: 'Startup Energy',
     photo:
       'https://images.unsplash.com/photo-1578922746465-3a80a228f223?auto=format&fit=crop&w=1400&q=80',
     fact: 'Lagos hosts one of Africa\'s largest startup ecosystems, with active fintech and developer communities.',
@@ -18,6 +20,8 @@ const CITY_SPOTLIGHTS = [
   {
     name: 'Nairobi',
     country: 'Kenya',
+    population: '5.3M',
+    vibe: 'Silicon Savannah',
     photo:
       'https://images.unsplash.com/photo-1626863905121-3b0c0ed7b94e?auto=format&fit=crop&w=1400&q=80',
     fact: 'Nairobi is known as the Silicon Savannah, where mobile innovation and VC activity continue to grow.',
@@ -26,6 +30,8 @@ const CITY_SPOTLIGHTS = [
   {
     name: 'Accra',
     country: 'Ghana',
+    population: '2.6M',
+    vibe: 'Creative Coastline',
     photo:
       'https://images.unsplash.com/photo-1597931752949-98c74b5b159a?auto=format&fit=crop&w=1400&q=80',
     fact: 'Accra is gaining momentum with youth-led startups, digital talent programs, and regional tech events.',
@@ -34,6 +40,8 @@ const CITY_SPOTLIGHTS = [
   {
     name: 'Cairo',
     country: 'Egypt',
+    population: '10.2M',
+    vibe: 'Historic Innovation',
     photo:
       'https://images.unsplash.com/photo-1539650116574-75c0c6d73f86?auto=format&fit=crop&w=1400&q=80',
     fact: 'Cairo combines deep engineering talent and large market access, making it a major innovation center.',
@@ -229,6 +237,11 @@ export default function HomePage({ onSelectPoll }) {
               {activeSpotlight.name}
               <span>{activeSpotlight.country}</span>
             </h2>
+            <div className={styles.citySpotlightMetaRow}>
+              <span className={styles.citySpotlightMetaChip}>{activeSpotlight.country}</span>
+              <span className={styles.citySpotlightMetaChip}>Pop {activeSpotlight.population}</span>
+              <span className={styles.citySpotlightMetaChip}>{activeSpotlight.vibe}</span>
+            </div>
             <p className={styles.citySpotlightFact}>{activeSpotlight.fact}</p>
             <div className={styles.citySpotlightActions}>
               <button
