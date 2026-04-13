@@ -51,6 +51,12 @@ body::before {
 a { color: var(--earth); text-decoration: none; }
 a:hover { color: var(--gold); }
 
+:where(a, button, [role='button'], input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid rgba(232, 184, 75, 0.9);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(232, 184, 75, 0.24);
+}
+
 ::selection {
   background: rgba(232, 184, 75, 0.3);
   color: var(--sand);
