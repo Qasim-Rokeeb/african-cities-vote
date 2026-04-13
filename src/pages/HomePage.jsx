@@ -13,6 +13,12 @@ const FILTER_CHIPS = [
   { id: 'language', label: 'Language' },
 ];
 
+const SORT_OPTIONS = [
+  { id: 'most-voted', label: 'Most Voted' },
+  { id: 'a-z', label: 'A-Z' },
+  { id: 'new', label: 'New' },
+];
+
 const POLL_FILTER_TAGS = {
   'african-cities-vote': ['region', 'size', 'language'],
   'africa-crypto-hub': ['region', 'language'],
@@ -98,6 +104,7 @@ export default function HomePage({ onSelectPoll }) {
   const [allVotes, setAllVotes] = useState({});
   const [query, setQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState('all');
+  const [sortMode, setSortMode] = useState('most-voted');
   const [cityLookup, setCityLookup] = useState('');
   const [spotlightIndex, setSpotlightIndex] = useState(0);
   const [spotlightVisible, setSpotlightVisible] = useState(true);
@@ -189,6 +196,20 @@ export default function HomePage({ onSelectPoll }) {
       );
     });
   }, [pollCards, query, activeFilter]);
+
+  const sortedFilteredPolls = useMemo(() => {
+    const next = [...filteredPolls];
+
+    if (sortMode === 'a-z') {
+      return next.sort((a, b) => a.poll.title.localeCompare(b.poll.title));
+    }
+
+    if (sortMode === 'new') {
+      return next.sort((a, b) => b.index - a.index);
+    }
+
+    return next.sort((a, b) => b.total - a.total);
+  }, [filteredPolls, sortMode]);
 
   const featuredPoll = useMemo(() => {
     return [...pollCards].sort((a, b) => b.total - a.total)[0] || null;
@@ -387,8 +408,23 @@ export default function HomePage({ onSelectPoll }) {
           ))}
         </div>
 
+        <div className={styles.sortRow}>
+          <label className={styles.sortLabel} htmlFor="poll-sort">Sort</label>
+          <select
+            id="poll-sort"
+            className={styles.sortSelect}
+            value={sortMode}
+            onChange={e => setSortMode(e.target.value)}
+            aria-label="Sort polls"
+          >
+            {SORT_OPTIONS.map(option => (
+              <option key={option.id} value={option.id}>{option.label}</option>
+            ))}
+          </select>
+        </div>
+
         <div id="poll-grid" className={styles.grid}>
-          {filteredPolls.map(({ poll, index }, i) => (
+          {sortedFilteredPolls.map(({ poll, index }, i) => (
             <div
               key={poll.id}
               className={styles.pollCard}
@@ -419,7 +455,7 @@ export default function HomePage({ onSelectPoll }) {
           ))}
         </div>
 
-        {filteredPolls.length === 0 && (
+        {sortedFilteredPolls.length === 0 && (
           <div className={styles.emptyState}>No polls match your search right now.</div>
         )}
 

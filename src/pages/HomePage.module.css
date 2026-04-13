@@ -489,6 +489,39 @@
   color: #1a1008;
 }
 
+.sortRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.sortLabel {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.sortSelect {
+  min-height: 36px;
+  border: 1px solid rgba(196,129,58,0.3);
+  border-radius: var(--radius-sm);
+  background: rgba(26,16,8,0.56);
+  color: var(--sand);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0 10px;
+}
+
+.sortSelect:focus-visible {
+  outline: none;
+  border-color: rgba(232,184,75,0.55);
+  box-shadow: 0 0 0 3px rgba(232,184,75,0.16);
+}
+
 .searchWrap::before {
   content: '⌕';
   position: absolute;
