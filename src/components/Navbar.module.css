@@ -190,9 +190,15 @@
   .nav {
     top: 6px;
     width: calc(100% - 12px);
-    padding: 0 12px;
+    padding: 0 10px;
     gap: 8px;
     border-radius: 12px;
+  }
+
+  .brand {
+    min-height: 40px;
+    padding: 6px 8px;
+    border-radius: var(--radius-sm);
   }
 
   .connectBtn {
@@ -202,7 +208,8 @@
   }
 
   .connected {
-    padding: 6px 8px;
+    min-height: 36px;
+    padding: 0 10px;
     font-size: 11px;
   }
 }
