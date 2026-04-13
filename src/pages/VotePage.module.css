@@ -713,6 +713,15 @@
   font-size: 12px;
 }
 
+.noVotesState {
+  text-align: center;
+}
+
+.noVotesArt {
+  font-size: 1.7rem;
+  margin-bottom: 6px;
+}
+
 /* Status */
 .status {
   font-size: 13px; padding: 13px 16px;

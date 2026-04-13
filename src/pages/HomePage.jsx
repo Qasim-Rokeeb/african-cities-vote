@@ -498,7 +498,11 @@ export default function HomePage({ onSelectPoll }) {
         </div>
 
         {sortedFilteredPolls.length === 0 && (
-          <div className={styles.emptyState}>No polls match your search right now.</div>
+          <div className={styles.emptyState} role="status" aria-live="polite">
+            <div className={styles.emptyStateArt} aria-hidden="true">🔎🌍</div>
+            <div className={styles.emptyStateTitle}>No matching polls</div>
+            <div className={styles.emptyStateText}>Try a different keyword, filter, or sort option.</div>
+          </div>
         )}
 
         <footer className={styles.footer}>

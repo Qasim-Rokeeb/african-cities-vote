@@ -499,17 +499,26 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
         )}
 
         <section className={styles.insightBox}>
-          <p className={styles.insightLabel}>Live Insight</p>
-          <h2 className={styles.insightTitle}>
-            {total === 0 && 'Waiting for first vote'}
-            {total > 0 && isTie && `Tie at the top: ${leader?.label} and ${runnerUp?.label}`}
-            {total > 0 && !isTie && leader && `${leader.label} is leading`}
-          </h2>
-          <p className={styles.insightMeta}>
-            {total === 0 && 'Connect your wallet and become the first voter on this poll.'}
-            {total > 0 && isTie && `${leader?.votes} votes each · ${turnoutLabel}`}
-            {total > 0 && !isTie && leader && `${leader.votes} votes · ${leaderShare}% share · ${turnoutLabel}`}
-          </p>
+          {total === 0 ? (
+            <div className={styles.noVotesState}>
+              <div className={styles.noVotesArt} aria-hidden="true">🗳️✨</div>
+              <p className={styles.insightLabel}>Live Insight</p>
+              <h2 className={styles.insightTitle}>Waiting for first vote</h2>
+              <p className={styles.insightMeta}>Connect your wallet and become the first voter on this poll.</p>
+            </div>
+          ) : (
+            <>
+              <p className={styles.insightLabel}>Live Insight</p>
+              <h2 className={styles.insightTitle}>
+                {isTie && `Tie at the top: ${leader?.label} and ${runnerUp?.label}`}
+                {!isTie && leader && `${leader.label} is leading`}
+              </h2>
+              <p className={styles.insightMeta}>
+                {isTie && `${leader?.votes} votes each · ${turnoutLabel}`}
+                {!isTie && leader && `${leader.votes} votes · ${leaderShare}% share · ${turnoutLabel}`}
+              </p>
+            </>
+          )}
         </section>
 
         {/* Status */}
