@@ -294,7 +294,7 @@ export default function HomePage({ onSelectPoll }) {
             <button className={styles.primaryHeroBtn} onClick={openTrendingPoll}>
               Open Trending Poll
             </button>
-            <button className={styles.secondaryHeroBtn} onClick={scrollToPolls}>
+            <button className={styles.secondaryHeroBtn} onClick={scrollToPolls} title="Jump to all available polls below">
               Browse All Polls
             </button>
           </div>
@@ -335,6 +335,7 @@ export default function HomePage({ onSelectPoll }) {
               <button
                 className={styles.citySpotlightCta}
                 onClick={() => onSelectPoll(activeSpotlight.ctaPollIndex)}
+                title="Go directly to the tech city voting poll"
               >
                 Vote Now
               </button>
@@ -434,6 +435,7 @@ export default function HomePage({ onSelectPoll }) {
               type="button"
               className={`${styles.filterChip} ${activeFilter === chip.id ? styles.filterChipActive : ''}`.trim()}
               onClick={() => setActiveFilter(chip.id)}
+              title={`Filter polls by ${chip.label.toLowerCase()}`}
             >
               {chip.label}
             </button>

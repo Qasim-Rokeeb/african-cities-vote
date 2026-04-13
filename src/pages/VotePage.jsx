@@ -324,8 +324,8 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
         </header>
 
         <div className={styles.liveRow}>
-          <span className={styles.livePill}>Live refresh in {refreshIn}s</span>
-          <button className={styles.refreshBtn} onClick={refreshNow}>
+          <span className={styles.livePill} title="Vote totals auto-refresh every 30 seconds">Live refresh in {refreshIn}s</span>
+          <button className={styles.refreshBtn} onClick={refreshNow} title="Fetch latest vote totals now">
             Refresh now
           </button>
         </div>
@@ -387,6 +387,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
                     }}
                     disabled={compareAtLimit}
                     aria-label={isCompared ? `Remove ${opt.label} from compare` : `Add ${opt.label} to compare`}
+                    title={isCompared ? `Remove ${opt.label} from comparison` : `Compare ${opt.label} side-by-side`}
                   >
                     {isCompared ? 'Compared' : 'Compare'}
                   </button>
@@ -425,7 +426,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
 
                 <div className={styles.momentumWrap}>
                   <div className={styles.momentumHeader}>
-                    <span className={styles.momentumLabel}>Confidence meter</span>
+                    <span className={styles.momentumLabel} title="Shows recent change in vote share since last refresh">Confidence meter</span>
                     <span
                       className={[
                         styles.momentumDelta,
