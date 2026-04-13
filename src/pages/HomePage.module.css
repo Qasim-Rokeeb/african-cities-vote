@@ -34,7 +34,7 @@
   padding: 60px 24px 80px;
   margin-top: 10px;
   background: linear-gradient(180deg, rgba(26,16,8,0.42), rgba(26,16,8,0.22));
-  border: 1px solid rgba(196,129,58,0.22);
+  border: 1px solid var(--border-soft);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-soft);
   backdrop-filter: blur(4px);
@@ -91,7 +91,7 @@
   grid-template-columns: minmax(180px, 270px) 1fr;
   margin-bottom: 26px;
   border-radius: var(--radius-md);
-  border: 1px solid rgba(232,184,75,0.35);
+  border: 1px solid var(--border-strong);
   background: linear-gradient(125deg, rgba(42,26,14,0.82), rgba(26,16,8,0.74));
   overflow: hidden;
   animation: fadeUp 0.5s ease 0.03s both;
@@ -393,7 +393,7 @@
 
 .statCard {
   padding: 12px;
-  border: 1px solid rgba(196,129,58,0.22);
+  border: 1px solid var(--border-soft);
   background: linear-gradient(180deg, rgba(38,24,13,0.74), rgba(26,16,8,0.52));
   border-radius: var(--radius-sm);
 }
@@ -783,7 +783,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  border: 1px solid rgba(196,129,58,0.14);
+  border: 1px solid var(--border-soft);
   opacity: 0;
   transition: opacity 0.25s ease;
   pointer-events: none;
