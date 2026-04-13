@@ -102,6 +102,7 @@ function OdometerCounter({ value, suffix = '', ariaLabel }) {
 export default function HomePage({ onSelectPoll }) {
   const { walletAddress } = useWallet();
   const [allVotes, setAllVotes] = useState({});
+  const [isLoadingVotes, setIsLoadingVotes] = useState(true);
   const [query, setQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState('all');
   const [sortMode, setSortMode] = useState('most-voted');
@@ -114,6 +115,7 @@ export default function HomePage({ onSelectPoll }) {
 
   useEffect(() => {
     let isMounted = true;
+    setIsLoadingVotes(true);
 
     Promise.all(
       POLLS.map(async poll => {
@@ -126,6 +128,7 @@ export default function HomePage({ onSelectPoll }) {
     ).then(entries => {
       if (!isMounted) return;
       setAllVotes(Object.fromEntries(entries));
+      setIsLoadingVotes(false);
     });
 
     return () => {
@@ -428,6 +431,23 @@ export default function HomePage({ onSelectPoll }) {
         </div>
 
         <div id="poll-grid" className={styles.grid}>
+          {isLoadingVotes && Array.from({ length: 4 }).map((_, i) => (
+            <div key={`skeleton-${i}`} className={styles.pollCardSkeleton} aria-hidden="true">
+              <div className={`${styles.skeletonBlock} ${styles.skeletonEmoji}`} />
+              <div className={`${styles.skeletonBlock} ${styles.skeletonBadge}`} />
+              <div className={`${styles.skeletonBlock} ${styles.skeletonTitle}`} />
+              <div className={`${styles.skeletonBlock} ${styles.skeletonLine}`} />
+              <div className={`${styles.skeletonBlock} ${styles.skeletonLineShort}`} />
+              <div className={styles.skeletonTagsRow}>
+                <div className={`${styles.skeletonBlock} ${styles.skeletonTag}`} />
+                <div className={`${styles.skeletonBlock} ${styles.skeletonTag}`} />
+                <div className={`${styles.skeletonBlock} ${styles.skeletonTag}`} />
+              </div>
+            </div>
+          ))}
+
+          {!isLoadingVotes && (
+            <>
           {sortedFilteredPolls.map(({ poll, index }, i) => (
             <div
               key={poll.id}
@@ -473,6 +493,8 @@ export default function HomePage({ onSelectPoll }) {
               </div>
             </div>
           ))}
+            </>
+          )}
         </div>
 
         {sortedFilteredPolls.length === 0 && (

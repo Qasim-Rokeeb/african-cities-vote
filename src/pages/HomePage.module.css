@@ -576,6 +576,61 @@
   border-radius: var(--radius-md);
 }
 
+.pollCardSkeleton {
+  background: rgba(250,245,236,0.7);
+  border: 1px solid rgba(196,129,58,0.2);
+  border-radius: var(--radius-md);
+  padding: 28px 24px 20px;
+}
+
+.skeletonBlock {
+  border-radius: 8px;
+  background: linear-gradient(90deg, rgba(196,129,58,0.14), rgba(232,184,75,0.28), rgba(196,129,58,0.14));
+  background-size: 200% 100%;
+  animation: shimmer 1.2s linear infinite;
+}
+
+.skeletonEmoji {
+  width: 34px;
+  height: 34px;
+  margin-bottom: 12px;
+}
+
+.skeletonBadge {
+  width: 120px;
+  height: 22px;
+  margin-bottom: 10px;
+}
+
+.skeletonTitle {
+  width: 78%;
+  height: 20px;
+  margin-bottom: 10px;
+}
+
+.skeletonLine {
+  width: 100%;
+  height: 12px;
+  margin-bottom: 8px;
+}
+
+.skeletonLineShort {
+  width: 65%;
+  height: 12px;
+  margin-bottom: 14px;
+}
+
+.skeletonTagsRow {
+  display: flex;
+  gap: 6px;
+}
+
+.skeletonTag {
+  width: 70px;
+  height: 22px;
+  border-radius: 999px;
+}
+
 .pollCard::after {
   content: '';
   position: absolute;
@@ -753,4 +808,9 @@
 @keyframes accentShift {
   from { background-position: 0% 0; }
   to { background-position: 200% 0; }
+}
+
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
 }
