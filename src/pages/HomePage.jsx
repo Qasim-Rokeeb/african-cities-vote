@@ -104,6 +104,7 @@ export default function HomePage({ onSelectPoll }) {
   const [allVotes, setAllVotes] = useState({});
   const [isLoadingVotes, setIsLoadingVotes] = useState(true);
   const [votesError, setVotesError] = useState('');
+  const [todayBaseline, setTodayBaseline] = useState(0);
   const [query, setQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState('all');
   const [sortMode, setSortMode] = useState('most-voted');
@@ -114,8 +115,10 @@ export default function HomePage({ onSelectPoll }) {
   const spotlightIndexRef = useRef(0);
   const spotlightFadeTimerRef = useRef(null);
 
-  const loadAllVotes = useCallback(async () => {
-    setIsLoadingVotes(true);
+  const loadAllVotes = useCallback(async (showLoading = true) => {
+    if (showLoading) {
+      setIsLoadingVotes(true);
+    }
     setVotesError('');
 
     try {
@@ -140,12 +143,24 @@ export default function HomePage({ onSelectPoll }) {
     } catch {
       setVotesError('Could not load live votes right now.');
     } finally {
-      setIsLoadingVotes(false);
+      if (showLoading) {
+        setIsLoadingVotes(false);
+      }
     }
   }, []);
 
   useEffect(() => {
-    loadAllVotes();
+    loadAllVotes(true);
+  }, [loadAllVotes]);
+
+  useEffect(() => {
+    const refreshId = setInterval(() => {
+      loadAllVotes(false);
+    }, 30000);
+
+    return () => {
+      clearInterval(refreshId);
+    };
   }, [loadAllVotes]);
 
   const transitionSpotlight = useCallback(nextIndex => {
@@ -237,6 +252,27 @@ export default function HomePage({ onSelectPoll }) {
   const totalVotes = useMemo(
     () => Object.values(allVotes).reduce((sum, n) => sum + n, 0),
     [allVotes]
+  );
+
+  useEffect(() => {
+    if (isLoadingVotes) return;
+
+    const dayKey = new Date().toISOString().slice(0, 10);
+    const storageKey = `acv-votes-baseline-${dayKey}`;
+    const stored = window.localStorage.getItem(storageKey);
+
+    if (stored == null) {
+      window.localStorage.setItem(storageKey, String(totalVotes));
+      setTodayBaseline(totalVotes);
+      return;
+    }
+
+    setTodayBaseline(Number(stored) || 0);
+  }, [totalVotes, isLoadingVotes]);
+
+  const votesToday = useMemo(
+    () => Math.max(0, totalVotes - todayBaseline),
+    [totalVotes, todayBaseline]
   );
 
   const liveParticipation = useMemo(() => {
@@ -370,7 +406,7 @@ export default function HomePage({ onSelectPoll }) {
         {votesError && (
           <div className={styles.errorBanner} role="alert" aria-live="assertive">
             <span>{votesError}</span>
-            <button type="button" className={styles.errorBannerBtn} onClick={loadAllVotes}>Retry</button>
+            <button type="button" className={styles.errorBannerBtn} onClick={() => loadAllVotes(true)}>Retry</button>
           </div>
         )}
 
@@ -387,6 +423,12 @@ export default function HomePage({ onSelectPoll }) {
             <span className={styles.statLabel}>Live Participation</span>
             <strong className={styles.statValue}>
               <OdometerCounter value={liveParticipation} suffix="%" ariaLabel={`${liveParticipation} percent live participation`} />
+            </strong>
+          </div>
+          <div className={styles.statCard}>
+            <span className={styles.statLabel}>Total Votes Today</span>
+            <strong className={styles.statValue}>
+              <OdometerCounter value={votesToday} ariaLabel={`${votesToday} total votes today`} />
             </strong>
           </div>
           <div className={styles.statCard}>

@@ -360,10 +360,14 @@
 
 .statsStrip {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 10px;
   margin-bottom: 24px;
   animation: fadeUp 0.5s ease 0.05s both;
+}
+
+@media (max-width: 900px) {
+  .statsStrip { grid-template-columns: repeat(2, 1fr); }
 }
 
 .sectionDivider {
