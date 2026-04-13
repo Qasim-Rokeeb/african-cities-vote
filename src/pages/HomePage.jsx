@@ -426,15 +426,15 @@ export default function HomePage({ onSelectPoll }) {
         </section>
 
         <div className={styles.cityLookupWrap}>
-          <label className={styles.cityLookupLabel} htmlFor="city-lookup">Quick City Lookup</label>
+          <label className={styles.cityLookupLabel} htmlFor="city-lookup">Find Spotlight City</label>
           <input
             id="city-lookup"
             className={styles.cityLookupInput}
             type="search"
-            placeholder="Type Lagos, Nairobi, Accra, or Cairo"
+            placeholder="Search city or country (Lagos, Kenya, Cairo...)"
             value={cityLookup}
             onChange={handleCityLookup}
-            aria-label="Quick city lookup"
+            aria-label="Find spotlight city"
           />
         </div>
 
@@ -513,10 +513,10 @@ export default function HomePage({ onSelectPoll }) {
           <input
             className={styles.searchInput}
             type="search"
-            placeholder="Search polls, topics, or options..."
+            placeholder="Search polls by title, question, or option"
             value={query}
             onChange={e => setQuery(e.target.value)}
-            aria-label="Search available polls"
+            aria-label="Search available polls by title, question, or option"
           />
         </div>
 
@@ -535,13 +535,13 @@ export default function HomePage({ onSelectPoll }) {
         </div>
 
         <div className={styles.sortRow}>
-          <label className={styles.sortLabel} htmlFor="poll-sort">Sort</label>
+          <label className={styles.sortLabel} htmlFor="poll-sort">Sort Polls</label>
           <select
             id="poll-sort"
             className={styles.sortSelect}
             value={sortMode}
             onChange={e => setSortMode(e.target.value)}
-            aria-label="Sort polls"
+            aria-label="Sort poll cards"
           >
             {SORT_OPTIONS.map(option => (
               <option key={option.id} value={option.id}>{option.label}</option>

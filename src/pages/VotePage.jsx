@@ -324,9 +324,9 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
         </header>
 
         <div className={styles.liveRow}>
-          <span className={styles.livePill} title="Vote totals auto-refresh every 30 seconds">Live refresh in {refreshIn}s</span>
-          <button className={styles.refreshBtn} onClick={refreshNow} title="Fetch latest vote totals now">
-            Refresh now
+          <span className={styles.livePill} title="Vote totals auto-refresh every 30 seconds">Votes refresh in {refreshIn}s</span>
+          <button className={styles.refreshBtn} onClick={refreshNow} title="Fetch latest vote totals now" aria-label="Refresh live vote totals">
+            Refresh Votes
           </button>
         </div>
 
