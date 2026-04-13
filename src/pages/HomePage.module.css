@@ -162,6 +162,24 @@
   padding: 3px 8px;
 }
 
+.cityCategoryRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.cityCategoryBadge {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1a1008;
+  background: linear-gradient(90deg, #ffd97a, #ffcb55);
+  border: 1px solid rgba(255, 217, 122, 0.85);
+  border-radius: 999px;
+  padding: 3px 8px;
+}
+
 .citySpotlightFact {
   font-family: var(--font-body);
   color: var(--sand);

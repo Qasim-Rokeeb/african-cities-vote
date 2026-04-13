@@ -12,6 +12,7 @@ const CITY_SPOTLIGHTS = [
     country: 'Nigeria',
     population: '21.3M',
     vibe: 'Startup Energy',
+    categories: ['Coastal', 'Business Hub', 'Fintech'],
     photo:
       'https://images.unsplash.com/photo-1578922746465-3a80a228f223?auto=format&fit=crop&w=1400&q=80',
     fact: 'Lagos hosts one of Africa\'s largest startup ecosystems, with active fintech and developer communities.',
@@ -22,6 +23,7 @@ const CITY_SPOTLIGHTS = [
     country: 'Kenya',
     population: '5.3M',
     vibe: 'Silicon Savannah',
+    categories: ['Highland', 'Startup Hub', 'Innovation'],
     photo:
       'https://images.unsplash.com/photo-1626863905121-3b0c0ed7b94e?auto=format&fit=crop&w=1400&q=80',
     fact: 'Nairobi is known as the Silicon Savannah, where mobile innovation and VC activity continue to grow.',
@@ -32,6 +34,7 @@ const CITY_SPOTLIGHTS = [
     country: 'Ghana',
     population: '2.6M',
     vibe: 'Creative Coastline',
+    categories: ['Coastal', 'Creative', 'Cultural'],
     photo:
       'https://images.unsplash.com/photo-1597931752949-98c74b5b159a?auto=format&fit=crop&w=1400&q=80',
     fact: 'Accra is gaining momentum with youth-led startups, digital talent programs, and regional tech events.',
@@ -42,6 +45,7 @@ const CITY_SPOTLIGHTS = [
     country: 'Egypt',
     population: '10.2M',
     vibe: 'Historic Innovation',
+    categories: ['Historic', 'Business Hub', 'Mega City'],
     photo:
       'https://images.unsplash.com/photo-1539650116574-75c0c6d73f86?auto=format&fit=crop&w=1400&q=80',
     fact: 'Cairo combines deep engineering talent and large market access, making it a major innovation center.',
@@ -241,6 +245,11 @@ export default function HomePage({ onSelectPoll }) {
               <span className={styles.citySpotlightMetaChip}>{activeSpotlight.country}</span>
               <span className={styles.citySpotlightMetaChip}>Pop {activeSpotlight.population}</span>
               <span className={styles.citySpotlightMetaChip}>{activeSpotlight.vibe}</span>
+            </div>
+            <div className={styles.cityCategoryRow}>
+              {activeSpotlight.categories.map(category => (
+                <span key={category} className={styles.cityCategoryBadge}>{category}</span>
+              ))}
             </div>
             <p className={styles.citySpotlightFact}>{activeSpotlight.fact}</p>
             <div className={styles.citySpotlightActions}>
