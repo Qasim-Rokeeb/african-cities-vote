@@ -435,6 +435,11 @@ export default function HomePage({ onSelectPoll }) {
               style={{ animationDelay: `${i * 0.07}s` }}
             >
               <div className={styles.pollEmoji}>{poll.emoji}</div>
+              <div className={styles.pollVoteBadge}>
+                {allVotes[poll.id] != null
+                  ? `${allVotes[poll.id]} vote${allVotes[poll.id] !== 1 ? 's' : ''} live`
+                  : 'Votes loading...'}
+              </div>
               <div className={styles.pollNumber}>Poll {index + 1} of 5</div>
               <h2 className={styles.pollTitle}>{poll.title}</h2>
               <p className={styles.pollQuestion}>{poll.question}</p>

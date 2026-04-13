@@ -615,6 +615,21 @@
   font-size: 2rem; margin-bottom: 12px; line-height: 1;
 }
 
+.pollVoteBadge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 10px;
+  margin-bottom: 10px;
+  border-radius: 999px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--deep);
+  background: linear-gradient(90deg, #ffd97a, #ffcb55);
+  border: 1px solid rgba(255,217,122,0.85);
+}
+
 .pollNumber {
   font-size: 10px; letter-spacing: 0.2em;
   text-transform: uppercase; color: var(--muted);
