@@ -373,6 +373,8 @@ export default function HomePage({ onSelectPoll }) {
           </div>
         )}
 
+        <div className={styles.sectionDivider} aria-hidden="true" />
+
         <div className={styles.statsStrip}>
           <div className={styles.statCard}>
             <span className={styles.statLabel}>Total On-chain Votes</span>
@@ -392,6 +394,8 @@ export default function HomePage({ onSelectPoll }) {
           </div>
         </div>
 
+        <div className={styles.sectionDivider} aria-hidden="true" />
+
         {featuredPoll && (
           <section className={styles.featuredPoll}>
             <p className={styles.featuredLabel}>Most Active Right Now</p>
@@ -409,6 +413,8 @@ export default function HomePage({ onSelectPoll }) {
             </button>
           </section>
         )}
+
+        <div className={styles.sectionDivider} aria-hidden="true" />
 
         <div className={styles.searchWrap}>
           <input
