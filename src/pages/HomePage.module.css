@@ -247,6 +247,43 @@
   background: var(--gold);
 }
 
+.cityLookupWrap {
+  margin-bottom: 24px;
+  max-width: 360px;
+}
+
+.cityLookupLabel {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.cityLookupInput {
+  width: 100%;
+  min-height: 38px;
+  border: 1px solid rgba(196,129,58,0.3);
+  border-radius: var(--radius-sm);
+  background: rgba(26,16,8,0.56);
+  color: var(--sand);
+  font-family: var(--font-body);
+  font-size: 12px;
+  padding: 0 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cityLookupInput::placeholder {
+  color: var(--muted);
+}
+
+.cityLookupInput:focus-visible {
+  outline: none;
+  border-color: rgba(232,184,75,0.55);
+  box-shadow: 0 0 0 3px rgba(232,184,75,0.16);
+}
+
 .primaryHeroBtn,
 .secondaryHeroBtn {
   border: 1px solid rgba(232,184,75,0.35);

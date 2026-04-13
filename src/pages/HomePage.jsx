@@ -82,6 +82,7 @@ export default function HomePage({ onSelectPoll }) {
   const { walletAddress } = useWallet();
   const [allVotes, setAllVotes] = useState({});
   const [query, setQuery] = useState('');
+  const [cityLookup, setCityLookup] = useState('');
   const [spotlightIndex, setSpotlightIndex] = useState(0);
   const [spotlightVisible, setSpotlightVisible] = useState(true);
   const [spotlightPaused, setSpotlightPaused] = useState(false);
@@ -194,6 +195,23 @@ export default function HomePage({ onSelectPoll }) {
     document.getElementById('poll-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
+  const handleCityLookup = e => {
+    const value = e.target.value;
+    setCityLookup(value);
+
+    const normalized = value.trim().toLowerCase();
+    if (!normalized) return;
+
+    const matchIndex = CITY_SPOTLIGHTS.findIndex(city =>
+      city.name.toLowerCase().startsWith(normalized) ||
+      city.country.toLowerCase().startsWith(normalized)
+    );
+
+    if (matchIndex !== -1) {
+      transitionSpotlight(matchIndex);
+    }
+  };
+
   const activeSpotlight = CITY_SPOTLIGHTS[spotlightIndex];
 
   return (
@@ -273,6 +291,19 @@ export default function HomePage({ onSelectPoll }) {
             </div>
           </div>
         </section>
+
+        <div className={styles.cityLookupWrap}>
+          <label className={styles.cityLookupLabel} htmlFor="city-lookup">Quick City Lookup</label>
+          <input
+            id="city-lookup"
+            className={styles.cityLookupInput}
+            type="search"
+            placeholder="Type Lagos, Nairobi, Accra, or Cairo"
+            value={cityLookup}
+            onChange={handleCityLookup}
+            aria-label="Quick city lookup"
+          />
+        </div>
 
         <div className={styles.statsStrip}>
           <div className={styles.statCard}>
