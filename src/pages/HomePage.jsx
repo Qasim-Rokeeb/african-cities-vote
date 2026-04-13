@@ -625,8 +625,17 @@ export default function HomePage({ onSelectPoll }) {
         )}
 
         <footer className={styles.footer}>
-          <p>Built on Stacks · Powered by Clarity smart contracts</p>
-          <p>Each vote is a permanent on-chain transaction</p>
+          <p className={styles.footerCopy}>Built on Stacks · Powered by Clarity smart contracts</p>
+          <p className={styles.footerCopy}>Each vote is a permanent on-chain transaction</p>
+          <div className={styles.footerLinks}>
+            <a href="https://stacks.co" target="_blank" rel="noreferrer">Stacks</a>
+            <a href="https://explorer.hiro.so" target="_blank" rel="noreferrer">Explorer</a>
+            <a href="https://github.com" target="_blank" rel="noreferrer">GitHub</a>
+          </div>
+          <div className={styles.footerHandles}>
+            <span>@africantechvotes</span>
+            <span>@stacksafrica</span>
+          </div>
         </footer>
       </div>
     </div>

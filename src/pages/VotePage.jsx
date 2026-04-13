@@ -614,13 +614,22 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
 
         {/* Footer */}
         <footer className={styles.footer}>
-          <a
-            href={`https://explorer.hiro.so/txid/${DEPLOYER}.${poll.id}?chain=mainnet`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            View contract on Explorer ↗
-          </a>
+          <p className={styles.footerCopy}>Built for transparent on-chain city voting across Africa.</p>
+          <div className={styles.footerLinks}>
+            <a
+              href={`https://explorer.hiro.so/txid/${DEPLOYER}.${poll.id}?chain=mainnet`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Contract ↗
+            </a>
+            <a href="https://stacks.co" target="_blank" rel="noreferrer">Stacks</a>
+            <a href="https://explorer.hiro.so" target="_blank" rel="noreferrer">Explorer</a>
+          </div>
+          <div className={styles.footerHandles}>
+            <span>@africantechvotes</span>
+            <span>@stacksafrica</span>
+          </div>
         </footer>
 
         {toast.open && (

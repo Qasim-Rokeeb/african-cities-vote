@@ -982,7 +982,37 @@
 
 /* Footer */
 .footer {
-  font-size: 11px; color: #c2b19b; text-align: center;
+  font-size: 11px;
+  color: #c2b19b;
+  text-align: center;
+  display: grid;
+  gap: 8px;
+}
+
+.footerCopy {
+  color: #c6b7a3;
+}
+
+.footerLinks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.footerLinks a {
+  border: 1px solid rgba(196,129,58,0.28);
+  border-radius: 999px;
+  padding: 3px 8px;
+  color: #d8c8b4;
+}
+
+.footerHandles {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: #b6a088;
 }
 
 .toast {
