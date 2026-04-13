@@ -220,7 +220,8 @@
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 8px 12px;
+  min-height: 40px;
+  padding: 0 12px;
   cursor: pointer;
   transition: border-color 0.2s, color 0.2s, transform 0.16s;
   border-radius: var(--radius-sm);
@@ -245,11 +246,13 @@
 
 .connectBtn {
   background: var(--earth); color: var(--sand);
-  border: none; padding: 13px 26px;
+  border: none;
+  min-height: 40px;
+  padding: 0 20px;
   font-family: var(--font-ui); font-size: 13px;
   letter-spacing: 0.05em; cursor: pointer;
   transition: background 0.2s, transform 0.15s;
-  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  border-radius: var(--radius-sm);
 }
 .connectBtn:hover { background: var(--rust); transform: translateY(-2px); }
 .connectBtn:focus-visible {
@@ -514,7 +517,8 @@
   background: rgba(196,129,58,0.12);
   color: var(--sand);
   border-radius: var(--radius-sm);
-  padding: 6px 10px;
+  min-height: 36px;
+  padding: 0 10px;
   font-size: 10px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -714,12 +718,14 @@
 .voteBtn {
   display: block; width: 100%;
   background: var(--gold); color: var(--deep);
-  border: none; padding: 18px 24px;
+  border: none;
+  min-height: 52px;
+  padding: 0 24px;
   font-family: var(--font-display);
   font-size: 1.05rem; font-weight: 700;
   cursor: pointer; letter-spacing: 0.02em;
   transition: background 0.2s, color 0.2s, transform 0.15s;
-  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+  border-radius: var(--radius-sm);
   margin-bottom: 28px;
   animation: fadeUp 0.4s ease 0.25s both;
 }
@@ -784,10 +790,12 @@
   font-family: var(--font-display);
   font-size: 1rem;
   font-weight: 700;
-  padding: 14px 16px;
+  min-height: 48px;
+  padding: 0 16px;
   letter-spacing: 0.01em;
   cursor: pointer;
   transition: transform 0.16s ease, filter 0.2s ease, opacity 0.2s ease;
+  border-radius: var(--radius-sm);
 }
 
 .mobileActionBtn:active:not(:disabled) {
@@ -829,7 +837,9 @@
 .pageBtn {
   background: none;
   border: 1px solid rgba(196,129,58,0.25);
-  color: var(--muted); padding: 10px 18px;
+  color: var(--muted);
+  min-height: 40px;
+  padding: 0 18px;
   font-family: var(--font-ui); font-size: 12px;
   cursor: pointer; transition: border-color 0.2s, color 0.2s, transform 0.18s;
   border-radius: var(--radius-sm);

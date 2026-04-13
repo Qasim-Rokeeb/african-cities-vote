@@ -106,13 +106,14 @@
   background: linear-gradient(90deg, var(--earth), #d1984f);
   color: var(--sand);
   border: none;
-  padding: 9px 16px;
+  min-height: 40px;
+  padding: 0 16px;
   font-family: var(--font-ui);
   font-size: 12px;
   letter-spacing: 0.05em;
   cursor: pointer;
   transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  border-radius: var(--radius-sm);
 }
 
 .connectBtn:hover {
@@ -173,7 +174,8 @@
   }
 
   .connectBtn {
-    padding: 8px 12px;
+    min-height: 36px;
+    padding: 0 12px;
     font-size: 11px;
   }
 
