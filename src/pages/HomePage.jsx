@@ -193,8 +193,8 @@ export default function HomePage({ onSelectPoll }) {
         <header className={styles.header}>
           <p className={styles.eyebrow}>On-chain · Stacks Mainnet · 5 Active Polls</p>
           <h1 className={styles.title}>
-            Africa Tech<br />
-            <span className={styles.accent}>Votes</span>
+            Vote For Africa&apos;s
+            <span className={styles.accent}>Top Tech City</span>
           </h1>
           <p className={styles.subtitle}>
             Five on-chain polls about tech & crypto in Africa.<br />
