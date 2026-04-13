@@ -161,23 +161,23 @@ button[aria-disabled='true'] {
 }
 
 @keyframes viewExitForward {
-  from { opacity: 1; transform: translateX(0) translateY(0); }
-  to { opacity: 0; transform: translateX(-16px) translateY(2px); }
+  from { opacity: 1; transform: translateX(0) translateY(0) scale(1); filter: blur(0px); }
+  to { opacity: 0; transform: translateX(-16px) translateY(2px) scale(0.985); filter: blur(1.8px); }
 }
 
 @keyframes viewEnterForward {
-  from { opacity: 0; transform: translateX(20px) translateY(2px); }
-  to { opacity: 1; transform: translateX(0) translateY(0); }
+  from { opacity: 0; transform: translateX(20px) translateY(2px) scale(0.985); filter: blur(1.8px); }
+  to { opacity: 1; transform: translateX(0) translateY(0) scale(1); filter: blur(0px); }
 }
 
 @keyframes viewExitBackward {
-  from { opacity: 1; transform: translateX(0) translateY(0); }
-  to { opacity: 0; transform: translateX(16px) translateY(2px); }
+  from { opacity: 1; transform: translateX(0) translateY(0) scale(1); filter: blur(0px); }
+  to { opacity: 0; transform: translateX(16px) translateY(2px) scale(0.985); filter: blur(1.8px); }
 }
 
 @keyframes viewEnterBackward {
-  from { opacity: 0; transform: translateX(-20px) translateY(2px); }
-  to { opacity: 1; transform: translateX(0) translateY(0); }
+  from { opacity: 0; transform: translateX(-20px) translateY(2px) scale(0.985); filter: blur(1.8px); }
+  to { opacity: 1; transform: translateX(0) translateY(0) scale(1); filter: blur(0px); }
 }
 
 .back-to-top-btn {
