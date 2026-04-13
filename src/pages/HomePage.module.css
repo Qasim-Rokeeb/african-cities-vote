@@ -156,8 +156,8 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--sand);
-  background: rgba(232,184,75,0.14);
-  border: 1px solid rgba(232,184,75,0.32);
+  background: rgba(94,143,132,0.2);
+  border: 1px solid rgba(94,143,132,0.42);
   border-radius: 999px;
   padding: 3px 8px;
 }
@@ -775,14 +775,14 @@
 .optionTag {
   font-size: 11px;
   padding: 4px 10px;
-  background: rgba(196,129,58,0.1);
-  color: var(--rust);
+  background: rgba(94,143,132,0.16);
+  color: #2f5e55;
   letter-spacing: 0.05em;
   transition: background 0.2s ease, transform 0.16s ease;
 }
 
 .optionTag:hover {
-  background: rgba(196,129,58,0.2);
+  background: rgba(94,143,132,0.26);
   transform: translateY(-1px);
 }
 
