@@ -887,6 +887,35 @@
   font-size: 11px; color: var(--muted); text-align: center;
 }
 
+.toast {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 8;
+  min-width: 240px;
+  max-width: 320px;
+  border: 1px solid rgba(255,217,122,0.85);
+  border-radius: var(--radius-sm);
+  background: linear-gradient(125deg, rgba(255,217,122,0.95), rgba(255,203,85,0.9));
+  box-shadow: 0 16px 30px rgba(26,16,8,0.35);
+  color: #1a1008;
+  padding: 10px 12px;
+  animation: fadeUp 0.25s ease both;
+}
+
+.toastTitle {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.toastMessage {
+  font-size: 12px;
+  line-height: 1.35;
+}
+
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(18px); }
   to   { opacity: 1; transform: translateY(0); }

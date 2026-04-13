@@ -54,6 +54,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
   const [hasVoted,     setHasVoted]     = useState(false);
   const [isVoting,     setIsVoting]     = useState(false);
   const [status,       setStatus]       = useState({ msg: '', type: '' });
+  const [toast,        setToast]        = useState({ open: false, message: '' });
   const [momentum,     setMomentum]     = useState({});
   const [compareIds,   setCompareIds]   = useState([]);
   const previousVotesRef = useRef(null);
@@ -161,6 +162,13 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
           msg: `✓ Vote cast! <a href="https://explorer.hiro.so/txid/${txid}?chain=mainnet" target="_blank" rel="noreferrer">View TX ↗</a> — confirms in ~10 min.`,
           type: 'success',
         });
+        setToast({
+          open: true,
+          message: `Vote submitted for ${poll.options.find(o => o.id === selected)?.label || 'selected option'}!`,
+        });
+        setTimeout(() => {
+          setToast({ open: false, message: '' });
+        }, 4200);
         setTimeout(loadVotes, 5000);
       } else {
         setStatus({ msg: 'Wallet did not return a transaction ID. Please approve and try again.', type: 'error' });
@@ -591,6 +599,13 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
             View contract on Explorer ↗
           </a>
         </footer>
+
+        {toast.open && (
+          <div className={styles.toast} role="status" aria-live="polite">
+            <div className={styles.toastTitle}>Vote Submitted</div>
+            <div className={styles.toastMessage}>{toast.message}</div>
+          </div>
+        )}
 
       </div>
     </div>
