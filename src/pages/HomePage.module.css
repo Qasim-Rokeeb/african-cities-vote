@@ -284,6 +284,38 @@
   box-shadow: 0 0 0 3px rgba(232,184,75,0.16);
 }
 
+.errorBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border: 1px solid rgba(184,76,30,0.5);
+  background: rgba(184,76,30,0.14);
+  color: #ffd2c0;
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  margin-bottom: 20px;
+  font-size: 12px;
+}
+
+.errorBannerBtn {
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid rgba(255,210,192,0.45);
+  border-radius: 999px;
+  background: rgba(255,210,192,0.18);
+  color: #fff1eb;
+  font-family: var(--font-ui);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.errorBannerBtn:hover {
+  background: rgba(255,210,192,0.28);
+}
+
 .primaryHeroBtn,
 .secondaryHeroBtn {
   border: 1px solid rgba(232,184,75,0.35);

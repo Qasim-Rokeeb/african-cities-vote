@@ -103,6 +103,7 @@ export default function HomePage({ onSelectPoll }) {
   const { walletAddress } = useWallet();
   const [allVotes, setAllVotes] = useState({});
   const [isLoadingVotes, setIsLoadingVotes] = useState(true);
+  const [votesError, setVotesError] = useState('');
   const [query, setQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState('all');
   const [sortMode, setSortMode] = useState('most-voted');
@@ -113,28 +114,39 @@ export default function HomePage({ onSelectPoll }) {
   const spotlightIndexRef = useRef(0);
   const spotlightFadeTimerRef = useRef(null);
 
-  useEffect(() => {
-    let isMounted = true;
+  const loadAllVotes = useCallback(async () => {
     setIsLoadingVotes(true);
+    setVotesError('');
 
-    Promise.all(
-      POLLS.map(async poll => {
-        const raw = await fetchVoteCounts(poll.id);
-        if (!raw) return [poll.id, 0];
-        const mapped = mapVotesToOptions(raw, poll.options);
-        const total = Object.values(mapped).reduce((a, b) => a + b, 0);
-        return [poll.id, total];
-      })
-    ).then(entries => {
-      if (!isMounted) return;
-      setAllVotes(Object.fromEntries(entries));
+    try {
+      const entries = await Promise.all(
+        POLLS.map(async poll => {
+          const raw = await fetchVoteCounts(poll.id);
+          if (!raw) return [poll.id, null];
+          const mapped = mapVotesToOptions(raw, poll.options);
+          const total = Object.values(mapped).reduce((a, b) => a + b, 0);
+          return [poll.id, total];
+        })
+      );
+
+      const failed = entries.filter(([, total]) => total == null).length;
+      if (failed > 0) {
+        setVotesError('Some live vote totals could not be loaded.');
+      }
+
+      setAllVotes(
+        Object.fromEntries(entries.map(([id, total]) => [id, total ?? 0]))
+      );
+    } catch {
+      setVotesError('Could not load live votes right now.');
+    } finally {
       setIsLoadingVotes(false);
-    });
-
-    return () => {
-      isMounted = false;
-    };
+    }
   }, []);
+
+  useEffect(() => {
+    loadAllVotes();
+  }, [loadAllVotes]);
 
   const transitionSpotlight = useCallback(nextIndex => {
     if (nextIndex === spotlightIndexRef.current) return;
@@ -353,6 +365,13 @@ export default function HomePage({ onSelectPoll }) {
             aria-label="Quick city lookup"
           />
         </div>
+
+        {votesError && (
+          <div className={styles.errorBanner} role="alert" aria-live="assertive">
+            <span>{votesError}</span>
+            <button type="button" className={styles.errorBannerBtn} onClick={loadAllVotes}>Retry</button>
+          </div>
+        )}
 
         <div className={styles.statsStrip}>
           <div className={styles.statCard}>
