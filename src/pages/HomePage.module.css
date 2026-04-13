@@ -69,7 +69,7 @@
 
 .subtitle {
   font-family: var(--font-body);
-  font-size: 12px; color: var(--muted); line-height: 1.75;
+  font-size: 12px; color: #c6b7a3; line-height: 1.75;
 }
 
 .heroActions {
@@ -140,7 +140,7 @@
   font-size: 0.62em;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: #bfae97;
   margin-top: 7px;
 }
 
@@ -257,7 +257,7 @@
   font-size: 10px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: #c2b19b;
   margin-bottom: 8px;
 }
 
@@ -384,7 +384,7 @@
   font-size: 10px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: #c3b29d;
   margin-bottom: 6px;
 }
 
@@ -538,7 +538,7 @@
   font-size: 10px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: #c2b19b;
 }
 
 .sortSelect {
@@ -583,7 +583,7 @@
 }
 
 .searchInput::placeholder {
-  color: var(--muted);
+  color: #baa88f;
 }
 
 .searchInput:focus-visible {
