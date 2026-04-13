@@ -10,7 +10,7 @@
 
 .container {
   position: relative; z-index: 1;
-  max-width: 680px; margin: 0 auto;
+  max-width: 640px; margin: 0 auto;
   padding: 40px 24px 80px;
   margin-top: 10px;
   border-radius: var(--radius-lg);
