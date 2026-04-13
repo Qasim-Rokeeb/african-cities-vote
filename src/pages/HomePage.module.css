@@ -228,7 +228,10 @@
 }
 
 .primaryHeroBtn {
-  background: linear-gradient(90deg, rgba(232,184,75,0.26), rgba(196,129,58,0.24));
+  background: linear-gradient(90deg, #ffd97a, #ffcb55);
+  border-color: rgba(255, 217, 122, 0.9);
+  color: #1a1008;
+  box-shadow: 0 10px 22px rgba(255, 203, 85, 0.28);
 }
 
 .primaryHeroBtn:hover,
@@ -236,6 +239,12 @@
   transform: translateY(-2px);
   border-color: rgba(232,184,75,0.6);
   background: rgba(232,184,75,0.24);
+}
+
+.primaryHeroBtn:hover {
+  background: linear-gradient(90deg, #ffe399, #ffd064);
+  border-color: rgba(255, 227, 153, 0.95);
+  color: #140d06;
 }
 
 .primaryHeroBtn:focus-visible,
