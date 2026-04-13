@@ -130,6 +130,22 @@
   .centerInfo { display: none; }
 }
 
+@media (min-width: 700px) and (max-width: 1024px) {
+  .nav {
+    width: min(920px, calc(100% - 18px));
+    padding: 0 14px;
+    gap: 10px;
+  }
+
+  .brandName {
+    font-size: 0.95rem;
+  }
+
+  .centerInfo {
+    max-width: 280px;
+  }
+}
+
 .wallet { display: flex; align-items: center; }
 
 .connectBtn {

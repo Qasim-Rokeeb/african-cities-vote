@@ -679,6 +679,30 @@
   scroll-margin-top: calc(var(--nav-h) + 22px);
 }
 
+@media (min-width: 700px) and (max-width: 1024px) {
+  .container {
+    max-width: 760px;
+    padding: 48px 20px 72px;
+  }
+
+  .header {
+    margin-bottom: 54px;
+  }
+
+  .citySpotlight {
+    grid-template-columns: minmax(220px, 280px) 1fr;
+  }
+
+  .citySpotlightBody {
+    padding: 18px 18px 16px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+}
+
 .pollCard {
   background: var(--card);
   border: 2px solid transparent;
