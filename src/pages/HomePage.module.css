@@ -920,16 +920,25 @@
   .statsStrip { grid-template-columns: 1fr; }
   .grid { grid-template-columns: 1fr; }
   .container { padding: 40px 16px 64px; }
-  .heroActions { width: 100%; }
+  .heroActions { width: 100%; gap: 12px; }
   .primaryHeroBtn, .secondaryHeroBtn { flex: 1 1 160px; }
   .citySpotlight { grid-template-columns: 1fr; }
   .citySpotlightImage { min-height: 180px; }
   .citySpotlightBody { padding: 16px 14px; }
-  .citySpotlightActions { align-items: flex-start; flex-direction: column; }
+  .citySpotlightActions { align-items: flex-start; flex-direction: column; gap: 12px; }
   .title { line-height: 1.05; }
   .pollCard { padding: 22px 18px 16px; }
   .pollFooter { gap: 12px; align-items: flex-end; }
   .footer { line-height: 1.7; }
+
+  .filterChips {
+    gap: 10px;
+  }
+
+  .filterChip {
+    min-height: 38px;
+    padding: 0 12px;
+  }
 }
 
 @keyframes fadeUp {

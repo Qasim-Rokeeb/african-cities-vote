@@ -313,8 +313,34 @@
     box-shadow: 0 16px 36px rgba(0,0,0,0.45);
   }
   .pagination { flex-direction: column; }
-  .pageBtn { width: 100%; }
+  .pageBtn { width: 100%; min-height: 44px; }
   .liveRow { flex-direction: column; align-items: flex-start; }
+
+  .optCard {
+    padding: 22px 16px 18px;
+  }
+
+  .optionMetaHeader,
+  .compareRow,
+  .optionTagsRow,
+  .miniTrendRow,
+  .momentumHeader {
+    gap: 10px;
+  }
+
+  .compareBtn,
+  .compareClearBtn {
+    min-height: 34px;
+    padding: 0 10px;
+  }
+
+  .countryPill,
+  .populationBadge,
+  .cultureTag {
+    min-height: 28px;
+    display: inline-flex;
+    align-items: center;
+  }
 }
 
 .optCard {
