@@ -373,6 +373,19 @@
   margin-bottom: 8px;
 }
 
+.optionIcon {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  background: linear-gradient(145deg, rgba(232,184,75,0.2), rgba(196,129,58,0.1));
+  border: 1px solid rgba(196,129,58,0.3);
+}
+
 .countryPill {
   font-size: 10px;
   letter-spacing: 0.08em;

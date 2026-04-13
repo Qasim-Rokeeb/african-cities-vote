@@ -8,12 +8,20 @@ import {
 import styles from './VotePage.module.css';
 
 const OPTION_METADATA = {
-  lagos: { country: 'Nigeria', flag: '🇳🇬', population: '21.3M', tag: 'Culture & Music' },
-  nairobi: { country: 'Kenya', flag: '🇰🇪', population: '5.3M', tag: 'Safari Gateway' },
-  accra: { country: 'Ghana', flag: '🇬🇭', population: '2.6M', tag: 'Arts & Coastline' },
-  cairo: { country: 'Egypt', flag: '🇪🇬', population: '10.2M', tag: 'Historic Tourism' },
-  capetown: { country: 'South Africa', flag: '🇿🇦', population: '4.9M', tag: 'Tourism & Nature' },
-  kigali: { country: 'Rwanda', flag: '🇷🇼', population: '1.7M', tag: 'Clean City Culture' },
+  lagos: { country: 'Nigeria', flag: '🇳🇬', population: '21.3M', tag: 'Culture & Music', icon: '🌆' },
+  nairobi: { country: 'Kenya', flag: '🇰🇪', population: '5.3M', tag: 'Safari Gateway', icon: '🦁' },
+  accra: { country: 'Ghana', flag: '🇬🇭', population: '2.6M', tag: 'Arts & Coastline', icon: '🏖️' },
+  cairo: { country: 'Egypt', flag: '🇪🇬', population: '10.2M', tag: 'Historic Tourism', icon: '🏛️' },
+  capetown: { country: 'South Africa', flag: '🇿🇦', population: '4.9M', tag: 'Tourism & Nature', icon: '⛰️' },
+  kigali: { country: 'Rwanda', flag: '🇷🇼', population: '1.7M', tag: 'Clean City Culture', icon: '🌿' },
+  react: { country: 'Pan-Africa', flag: '🧩', population: 'N/A', tag: 'Frontend', icon: '⚛️' },
+  python: { country: 'Pan-Africa', flag: '🧩', population: 'N/A', tag: 'Backend / AI', icon: '🐍' },
+  rust: { country: 'Pan-Africa', flag: '🧩', population: 'N/A', tag: 'Systems / Web3', icon: '🦀' },
+  solidity: { country: 'Pan-Africa', flag: '🧩', population: 'N/A', tag: 'Smart Contracts', icon: '📜' },
+  stacks: { country: 'Pan-Africa', flag: '🧩', population: 'N/A', tag: 'Bitcoin L2', icon: '🟧' },
+  ethereum: { country: 'Pan-Africa', flag: '🧩', population: 'N/A', tag: 'EVM / DeFi', icon: '⬡' },
+  solana: { country: 'Pan-Africa', flag: '🧩', population: 'N/A', tag: 'High Speed', icon: '🌈' },
+  cardano: { country: 'Pan-Africa', flag: '🧩', population: 'N/A', tag: 'Peer Reviewed', icon: '🔵' },
 };
 
 function getOptionMeta(option) {
@@ -25,6 +33,7 @@ function getOptionMeta(option) {
     flag: '🌍',
     population: 'N/A',
     tag: option.detail || 'Culture',
+    icon: '📍',
   };
 }
 
@@ -356,6 +365,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
                 onKeyDown={e => e.key === 'Enter' && !cardsDisabled && setSelected(opt.id)}
               >
                 <div className={styles.optionMetaHeader}>
+                  <span className={styles.optionIcon} aria-hidden="true">{meta.icon}</span>
                   <span className={styles.countryPill}>{meta.flag} {meta.country}</span>
                   <span className={styles.populationBadge}>Pop: {meta.population}</span>
                 </div>
