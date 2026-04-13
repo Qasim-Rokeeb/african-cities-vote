@@ -536,6 +536,15 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
           </div>
         )}
 
+        <section className={styles.howItWorksPanel} aria-label="How voting works">
+          <p className={styles.howItWorksLabel}>How Voting Works</p>
+          <ul className={styles.howItWorksList}>
+            <li>Connect your wallet to enable voting.</li>
+            <li>Choose one option and submit one vote for this poll.</li>
+            <li>Votes are on-chain and cannot be changed after confirmation.</li>
+          </ul>
+        </section>
+
         {/* Vote button */}
         <button
           className={[
