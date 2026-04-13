@@ -113,8 +113,10 @@ export default function HomePage({ onSelectPoll }) {
   const [spotlightIndex, setSpotlightIndex] = useState(0);
   const [spotlightVisible, setSpotlightVisible] = useState(true);
   const [spotlightPaused, setSpotlightPaused] = useState(false);
+  const [votePulse, setVotePulse] = useState(false);
   const spotlightIndexRef = useRef(0);
   const spotlightFadeTimerRef = useRef(null);
+  const previousTotalVotesRef = useRef(0);
 
   const loadAllVotes = useCallback(async (showLoading = true) => {
     if (showLoading) {
@@ -273,6 +275,20 @@ export default function HomePage({ onSelectPoll }) {
   );
 
   useEffect(() => {
+    if (totalVotes > previousTotalVotesRef.current) {
+      setVotePulse(true);
+      const pulseTimer = setTimeout(() => {
+        setVotePulse(false);
+      }, 650);
+      previousTotalVotesRef.current = totalVotes;
+      return () => clearTimeout(pulseTimer);
+    }
+
+    previousTotalVotesRef.current = totalVotes;
+    return undefined;
+  }, [totalVotes]);
+
+  useEffect(() => {
     if (isLoadingVotes) return;
 
     const dayKey = new Date().toISOString().slice(0, 10);
@@ -352,6 +368,7 @@ export default function HomePage({ onSelectPoll }) {
               Browse All Polls
             </button>
           </div>
+          <p className={styles.heroMicrocopy}>One wallet, one vote per poll. All votes are recorded on-chain.</p>
         </header>
 
         <section
@@ -433,7 +450,7 @@ export default function HomePage({ onSelectPoll }) {
         <div className={styles.statsStrip}>
           <div className={styles.statCard}>
             <span className={styles.statLabel}>Total On-chain Votes</span>
-            <strong className={styles.statValue}>
+            <strong className={`${styles.statValue} ${votePulse ? styles.statValuePulse : ''}`.trim()}>
               <OdometerCounter value={totalVotes} ariaLabel={`${totalVotes} total on-chain votes`} />
             </strong>
           </div>

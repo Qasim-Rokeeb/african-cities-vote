@@ -894,6 +894,14 @@
   outline-offset: 3px;
 }
 
+.voteMicrocopy {
+  margin-top: -18px;
+  margin-bottom: 12px;
+  color: #c6b7a3;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+}
+
 .readyToVote {
   background: linear-gradient(90deg, #f3c35c, #ffd97a, #f3c35c);
   background-size: 220% 100%;

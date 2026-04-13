@@ -557,6 +557,8 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
           {btnLabel()}
         </button>
 
+        <p className={styles.voteMicrocopy}>One wallet can vote once per poll. Confirmed votes cannot be edited.</p>
+
         <p className={styles.voteHint}>
           Tip: review the live percentages above before you commit your final vote.
         </p>
