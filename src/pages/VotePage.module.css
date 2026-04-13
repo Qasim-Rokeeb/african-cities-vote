@@ -916,6 +916,33 @@
   line-height: 1.35;
 }
 
+.toastActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.toastActionBtn,
+.toastDismissBtn {
+  min-height: 30px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(26,16,8,0.26);
+  background: rgba(255,255,255,0.35);
+  color: #1a1008;
+  font-family: var(--font-ui);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.toastActionBtn:hover,
+.toastDismissBtn:hover {
+  background: rgba(255,255,255,0.55);
+}
+
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(18px); }
   to   { opacity: 1; transform: translateY(0); }

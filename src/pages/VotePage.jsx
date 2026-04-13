@@ -604,6 +604,28 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
           <div className={styles.toast} role="status" aria-live="polite">
             <div className={styles.toastTitle}>Vote Submitted</div>
             <div className={styles.toastMessage}>{toast.message}</div>
+            <div className={styles.toastActions}>
+              <button
+                type="button"
+                className={styles.toastActionBtn}
+                onClick={() => {
+                  setToast({ open: false, message: '' });
+                  setStatus({
+                    msg: 'Undo is not available for confirmed on-chain votes. Your transaction is permanent once submitted.',
+                    type: 'loading',
+                  });
+                }}
+              >
+                Undo?
+              </button>
+              <button
+                type="button"
+                className={styles.toastDismissBtn}
+                onClick={() => setToast({ open: false, message: '' })}
+              >
+                Dismiss
+              </button>
+            </div>
           </div>
         )}
 
