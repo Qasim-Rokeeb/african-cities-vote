@@ -215,6 +215,10 @@ export default function HomePage({ onSelectPoll }) {
     return [...pollCards].sort((a, b) => b.total - a.total)[0] || null;
   }, [pollCards]);
 
+  const maxPollVotes = useMemo(() => {
+    return pollCards.reduce((max, item) => Math.max(max, item.total), 0);
+  }, [pollCards]);
+
   const totalVotes = useMemo(
     () => Object.values(allVotes).reduce((sum, n) => sum + n, 0),
     [allVotes]
@@ -447,6 +451,17 @@ export default function HomePage({ onSelectPoll }) {
                 {poll.options.map(opt => (
                   <span key={opt.id} className={styles.optionTag}>{opt.label}</span>
                 ))}
+              </div>
+              <div className={styles.pollPopularityRow} aria-label="Relative popularity">
+                <div className={styles.pollPopularityTrack}>
+                  <div
+                    className={styles.pollPopularityFill}
+                    style={{ width: `${maxPollVotes > 0 ? Math.round(((allVotes[poll.id] ?? 0) / maxPollVotes) * 100) : 0}%` }}
+                  />
+                </div>
+                <span className={styles.pollPopularityLabel}>
+                  {maxPollVotes > 0 ? `${Math.round(((allVotes[poll.id] ?? 0) / maxPollVotes) * 100)}% of leader` : '0% of leader'}
+                </span>
               </div>
               <div className={styles.pollFooter}>
                 <span className={styles.voteCount}>

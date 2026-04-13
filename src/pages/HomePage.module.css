@@ -653,6 +653,32 @@
   margin-bottom: 20px;
 }
 
+.pollPopularityRow {
+  margin-bottom: 14px;
+}
+
+.pollPopularityTrack {
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(196,129,58,0.16);
+  overflow: hidden;
+}
+
+.pollPopularityFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--earth), var(--gold));
+  transition: width 0.35s ease;
+}
+
+.pollPopularityLabel {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
 .optionTag {
   font-size: 11px;
   padding: 4px 10px;
