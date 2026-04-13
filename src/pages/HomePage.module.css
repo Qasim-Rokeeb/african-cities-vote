@@ -455,6 +455,40 @@
   animation: fadeUp 0.5s ease 0.1s both;
 }
 
+.filterChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.filterChip {
+  border: 1px solid rgba(196,129,58,0.3);
+  background: rgba(196,129,58,0.08);
+  color: var(--sand);
+  border-radius: 999px;
+  min-height: 34px;
+  padding: 0 12px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: var(--font-ui);
+  cursor: pointer;
+  transition: transform 0.16s, background 0.2s, border-color 0.2s;
+}
+
+.filterChip:hover {
+  transform: translateY(-1px);
+  border-color: rgba(232,184,75,0.55);
+  background: rgba(232,184,75,0.16);
+}
+
+.filterChipActive {
+  background: linear-gradient(90deg, #ffd97a, #ffcb55);
+  border-color: rgba(255,217,122,0.9);
+  color: #1a1008;
+}
+
 .searchWrap::before {
   content: '⌕';
   position: absolute;

@@ -6,6 +6,21 @@ import styles from './HomePage.module.css';
 const SPOTLIGHT_ROTATE_MS = 7000;
 const SPOTLIGHT_FADE_MS = 280;
 
+const FILTER_CHIPS = [
+  { id: 'all', label: 'All' },
+  { id: 'region', label: 'Region' },
+  { id: 'size', label: 'Size' },
+  { id: 'language', label: 'Language' },
+];
+
+const POLL_FILTER_TAGS = {
+  'african-cities-vote': ['region', 'size', 'language'],
+  'africa-crypto-hub': ['region', 'language'],
+  'africa-best-stack': ['language'],
+  'africa-blockchain': ['language'],
+  'africa-startup-city': ['region', 'size', 'language'],
+};
+
 const CITY_SPOTLIGHTS = [
   {
     name: 'Lagos',
@@ -82,6 +97,7 @@ export default function HomePage({ onSelectPoll }) {
   const { walletAddress } = useWallet();
   const [allVotes, setAllVotes] = useState({});
   const [query, setQuery] = useState('');
+  const [activeFilter, setActiveFilter] = useState('all');
   const [cityLookup, setCityLookup] = useState('');
   const [spotlightIndex, setSpotlightIndex] = useState(0);
   const [spotlightVisible, setSpotlightVisible] = useState(true);
@@ -158,8 +174,13 @@ export default function HomePage({ onSelectPoll }) {
 
   const filteredPolls = useMemo(() => {
     const normalized = query.trim().toLowerCase();
-    if (!normalized) return pollCards;
     return pollCards.filter(({ poll }) => {
+      const tags = POLL_FILTER_TAGS[poll.id] || [];
+      const matchesChip = activeFilter === 'all' || tags.includes(activeFilter);
+      if (!matchesChip) return false;
+
+      if (!normalized) return true;
+
       const optionsText = poll.options.map(opt => opt.label).join(' ').toLowerCase();
       return (
         poll.title.toLowerCase().includes(normalized) ||
@@ -167,7 +188,7 @@ export default function HomePage({ onSelectPoll }) {
         optionsText.includes(normalized)
       );
     });
-  }, [pollCards, query]);
+  }, [pollCards, query, activeFilter]);
 
   const featuredPoll = useMemo(() => {
     return [...pollCards].sort((a, b) => b.total - a.total)[0] || null;
@@ -351,6 +372,19 @@ export default function HomePage({ onSelectPoll }) {
             onChange={e => setQuery(e.target.value)}
             aria-label="Search available polls"
           />
+        </div>
+
+        <div className={styles.filterChips} aria-label="Quick poll filters">
+          {FILTER_CHIPS.map(chip => (
+            <button
+              key={chip.id}
+              type="button"
+              className={`${styles.filterChip} ${activeFilter === chip.id ? styles.filterChipActive : ''}`.trim()}
+              onClick={() => setActiveFilter(chip.id)}
+            >
+              {chip.label}
+            </button>
+          ))}
         </div>
 
         <div id="poll-grid" className={styles.grid}>
