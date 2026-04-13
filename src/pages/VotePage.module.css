@@ -790,7 +790,11 @@
 
 /* Vote button */
 .voteBtn {
-  display: block; width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
   background: var(--gold); color: var(--deep);
   border: none;
   min-height: 52px;
@@ -858,6 +862,10 @@
 
 .mobileActionBtn {
   width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   border: none;
   background: linear-gradient(90deg, #f3c35c, #ffd97a, #f3c35c);
   color: var(--deep);
@@ -884,6 +892,15 @@
 .mobileActionBtn:focus-visible {
   outline: 2px solid rgba(232,184,75,0.8);
   outline-offset: 2px;
+}
+
+.buttonSpinner {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  border: 2px solid rgba(26,16,8,0.28);
+  border-top-color: rgba(26,16,8,0.9);
+  animation: spin 0.8s linear infinite;
 }
 
 .voteBtn:hover:not(:disabled) { background: var(--earth); color: var(--sand); transform: translateY(-2px); }
@@ -1012,4 +1029,9 @@
   0%   { background-position: 0% 0; }
   50%  { background-position: 100% 0; }
   100% { background-position: 0% 0; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }

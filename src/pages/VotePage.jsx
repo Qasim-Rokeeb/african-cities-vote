@@ -554,7 +554,8 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
           onClick={castVote}
           disabled={!walletAddress || !selected || hasVoted || isVoting}
         >
-          {btnLabel()}
+          {isVoting && <span className={styles.buttonSpinner} aria-hidden="true" />}
+          <span>{btnLabel()}</span>
         </button>
 
         <p className={styles.voteMicrocopy}>One wallet can vote once per poll. Confirmed votes cannot be edited.</p>
@@ -588,7 +589,8 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
             onClick={handleMobileCta}
             disabled={walletAddress ? mobileVoteDisabled : false}
           >
-            {mobileCtaLabel}
+            {isVoting && <span className={styles.buttonSpinner} aria-hidden="true" />}
+            <span>{mobileCtaLabel}</span>
           </button>
         </div>
 
