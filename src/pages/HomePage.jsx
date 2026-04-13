@@ -197,8 +197,7 @@ export default function HomePage({ onSelectPoll }) {
             <span className={styles.accent}>Top Tech City</span>
           </h1>
           <p className={styles.subtitle}>
-            Five on-chain polls about tech & crypto in Africa.<br />
-            One wallet. One vote per poll. Permanent on the blockchain.
+            Connect your wallet, choose a city, and cast one permanent on-chain vote per poll.
           </p>
           <div className={styles.heroActions}>
             <button className={styles.primaryHeroBtn} onClick={openTrendingPoll}>
