@@ -323,6 +323,14 @@
   background: rgba(255,210,192,0.28);
 }
 
+.lastUpdatedStamp {
+  margin-bottom: 14px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #bfae97;
+}
+
 .primaryHeroBtn,
 .secondaryHeroBtn {
   border: 1px solid rgba(232,184,75,0.35);

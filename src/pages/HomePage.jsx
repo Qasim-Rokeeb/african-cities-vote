@@ -106,6 +106,7 @@ export default function HomePage({ onSelectPoll }) {
   const [isLoadingVotes, setIsLoadingVotes] = useState(true);
   const [votesError, setVotesError] = useState('');
   const [todayBaseline, setTodayBaseline] = useState(0);
+  const [lastUpdatedAt, setLastUpdatedAt] = useState(null);
   const [query, setQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState('all');
   const [sortMode, setSortMode] = useState('most-voted');
@@ -160,6 +161,8 @@ export default function HomePage({ onSelectPoll }) {
       } else {
         setCityLeaders([]);
       }
+
+      setLastUpdatedAt(new Date());
     } catch {
       setVotesError('Could not load live votes right now.');
     } finally {
@@ -443,6 +446,12 @@ export default function HomePage({ onSelectPoll }) {
             <span>{votesError}</span>
             <button type="button" className={styles.errorBannerBtn} onClick={() => loadAllVotes(true)}>Retry</button>
           </div>
+        )}
+
+        {lastUpdatedAt && (
+          <p className={styles.lastUpdatedStamp}>
+            Last updated {lastUpdatedAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+          </p>
         )}
 
         <div className={styles.sectionDivider} aria-hidden="true" />
