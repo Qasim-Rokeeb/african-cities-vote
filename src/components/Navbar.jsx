@@ -25,7 +25,7 @@ export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
   return (
     <nav className={`${styles.nav} ${isScrolled ? styles.navScrolled : ''}`.trim()}>
       <div
-        className={styles.brand}
+        className={`${styles.brand} ${isHome ? styles.brandActive : ''}`.trim()}
         onClick={() => onNavigate(-1)}
         role="button"
         tabIndex={0}
@@ -36,7 +36,7 @@ export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
       </div>
 
       <div className={styles.centerInfo}>
-        <span className={styles.locationBadge}>{locationLabel}</span>
+        <span className={`${styles.locationBadge} ${!isHome ? styles.locationBadgeActive : ''}`.trim()}>{locationLabel}</span>
         <div className={styles.progressTrack} aria-label="Voting flow progress">
           <div className={styles.progressFill} style={{ width: `${progress}%` }} />
         </div>
