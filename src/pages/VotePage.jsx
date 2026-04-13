@@ -8,12 +8,20 @@ import {
 import styles from './VotePage.module.css';
 
 const OPTION_METADATA = {
-  lagos: { country: 'Nigeria', flag: '🇳🇬', population: '21.3M', tag: 'Culture & Music' },
-  nairobi: { country: 'Kenya', flag: '🇰🇪', population: '5.3M', tag: 'Safari Gateway' },
-  accra: { country: 'Ghana', flag: '🇬🇭', population: '2.6M', tag: 'Arts & Coastline' },
-  cairo: { country: 'Egypt', flag: '🇪🇬', population: '10.2M', tag: 'Historic Tourism' },
-  capetown: { country: 'South Africa', flag: '🇿🇦', population: '4.9M', tag: 'Tourism & Nature' },
-  kigali: { country: 'Rwanda', flag: '🇷🇼', population: '1.7M', tag: 'Clean City Culture' },
+  lagos: { country: 'Nigeria', flag: '🇳🇬', population: '21.3M', tag: 'Culture & Music', icon: '🌆' },
+  nairobi: { country: 'Kenya', flag: '🇰🇪', population: '5.3M', tag: 'Safari Gateway', icon: '🦁' },
+  accra: { country: 'Ghana', flag: '🇬🇭', population: '2.6M', tag: 'Arts & Coastline', icon: '🏖️' },
+  cairo: { country: 'Egypt', flag: '🇪🇬', population: '10.2M', tag: 'Historic Tourism', icon: '🏛️' },
+  capetown: { country: 'South Africa', flag: '🇿🇦', population: '4.9M', tag: 'Tourism & Nature', icon: '⛰️' },
+  kigali: { country: 'Rwanda', flag: '🇷🇼', population: '1.7M', tag: 'Clean City Culture', icon: '🌿' },
+  react: { country: 'Pan-Africa', flag: '🧩', population: 'N/A', tag: 'Frontend', icon: '⚛️' },
+  python: { country: 'Pan-Africa', flag: '🧩', population: 'N/A', tag: 'Backend / AI', icon: '🐍' },
+  rust: { country: 'Pan-Africa', flag: '🧩', population: 'N/A', tag: 'Systems / Web3', icon: '🦀' },
+  solidity: { country: 'Pan-Africa', flag: '🧩', population: 'N/A', tag: 'Smart Contracts', icon: '📜' },
+  stacks: { country: 'Pan-Africa', flag: '🧩', population: 'N/A', tag: 'Bitcoin L2', icon: '🟧' },
+  ethereum: { country: 'Pan-Africa', flag: '🧩', population: 'N/A', tag: 'EVM / DeFi', icon: '⬡' },
+  solana: { country: 'Pan-Africa', flag: '🧩', population: 'N/A', tag: 'High Speed', icon: '🌈' },
+  cardano: { country: 'Pan-Africa', flag: '🧩', population: 'N/A', tag: 'Peer Reviewed', icon: '🔵' },
 };
 
 function getOptionMeta(option) {
@@ -25,6 +33,7 @@ function getOptionMeta(option) {
     flag: '🌍',
     population: 'N/A',
     tag: option.detail || 'Culture',
+    icon: '📍',
   };
 }
 
@@ -45,6 +54,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
   const [hasVoted,     setHasVoted]     = useState(false);
   const [isVoting,     setIsVoting]     = useState(false);
   const [status,       setStatus]       = useState({ msg: '', type: '' });
+  const [toast,        setToast]        = useState({ open: false, message: '' });
   const [momentum,     setMomentum]     = useState({});
   const [compareIds,   setCompareIds]   = useState([]);
   const previousVotesRef = useRef(null);
@@ -152,6 +162,13 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
           msg: `✓ Vote cast! <a href="https://explorer.hiro.so/txid/${txid}?chain=mainnet" target="_blank" rel="noreferrer">View TX ↗</a> — confirms in ~10 min.`,
           type: 'success',
         });
+        setToast({
+          open: true,
+          message: `Vote submitted for ${poll.options.find(o => o.id === selected)?.label || 'selected option'}!`,
+        });
+        setTimeout(() => {
+          setToast({ open: false, message: '' });
+        }, 4200);
         setTimeout(loadVotes, 5000);
       } else {
         setStatus({ msg: 'Wallet did not return a transaction ID. Please approve and try again.', type: 'error' });
@@ -307,9 +324,9 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
         </header>
 
         <div className={styles.liveRow}>
-          <span className={styles.livePill}>Live refresh in {refreshIn}s</span>
-          <button className={styles.refreshBtn} onClick={refreshNow}>
-            Refresh now
+          <span className={styles.livePill} title="Vote totals auto-refresh every 30 seconds">Votes refresh in {refreshIn}s</span>
+          <button className={styles.refreshBtn} onClick={refreshNow} title="Fetch latest vote totals now" aria-label="Refresh live vote totals">
+            Refresh Votes
           </button>
         </div>
 
@@ -356,6 +373,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
                 onKeyDown={e => e.key === 'Enter' && !cardsDisabled && setSelected(opt.id)}
               >
                 <div className={styles.optionMetaHeader}>
+                  <span className={styles.optionIcon} aria-hidden="true">{meta.icon}</span>
                   <span className={styles.countryPill}>{meta.flag} {meta.country}</span>
                   <span className={styles.populationBadge}>Pop: {meta.population}</span>
                 </div>
@@ -369,6 +387,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
                     }}
                     disabled={compareAtLimit}
                     aria-label={isCompared ? `Remove ${opt.label} from compare` : `Add ${opt.label} to compare`}
+                    title={isCompared ? `Remove ${opt.label} from comparison` : `Compare ${opt.label} side-by-side`}
                   >
                     {isCompared ? 'Compared' : 'Compare'}
                   </button>
@@ -407,7 +426,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
 
                 <div className={styles.momentumWrap}>
                   <div className={styles.momentumHeader}>
-                    <span className={styles.momentumLabel}>Confidence meter</span>
+                    <span className={styles.momentumLabel} title="Shows recent change in vote share since last refresh">Confidence meter</span>
                     <span
                       className={[
                         styles.momentumDelta,
@@ -481,17 +500,26 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
         )}
 
         <section className={styles.insightBox}>
-          <p className={styles.insightLabel}>Live Insight</p>
-          <h2 className={styles.insightTitle}>
-            {total === 0 && 'Waiting for first vote'}
-            {total > 0 && isTie && `Tie at the top: ${leader?.label} and ${runnerUp?.label}`}
-            {total > 0 && !isTie && leader && `${leader.label} is leading`}
-          </h2>
-          <p className={styles.insightMeta}>
-            {total === 0 && 'Connect your wallet and become the first voter on this poll.'}
-            {total > 0 && isTie && `${leader?.votes} votes each · ${turnoutLabel}`}
-            {total > 0 && !isTie && leader && `${leader.votes} votes · ${leaderShare}% share · ${turnoutLabel}`}
-          </p>
+          {total === 0 ? (
+            <div className={styles.noVotesState}>
+              <div className={styles.noVotesArt} aria-hidden="true">🗳️✨</div>
+              <p className={styles.insightLabel}>Live Insight</p>
+              <h2 className={styles.insightTitle}>Waiting for first vote</h2>
+              <p className={styles.insightMeta}>Connect your wallet and become the first voter on this poll.</p>
+            </div>
+          ) : (
+            <>
+              <p className={styles.insightLabel}>Live Insight</p>
+              <h2 className={styles.insightTitle}>
+                {isTie && `Tie at the top: ${leader?.label} and ${runnerUp?.label}`}
+                {!isTie && leader && `${leader.label} is leading`}
+              </h2>
+              <p className={styles.insightMeta}>
+                {isTie && `${leader?.votes} votes each · ${turnoutLabel}`}
+                {!isTie && leader && `${leader.votes} votes · ${leaderShare}% share · ${turnoutLabel}`}
+              </p>
+            </>
+          )}
         </section>
 
         {/* Status */}
@@ -508,6 +536,15 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
           </div>
         )}
 
+        <section className={styles.howItWorksPanel} aria-label="How voting works">
+          <p className={styles.howItWorksLabel}>How Voting Works</p>
+          <ul className={styles.howItWorksList}>
+            <li>Connect your wallet to enable voting.</li>
+            <li>Choose one option and submit one vote for this poll.</li>
+            <li>Votes are on-chain and cannot be changed after confirmation.</li>
+          </ul>
+        </section>
+
         {/* Vote button */}
         <button
           className={[
@@ -517,8 +554,11 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
           onClick={castVote}
           disabled={!walletAddress || !selected || hasVoted || isVoting}
         >
-          {btnLabel()}
+          {isVoting && <span className={styles.buttonSpinner} aria-hidden="true" />}
+          <span>{btnLabel()}</span>
         </button>
+
+        <p className={styles.voteMicrocopy}>One wallet can vote once per poll. Confirmed votes cannot be edited.</p>
 
         <p className={styles.voteHint}>
           Tip: review the live percentages above before you commit your final vote.
@@ -549,7 +589,8 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
             onClick={handleMobileCta}
             disabled={walletAddress ? mobileVoteDisabled : false}
           >
-            {mobileCtaLabel}
+            {isVoting && <span className={styles.buttonSpinner} aria-hidden="true" />}
+            <span>{mobileCtaLabel}</span>
           </button>
         </div>
 
@@ -573,14 +614,52 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
 
         {/* Footer */}
         <footer className={styles.footer}>
-          <a
-            href={`https://explorer.hiro.so/txid/${DEPLOYER}.${poll.id}?chain=mainnet`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            View contract on Explorer ↗
-          </a>
+          <p className={styles.footerCopy}>Built for transparent on-chain city voting across Africa.</p>
+          <div className={styles.footerLinks}>
+            <a
+              href={`https://explorer.hiro.so/txid/${DEPLOYER}.${poll.id}?chain=mainnet`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Contract ↗
+            </a>
+            <a href="https://stacks.co" target="_blank" rel="noreferrer">Stacks</a>
+            <a href="https://explorer.hiro.so" target="_blank" rel="noreferrer">Explorer</a>
+          </div>
+          <div className={styles.footerHandles}>
+            <span>@africantechvotes</span>
+            <span>@stacksafrica</span>
+          </div>
         </footer>
+
+        {toast.open && (
+          <div className={styles.toast} role="status" aria-live="polite">
+            <div className={styles.toastTitle}>Vote Submitted</div>
+            <div className={styles.toastMessage}>{toast.message}</div>
+            <div className={styles.toastActions}>
+              <button
+                type="button"
+                className={styles.toastActionBtn}
+                onClick={() => {
+                  setToast({ open: false, message: '' });
+                  setStatus({
+                    msg: 'Undo is not available for confirmed on-chain votes. Your transaction is permanent once submitted.',
+                    type: 'loading',
+                  });
+                }}
+              >
+                Undo?
+              </button>
+              <button
+                type="button"
+                className={styles.toastDismissBtn}
+                onClick={() => setToast({ open: false, message: '' })}
+              >
+                Dismiss
+              </button>
+            </div>
+          </div>
+        )}
 
       </div>
     </div>

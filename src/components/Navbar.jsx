@@ -1,17 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useWallet } from '../WalletContext';
 import styles from './Navbar.module.css';
 
 export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
   const { walletAddress, connectWallet, disconnectWallet } = useWallet();
+  const [isScrolled, setIsScrolled] = useState(false);
   const isHome = activePollIndex === -1;
   const locationLabel = isHome ? 'Home' : `Poll ${activePollIndex + 1}`;
   const progress = isHome ? 0 : Math.round(((activePollIndex + 1) / totalPolls) * 100);
 
+  useEffect(() => {
+    const onScroll = () => {
+      setIsScrolled(window.scrollY > 12);
+    };
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
+
   return (
-    <nav className={styles.nav}>
+    <nav className={`${styles.nav} ${isScrolled ? styles.navScrolled : ''}`.trim()}>
       <div
-        className={styles.brand}
+        className={`${styles.brand} ${isHome ? styles.brandActive : ''}`.trim()}
         onClick={() => onNavigate(-1)}
         role="button"
         tabIndex={0}
@@ -22,7 +36,7 @@ export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
       </div>
 
       <div className={styles.centerInfo}>
-        <span className={styles.locationBadge}>{locationLabel}</span>
+        <span className={`${styles.locationBadge} ${!isHome ? styles.locationBadgeActive : ''}`.trim()}>{locationLabel}</span>
         <div className={styles.progressTrack} aria-label="Voting flow progress">
           <div className={styles.progressFill} style={{ width: `${progress}%` }} />
         </div>

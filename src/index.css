@@ -7,6 +7,7 @@
   --deep-2: #2a190d;
   --rust: #b84c1e;
   --gold: #e8b84b;
+  --accent-cool: #5e8f84;
   --muted: #7a6550;
   --card: #faf5ec;
   --card-hover: #fffbf0;
@@ -14,26 +15,32 @@
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 20px;
+  --border-soft: rgba(196, 129, 58, 0.24);
+  --border-strong: rgba(232, 184, 75, 0.36);
   --ring: 0 0 0 3px rgba(232, 184, 75, 0.35);
-  --shadow-soft: 0 12px 28px rgba(10, 7, 4, 0.2);
-  --shadow-strong: 0 20px 50px rgba(10, 7, 4, 0.35);
+  --shadow-soft: 0 12px 28px rgba(10, 7, 4, 0.26);
+  --shadow-strong: 0 20px 50px rgba(10, 7, 4, 0.4);
   --font-display: 'Cinzel', Georgia, serif;
   --font-body: 'Source Sans 3', 'Segoe UI', sans-serif;
   --font-ui: 'Space Mono', ui-monospace, monospace;
 }
 
 html, body, #root { min-height: 100vh; }
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-h) + 20px);
+}
 
 body {
   position: relative;
   background:
+    radial-gradient(circle at 12% 78%, rgba(94, 143, 132, 0.12), transparent 42%),
     radial-gradient(circle at 20% 15%, rgba(196, 129, 58, 0.2), transparent 40%),
     radial-gradient(circle at 80% 10%, rgba(232, 184, 75, 0.08), transparent 30%),
     linear-gradient(135deg, var(--deep), var(--deep-2));
   color: var(--sand);
   font-family: var(--font-body);
-  line-height: 1.45;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -51,6 +58,12 @@ body::before {
 a { color: var(--earth); text-decoration: none; }
 a:hover { color: var(--gold); }
 
+:where(a, button, [role='button'], input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid rgba(232, 184, 75, 0.9);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(232, 184, 75, 0.24);
+}
+
 ::selection {
   background: rgba(232, 184, 75, 0.3);
   color: var(--sand);
@@ -59,6 +72,32 @@ a:hover { color: var(--gold); }
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes buttonHoverGlow {
+  from {
+    filter: brightness(1);
+  }
+  to {
+    filter: brightness(1.06);
+  }
+}
+
+button:hover:not(:disabled) {
+  animation: buttonHoverGlow 180ms ease-out both;
+}
+
+button:active:not(:disabled) {
+  transform: translateY(1px) scale(0.995);
+  filter: brightness(0.96);
+}
+
+button:disabled,
+button[aria-disabled='true'] {
+  cursor: not-allowed;
+  opacity: 0.5;
+  filter: grayscale(0.22) saturate(0.75);
+  box-shadow: none;
 }
 
 * {
@@ -124,21 +163,48 @@ a:hover { color: var(--gold); }
 }
 
 @keyframes viewExitForward {
-  from { opacity: 1; transform: translateX(0) translateY(0); }
-  to { opacity: 0; transform: translateX(-16px) translateY(2px); }
+  from { opacity: 1; transform: translateX(0) translateY(0) scale(1); filter: blur(0px); }
+  to { opacity: 0; transform: translateX(-16px) translateY(2px) scale(0.985); filter: blur(1.8px); }
 }
 
 @keyframes viewEnterForward {
-  from { opacity: 0; transform: translateX(20px) translateY(2px); }
-  to { opacity: 1; transform: translateX(0) translateY(0); }
+  from { opacity: 0; transform: translateX(20px) translateY(2px) scale(0.985); filter: blur(1.8px); }
+  to { opacity: 1; transform: translateX(0) translateY(0) scale(1); filter: blur(0px); }
 }
 
 @keyframes viewExitBackward {
-  from { opacity: 1; transform: translateX(0) translateY(0); }
-  to { opacity: 0; transform: translateX(16px) translateY(2px); }
+  from { opacity: 1; transform: translateX(0) translateY(0) scale(1); filter: blur(0px); }
+  to { opacity: 0; transform: translateX(16px) translateY(2px) scale(0.985); filter: blur(1.8px); }
 }
 
 @keyframes viewEnterBackward {
-  from { opacity: 0; transform: translateX(-20px) translateY(2px); }
-  to { opacity: 1; transform: translateX(0) translateY(0); }
+  from { opacity: 0; transform: translateX(-20px) translateY(2px) scale(0.985); filter: blur(1.8px); }
+  to { opacity: 1; transform: translateX(0) translateY(0) scale(1); filter: blur(0px); }
+}
+
+.back-to-top-btn {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 9;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 217, 122, 0.85);
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ffd97a, #ffcb55);
+  color: #1a1008;
+  font-family: var(--font-ui);
+  font-size: 10px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  box-shadow: 0 12px 26px rgba(26, 16, 8, 0.34);
+}
+
+@media (max-width: 480px) {
+  .back-to-top-btn {
+    right: 12px;
+    bottom: 78px;
+    min-height: 36px;
+    padding: 0 10px;
+  }
 }
