@@ -45,6 +45,22 @@ function getYesterdayTrend(pollId, optionId) {
   return normalized - 4;
 }
 
+function buildSparklinePath(values) {
+  const width = 86;
+  const height = 20;
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const span = Math.max(1, max - min);
+
+  return values
+    .map((value, index) => {
+      const x = (index / (values.length - 1)) * width;
+      const y = height - ((value - min) / span) * height;
+      return `${index === 0 ? 'M' : 'L'}${x.toFixed(2)} ${y.toFixed(2)}`;
+    })
+    .join(' ');
+}
+
 export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, onPrev, onJumpToPoll }) {
   const { walletAddress, connectWallet } = useWallet();
 
@@ -358,6 +374,14 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
             const yesterdayValue = `${yesterdayDelta > 0 ? '+' : ''}${yesterdayDelta}`;
             const isCompared = compareIds.includes(opt.id);
             const compareAtLimit = compareIds.length >= 3 && !isCompared;
+            const trendSeed = Math.max(0, count - Math.max(1, Math.abs(yesterdayDelta) * 2));
+            const trendBump = Math.max(0, trendSeed + Math.round(momentumDelta * 2));
+            const trendPoints = [trendSeed, Math.max(0, Math.round((trendSeed + count) / 2)), trendBump, count];
+            const sparklinePath = buildSparklinePath(trendPoints);
+            const inlineMeterWidth = Math.min(Math.abs(momentumDelta) * 14, 100);
+            const inlineMeterLabel = momentumDelta > 0
+              ? `+${momentumDelta.toFixed(1)} pp`
+              : `${momentumDelta.toFixed(1)} pp`;
 
             return (
               <div
@@ -396,6 +420,26 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
                   </span>
                 </div>
                 <div className={styles.optLabel}>{opt.label}</div>
+                <div className={styles.cityStatsStrip}>
+                  <div className={styles.sparklineWrap} aria-hidden="true">
+                    <svg viewBox="0 0 86 20" className={styles.sparkline} preserveAspectRatio="none">
+                      <path d={sparklinePath} className={styles.sparklinePath} />
+                    </svg>
+                  </div>
+                  <div className={styles.inlineMomentum}>
+                    <div className={styles.inlineMomentumTrack}>
+                      <div
+                        className={[
+                          styles.inlineMomentumFill,
+                          momentumDelta > 0 ? styles.inlineMomentumFillUp : '',
+                          momentumDelta < 0 ? styles.inlineMomentumFillDown : '',
+                        ].join(' ')}
+                        style={{ width: `${inlineMeterWidth}%` }}
+                      />
+                    </div>
+                    <span className={styles.inlineMomentumLabel}>{inlineMeterLabel}</span>
+                  </div>
+                </div>
                 <div className={styles.optionTagsRow}>
                   <div className={styles.optDetail}>{opt.detail}</div>
                   <span className={styles.cultureTag}>{meta.tag}</span>
