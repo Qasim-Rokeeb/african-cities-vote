@@ -70,7 +70,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
   const [hasVoted,     setHasVoted]     = useState(false);
   const [isVoting,     setIsVoting]     = useState(false);
   const [status,       setStatus]       = useState({ msg: '', type: '' });
-  const [toast,        setToast]        = useState({ open: false, message: '' });
+  const [toast,        setToast]        = useState({ open: false, title: '', message: '', txid: '' });
   const [momentum,     setMomentum]     = useState({});
   const [compareIds,   setCompareIds]   = useState([]);
   const previousVotesRef = useRef(null);
@@ -174,16 +174,16 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
         result?.id;
       if (txid) {
         setHasVoted(true);
-        setStatus({
-          msg: `✓ Vote cast! <a href="https://explorer.hiro.so/txid/${txid}?chain=mainnet" target="_blank" rel="noreferrer">View TX ↗</a> — confirms in ~10 min.`,
-          type: 'success',
-        });
+        setStatus({ msg: '', type: '' });
+        const selectedOption = poll.options.find(o => o.id === selected)?.label || 'selected option';
         setToast({
           open: true,
-          message: `Vote submitted for ${poll.options.find(o => o.id === selected)?.label || 'selected option'}!`,
+          title: 'Vote Recorded',
+          message: `${selectedOption} has been added on-chain.`,
+          txid,
         });
         setTimeout(() => {
-          setToast({ open: false, message: '' });
+          setToast({ open: false, title: '', message: '', txid: '' });
         }, 4200);
         setTimeout(loadVotes, 5000);
       } else {
@@ -686,26 +686,29 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
 
         {toast.open && (
           <div className={styles.toast} role="status" aria-live="polite">
-            <div className={styles.toastTitle}>Vote Submitted</div>
+            <div className={styles.toastHead}>
+              <span className={styles.toastCheck} aria-hidden="true">✓</span>
+              <div>
+                <div className={styles.toastTitle}>{toast.title || 'Vote Submitted'}</div>
+                <div className={styles.toastSubtitle}>Success</div>
+              </div>
+            </div>
             <div className={styles.toastMessage}>{toast.message}</div>
             <div className={styles.toastActions}>
-              <button
-                type="button"
-                className={styles.toastActionBtn}
-                onClick={() => {
-                  setToast({ open: false, message: '' });
-                  setStatus({
-                    msg: 'Undo is not available for confirmed on-chain votes. Your transaction is permanent once submitted.',
-                    type: 'loading',
-                  });
-                }}
-              >
-                Undo?
-              </button>
+              {toast.txid && (
+                <a
+                  className={styles.toastActionBtn}
+                  href={`https://explorer.hiro.so/txid/${toast.txid}?chain=mainnet`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  View TX ↗
+                </a>
+              )}
               <button
                 type="button"
                 className={styles.toastDismissBtn}
-                onClick={() => setToast({ open: false, message: '' })}
+                onClick={() => setToast({ open: false, title: '', message: '', txid: '' })}
               >
                 Dismiss
               </button>
