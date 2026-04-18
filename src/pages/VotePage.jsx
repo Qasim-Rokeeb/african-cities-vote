@@ -241,6 +241,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
   const selectedLabel = poll.options.find(o => o.id === selected)?.label;
   const mobileVoteDisabled = !walletAddress || !selected || hasVoted || isVoting;
   const mobileCtaLabel = !walletAddress ? 'Connect Wallet' : btnLabel();
+  const showMobileSelectionBar = Boolean(selectedLabel) && !hasVoted;
 
   function handleMobileCta() {
     if (!walletAddress) {
@@ -608,8 +609,23 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
           Tip: review the live percentages above before you commit your final vote.
         </p>
 
-        <div className={styles.mobileActionBar}>
+        <div className={[
+          styles.mobileActionBar,
+          showMobileSelectionBar ? styles.mobileActionBarVisible : '',
+        ].join(' ')}>
           <div className={styles.mobileMetaRow}>
+            <p className={styles.mobileSelectionLabel}>Your Selection</p>
+            <span className={styles.mobileSelectedState}>Selected: {selectedLabel}</span>
+          </div>
+          <div className={styles.mobileActionRow}>
+            <button
+              type="button"
+              className={styles.mobileEditBtn}
+              onClick={() => setSelected(null)}
+              aria-label="Choose a different option"
+            >
+              Edit
+            </button>
             <span className={styles.mobileWalletState}>
               <span
                 className={[
@@ -618,14 +634,6 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
                 ].join(' ')}
               />
               {walletAddress ? 'Wallet connected' : 'Wallet not connected'}
-            </span>
-            <span
-              className={[
-                styles.mobileSelectedState,
-                selectedLabel ? '' : styles.mobileSelectedEmpty,
-              ].join(' ')}
-            >
-              {selectedLabel ? `Selected: ${selectedLabel}` : 'No option selected'}
             </span>
           </div>
           <button

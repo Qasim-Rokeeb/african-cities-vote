@@ -318,7 +318,6 @@
     display: none;
   }
   .mobileActionBar {
-    display: block;
     position: fixed;
     left: 10px;
     right: 10px;
@@ -930,9 +929,30 @@
   display: none;
 }
 
+.mobileActionBarVisible {
+  display: block;
+  animation: fadeUp 0.24s ease both;
+}
+
 .mobileMetaRow {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.mobileSelectionLabel {
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.mobileActionRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   gap: 8px;
   margin-bottom: 8px;
 }
@@ -953,6 +973,30 @@
 
 .mobileSelectedEmpty {
   color: var(--muted);
+}
+
+.mobileEditBtn {
+  min-height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(196,129,58,0.36);
+  background: rgba(196,129,58,0.12);
+  color: var(--sand);
+  font-family: var(--font-ui);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.mobileEditBtn:hover {
+  border-color: rgba(232,184,75,0.62);
+  background: rgba(232,184,75,0.16);
+}
+
+.mobileEditBtn:focus-visible {
+  outline: 2px solid rgba(232,184,75,0.8);
+  outline-offset: 2px;
 }
 
 .mobileStateDot {
