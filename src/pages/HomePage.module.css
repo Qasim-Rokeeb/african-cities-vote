@@ -1054,9 +1054,19 @@
 .footerHandles {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  justify-content: center;
+  gap: 12px;
   margin-top: 8px;
   color: #b6a088;
+}
+
+.footerHandles a {
+  color: #b6a088;
+  transition: color 0.2s ease;
+}
+
+.footerHandles a:hover {
+  color: var(--gold);
 }
 
 .emptyState {
