@@ -290,7 +290,7 @@
 
 .cityLookupInput:focus-visible {
   outline: none;
-  border-color: rgba(232,184,75,0.55);
+  border-color: var(--gold);
   box-shadow: 0 0 0 3px rgba(232,184,75,0.16);
 }
 
