@@ -522,7 +522,7 @@ export default function HomePage({ onSelectPoll }) {
           <input
             className={styles.searchInput}
             type="search"
-            placeholder="Search polls by title, question, or option"
+            placeholder="e.g., 'startup city', 'best tech stack', 'blockchain'"
             value={query}
             onChange={e => setQuery(e.target.value)}
             aria-label="Search available polls by title, question, or option"
