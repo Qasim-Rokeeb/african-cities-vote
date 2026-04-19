@@ -408,6 +408,13 @@
   border: 1px solid var(--border-soft);
   background: linear-gradient(180deg, rgba(38,24,13,0.74), rgba(26,16,8,0.52));
   border-radius: var(--radius-sm);
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s ease, background 0.2s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-2px);
+  border-color: rgba(232, 184, 75, 0.4);
+  background: linear-gradient(180deg, rgba(46,30,16,0.8), rgba(30,20,10,0.6));
 }
 
 .statLabel {
