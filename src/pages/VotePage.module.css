@@ -261,13 +261,13 @@
 }
 
 .refreshBtn:hover {
-  border-color: var(--earth);
-  color: var(--gold);
+  border-color: #a3c4ab;
+  color: #a3c4ab;
   transform: translateY(-1px);
 }
 
 .refreshBtn:focus-visible {
-  outline: 2px solid rgba(232,184,75,0.75);
+  outline: 2px solid rgba(163, 196, 171, 0.7);
   outline-offset: 3px;
 }
 
