@@ -573,6 +573,7 @@
 
 .searchWrap {
   position: relative;
+  max-width: 600px;
   margin-bottom: 24px;
   animation: fadeUp 0.5s ease 0.1s both;
 }
