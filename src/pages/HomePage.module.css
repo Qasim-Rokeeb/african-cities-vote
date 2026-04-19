@@ -1032,7 +1032,8 @@
 .footerLinks {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  justify-content: center;
+  gap: 12px;
   margin-top: 8px;
 }
 
@@ -1041,6 +1042,13 @@
   border-radius: 999px;
   padding: 2px 8px;
   color: #d8c8b4;
+  transition: all 0.2s ease;
+}
+
+.footerLinks a:hover {
+  background: rgba(196,129,58,0.1);
+  color: var(--gold);
+  border-color: rgba(212,175,55,0.4);
 }
 
 .footerHandles {
