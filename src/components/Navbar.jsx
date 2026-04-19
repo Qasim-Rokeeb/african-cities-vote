@@ -107,7 +107,13 @@ export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
       <div className={styles.wallet}>
         {walletAddress ? (
           <div className={styles.connected} onClick={disconnectWallet} title="Click to disconnect">
-            <span className={styles.dot} />
+            <div 
+              className={styles.identicon}
+              style={{
+                background: `linear-gradient(135deg, #${walletAddress.substring(2, 8)} 0%, #${walletAddress.substring(walletAddress.length - 6)} 100%)`
+              }}
+              aria-hidden="true"
+            />
             {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
           </div>
         ) : (

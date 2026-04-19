@@ -238,12 +238,13 @@
   outline-offset: 3px;
 }
 
-.dot {
-  width: 7px;
-  height: 7px;
+.identicon {
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  background: var(--gold);
-  animation: pulse 2s infinite;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
 }
 
 @keyframes pulse {
