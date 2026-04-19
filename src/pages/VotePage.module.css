@@ -1324,7 +1324,8 @@
 
 .toastMessage {
   font-size: 12px;
-  line-height: 1.35;
+  line-height: 1.4;
+  padding: 4px 2px;
 }
 
 .toastActions {
