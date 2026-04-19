@@ -404,6 +404,8 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
                 ].join(' ')}
                 onClick={() => !cardsDisabled && setSelected(opt.id)}
                 role="button"
+                aria-pressed={isSelected}
+                aria-disabled={cardsDisabled}
                 tabIndex={cardsDisabled ? -1 : 0}
                 onKeyDown={e => e.key === 'Enter' && !cardsDisabled && setSelected(opt.id)}
               >
