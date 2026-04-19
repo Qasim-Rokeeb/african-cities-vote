@@ -704,9 +704,9 @@
 
 .sortSelect:focus-visible {
   outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(232, 184, 75, 0.24);
   border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(232,184,75,0.16);
-  outline-offset: 2px;
 }
 
 .searchWrap::before {
