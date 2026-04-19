@@ -1012,8 +1012,11 @@
 .footer {
   border-top: 1px solid rgba(196,129,58,0.15);
   padding-top: 24px;
+  margin-bottom: 32px;
   font-size: 11px; color: var(--muted);
+  text-transform: uppercase;
   letter-spacing: 0.05em; line-height: 2;
+  text-align: center;
 }
 
 .footerCopy {
