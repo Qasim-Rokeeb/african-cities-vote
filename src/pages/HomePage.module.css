@@ -61,6 +61,7 @@
   color: var(--sand); margin-bottom: 20px;
   user-select: none;
   -webkit-user-select: none;
+  text-wrap: balance;
 }
 
 .accent {
@@ -82,6 +83,7 @@
   max-width: 65ch;
   user-select: none;
   -webkit-user-select: none;
+  text-wrap: pretty;
 }
 
 .heroActions {
