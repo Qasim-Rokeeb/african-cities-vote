@@ -1165,6 +1165,12 @@
   font-size: 1.05rem;
   color: var(--gold);
   margin-bottom: 6px;
+  transition: transform 0.3s ease, text-shadow 0.3s ease;
+}
+
+.emptyState:hover .emptyStateTitle {
+  transform: translateY(-1px);
+  text-shadow: 0 4px 12px rgba(232, 184, 75, 0.25);
 }
 
 .emptyStateText {
@@ -1173,6 +1179,11 @@
   line-height: 1.5;
   max-width: 320px;
   margin: 0 auto;
+  transition: color 0.3s ease;
+}
+
+.emptyState:hover .emptyStateText {
+  color: #c2b19b;
 }
 
 @media (max-width: 480px) {
