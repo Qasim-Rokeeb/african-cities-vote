@@ -223,11 +223,24 @@
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--gold);
-  border: 1px solid rgba(232,184,75,0.35);
-  background: rgba(232,184,75,0.08);
+  color: #a3c4ab; /* Soft sage green */
+  border: 1px solid rgba(163, 196, 171, 0.35);
+  background: rgba(163, 196, 171, 0.08);
   padding: 7px 10px;
   border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.livePill::before {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #a3c4ab;
+  animation: pulse 2s infinite;
 }
 
 .refreshBtn {
