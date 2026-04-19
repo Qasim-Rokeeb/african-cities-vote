@@ -243,6 +243,13 @@
   animation: pulse 2s infinite;
 }
 
+.refreshDigit {
+  display: inline-block;
+  min-width: 14px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
 .refreshBtn {
   border: 1px solid rgba(196,129,58,0.35);
   background: transparent;
