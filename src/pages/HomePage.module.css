@@ -237,8 +237,9 @@
 }
 
 .citySpotlightCta:focus-visible {
-  outline: none;
-  box-shadow: var(--ring);
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(232, 184, 75, 0.24);
 }
 
 .citySpotlightDots {
@@ -255,6 +256,12 @@
   background: rgba(232,184,75,0.35);
   cursor: pointer;
   transition: transform 0.18s, background 0.2s;
+}
+
+.citySpotlightDot:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  background: var(--gold);
 }
 
 .citySpotlightDot:hover {
