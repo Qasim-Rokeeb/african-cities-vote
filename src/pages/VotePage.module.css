@@ -721,6 +721,13 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.compareClearBtn:hover {
+  border-color: rgba(232,184,75,0.6);
+  background: rgba(232,184,75,0.18);
+  color: #fff;
 }
 
 .compareGrid {
