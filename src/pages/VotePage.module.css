@@ -257,16 +257,18 @@
 }
 
 .connectBtn {
-  background: var(--earth); color: var(--sand);
-  border: none;
+  background: var(--deep-2);
+  color: var(--sand);
+  border: 1px solid var(--earth);
   min-height: 40px;
   padding: 0 20px;
   font-family: var(--font-ui); font-size: 13px;
+  text-transform: uppercase;
   letter-spacing: 0.05em; cursor: pointer;
-  transition: background 0.2s, transform 0.15s;
+  transition: all 0.2s ease;
   border-radius: var(--radius-sm);
 }
-.connectBtn:hover { background: var(--rust); transform: translateY(-2px); }
+.connectBtn:hover { background: var(--earth); color: var(--deep); transform: translateY(-2px); }
 .connectBtn:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 3px;
