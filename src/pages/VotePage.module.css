@@ -1171,21 +1171,28 @@
 }
 
 .pageBtn {
-  background: none;
+  background: rgba(26, 16, 8, 0.4);
   border: 1px solid rgba(196,129,58,0.25);
   color: var(--muted);
   min-height: 40px;
   padding: 0 18px;
   font-family: var(--font-ui); font-size: 12px;
-  cursor: pointer; transition: border-color 0.2s, color 0.2s, transform 0.18s;
+  cursor: pointer; transition: border-color 0.2s, color 0.2s, transform 0.18s, background 0.2s;
   border-radius: var(--radius-sm);
+  backdrop-filter: blur(4px);
 }
 .pageBtn:hover:not(:disabled) {
+  background: rgba(196,129,58,0.08);
   border-color: var(--earth);
   color: var(--sand);
   transform: translateY(-1px);
 }
-.pageBtn:disabled { opacity: 0.25; cursor: not-allowed; }
+.pageBtn:disabled { 
+  opacity: 0.25; 
+  cursor: not-allowed; 
+  background: rgba(0, 0, 0, 0.4); 
+  border-color: rgba(196,129,58,0.1); 
+}
 .pageBtn:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 2px;
