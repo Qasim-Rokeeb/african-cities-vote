@@ -786,6 +786,14 @@
   border-color: rgba(196,129,58,0.4);
 }
 
+.pollCard:nth-child(1) { animation-delay: 0.1s; }
+.pollCard:nth-child(2) { animation-delay: 0.18s; }
+.pollCard:nth-child(3) { animation-delay: 0.26s; }
+.pollCard:nth-child(4) { animation-delay: 0.34s; }
+.pollCard:nth-child(5) { animation-delay: 0.42s; }
+.pollCard:nth-child(6) { animation-delay: 0.5s; }
+.pollCard:nth-child(n+7) { animation-delay: 0.58s; }
+
 .pollCardSkeleton {
   background: rgba(250,245,236,0.7);
   border: 1px solid rgba(196,129,58,0.1);
