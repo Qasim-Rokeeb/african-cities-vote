@@ -69,6 +69,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
   const [selected,     setSelected]     = useState(null);
   const [hasVoted,     setHasVoted]     = useState(false);
   const [isVoting,     setIsVoting]     = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [status,       setStatus]       = useState({ msg: '', type: '' });
   const [toast,        setToast]        = useState({ open: false, title: '', message: '', txid: '' });
   const [momentum,     setMomentum]     = useState({});
@@ -128,9 +129,11 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
     return () => clearInterval(t);
   }, [loadVotes]);
 
-  function refreshNow() {
-    loadVotes();
+  async function refreshNow() {
+    setIsRefreshing(true);
+    await loadVotes();
     setRefreshIn(30);
+    setIsRefreshing(false);
   }
 
   // ── Check if wallet voted when wallet connects ──────────────────────────────
@@ -345,8 +348,8 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
           <span className={styles.livePill} title="Vote totals auto-refresh every 30 seconds">
             Votes refresh in <span className={styles.refreshDigit}>{refreshIn}</span>s
           </span>
-          <button className={styles.refreshBtn} onClick={refreshNow} title="Fetch latest vote totals now" aria-label="Refresh live vote totals">
-            Refresh Votes
+          <button className={styles.refreshBtn} onClick={refreshNow} disabled={isRefreshing} title="Fetch latest vote totals now" aria-label="Refresh live vote totals">
+            {isRefreshing ? <span className={styles.refreshSpinner} aria-hidden="true" /> : 'Refresh Votes'}
           </button>
         </div>
 
