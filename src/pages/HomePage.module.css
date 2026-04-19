@@ -1030,11 +1030,16 @@
 .emptyStateTitle {
   font-family: var(--font-display);
   font-size: 1.05rem;
-  margin-bottom: 4px;
+  color: var(--gold);
+  margin-bottom: 6px;
 }
 
 .emptyStateText {
   color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+  max-width: 320px;
+  margin: 0 auto;
 }
 
 @media (max-width: 480px) {
