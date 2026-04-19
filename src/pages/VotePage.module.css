@@ -158,10 +158,13 @@
   background: none; border: none;
   color: var(--muted); font-family: var(--font-ui);
   font-size: 13px; cursor: pointer;
-  transition: color 0.2s;
+  transition: color 0.2s, transform 0.2s;
   padding: 0;
 }
-.backBtn:hover { color: var(--sand); }
+.backBtn:hover { 
+  color: var(--sand); 
+  transform: translateX(-3px);
+}
 .backBtn:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 4px;
