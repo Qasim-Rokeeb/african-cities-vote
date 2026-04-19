@@ -267,6 +267,9 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
     });
   }
 
+  // Generate an ARIA live string for status
+  const ariaLiveStatus = status?.msg || '';
+
   const comparedOptions = compareIds
     .map(id => poll.options.find(opt => opt.id === id))
     .filter(Boolean)
@@ -319,6 +322,11 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
           })}
         </div>
       </aside>
+
+      {/* Screen Reader ARIA Live Region for Status Updates */}
+      <div aria-live="polite" aria-atomic="true" style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(1px, 1px, 1px, 1px)' }}>
+        {ariaLiveStatus}
+      </div>
 
       <div className={styles.container}>
 
