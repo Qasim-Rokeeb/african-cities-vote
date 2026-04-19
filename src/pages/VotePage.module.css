@@ -1277,12 +1277,12 @@
   min-width: 240px;
   max-width: 320px;
   border: 1px solid rgba(255,217,122,0.85);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   background: linear-gradient(125deg, rgba(255,217,122,0.95), rgba(255,203,85,0.9));
-  box-shadow: 0 16px 30px rgba(26,16,8,0.35);
+  box-shadow: 0 24px 48px rgba(26,16,8,0.55), 0 12px 24px rgba(26,16,8,0.3);
   color: #1a1008;
-  padding: 10px 12px;
-  animation: fadeUp 0.25s ease both;
+  padding: 14px 16px;
+  animation: fadeUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
 }
 
 .toastTitle {
