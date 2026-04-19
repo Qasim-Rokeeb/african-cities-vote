@@ -70,7 +70,7 @@
 .subtitle {
   font-family: var(--font-body);
   font-size: 12px;
-  color: #c6b7a3;
+  color: var(--muted-text);
   line-height: 1.75;
   max-width: 65ch;
 }
