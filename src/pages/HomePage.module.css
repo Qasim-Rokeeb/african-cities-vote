@@ -773,11 +773,17 @@
   border: 2px solid transparent;
   padding: 32px 32px 24px;
   cursor: pointer;
-  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  transition: border-color 0.25s ease, transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.25s ease;
   position: relative;
   animation: fadeUp 0.5s ease both;
   isolation: isolate;
   border-radius: var(--radius-md);
+}
+
+.pollCard:hover {
+  transform: translateY(-5px) scale(1.01);
+  box-shadow: 0 20px 48px rgba(0,0,0,0.3), 0 8px 16px rgba(196,129,58,0.12);
+  border-color: rgba(196,129,58,0.4);
 }
 
 .pollCardSkeleton {
