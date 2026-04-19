@@ -1021,6 +1021,12 @@
 
 .footerCopy {
   color: #c2b19b;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.footerCopy:hover {
+  opacity: 1;
 }
 
 .footerLinks {
