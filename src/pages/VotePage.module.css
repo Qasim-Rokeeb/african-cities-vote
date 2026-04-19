@@ -909,6 +909,13 @@
 .noVotesArt {
   font-size: 1.7rem;
   margin-bottom: 6px;
+  display: inline-block;
+  animation: gentleFloat 4s ease-in-out infinite;
+}
+
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
 }
 
 /* Status */
