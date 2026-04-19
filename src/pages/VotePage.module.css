@@ -373,7 +373,8 @@
     border-radius: 20px;
     border: 1px solid rgba(232,184,75,0.3);
     background: rgba(26,16,8,0.92);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     box-shadow: 0 16px 36px rgba(0,0,0,0.45);
   }
   .pagination { flex-direction: column; }
