@@ -388,7 +388,7 @@
 .statsStrip {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  gap: 8px;
   margin-bottom: 24px;
   animation: fadeUp 0.5s ease 0.05s both;
 }
