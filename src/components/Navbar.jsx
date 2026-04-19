@@ -118,9 +118,14 @@ export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
             <span className={styles.disconnectText}>Disconnect</span>
           </button>
         ) : (
-          <button className={styles.connectBtn} onClick={connectWallet} disabled={isConnecting}>
+          <button className={styles.connectBtn} onClick={connectWallet} disabled={isConnecting} aria-live="polite">
             {isConnecting ? (
-              <span className={styles.spinner} aria-hidden="true" />
+              <>
+                <span className={styles.spinner} aria-hidden="true" />
+                <span style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(1px, 1px, 1px, 1px)' }}>
+                  Connecting wallet...
+                </span>
+              </>
             ) : (
               'Connect Wallet'
             )}
