@@ -598,6 +598,13 @@
   border-radius: var(--radius-sm);
 }
 
+.searchWrap:focus-within {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(232, 184, 75, 0.24);
+  border-radius: calc(var(--radius-sm) + 2px);
+}
+
 .searchWrap:hover {
   background: rgba(196, 129, 58, 0.03);
   box-shadow: 0 4px 12px rgba(232, 184, 75, 0.05);
