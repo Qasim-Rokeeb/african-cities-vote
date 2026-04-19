@@ -505,11 +505,11 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
             <div className={styles.compareDrawerHead}>
               <div>
                 <p className={styles.compareDrawerLabel}>Compare Cities</p>
-                <h3 className={styles.compareDrawerTitle}>
+                <h2 className={styles.compareDrawerTitle}>
                   {compareIds.length < 2
                     ? 'Select at least 2 options to compare side-by-side'
                     : `Comparing ${compareIds.length} options`}
-                </h3>
+                </h2>
               </div>
               <button
                 type="button"
@@ -523,7 +523,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
             <div className={styles.compareGrid}>
               {comparedOptions.map(item => (
                 <article key={item.id} className={styles.compareCard}>
-                  <h4 className={styles.compareName}>{item.label}</h4>
+                  <h3 className={styles.compareName}>{item.label}</h3>
                   <p className={styles.compareCountry}>{item.meta.flag} {item.meta.country}</p>
                   <p className={styles.compareStat}>Population: <strong>{item.meta.population}</strong></p>
                   <p className={styles.compareStat}>Tag: <strong>{item.meta.tag}</strong></p>
