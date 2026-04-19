@@ -671,10 +671,14 @@
 
 .miniTrendUp {
   color: #2f8f64;
+  display: inline-block;
+  transform: translateY(-1px);
 }
 
 .miniTrendDown {
   color: var(--rust);
+  display: inline-block;
+  transform: translateY(1px);
 }
 
 .compareDrawer {
