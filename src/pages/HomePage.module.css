@@ -30,7 +30,8 @@
 
 .container {
   position: relative; z-index: 1;
-  max-width: 720px; margin: 0 auto;
+  width: 100%;
+  max-width: 1200px; margin: 0 auto;
   padding: 60px 24px 80px;
   margin-top: 10px;
   background: linear-gradient(180deg, rgba(26,16,8,0.42), rgba(26,16,8,0.22));
@@ -43,6 +44,7 @@
 
 .header {
   margin-bottom: 96px;
+  max-width: 720px;
   animation: fadeUp 0.5s ease both;
 }
 
