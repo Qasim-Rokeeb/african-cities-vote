@@ -41,7 +41,7 @@
 }
 
 .header {
-  margin-bottom: 64px;
+  margin-bottom: 96px;
   animation: fadeUp 0.5s ease both;
 }
 
@@ -390,7 +390,7 @@
 
 .sectionDivider {
   height: 1px;
-  margin: 0 0 24px;
+  margin: 0 0 48px;
   background: linear-gradient(90deg, transparent, rgba(196,129,58,0.34), transparent);
 }
 
