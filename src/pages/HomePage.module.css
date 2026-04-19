@@ -59,6 +59,8 @@
   font-size: clamp(3.4rem, 10vw, 6.2rem);
   font-weight: 700; line-height: 1.0;
   color: var(--sand); margin-bottom: 20px;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .accent {
@@ -68,6 +70,8 @@
   background-clip: text;
   color: transparent;
   animation: accentShift 5s linear infinite;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .subtitle {
@@ -76,6 +80,8 @@
   color: var(--muted-text);
   line-height: 1.75;
   max-width: 65ch;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .heroActions {
