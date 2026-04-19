@@ -1009,6 +1009,11 @@
   transform: translateX(3px);
 }
 
+@keyframes footerFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .footer {
   border-top: 1px solid rgba(196,129,58,0.15);
   padding-top: 24px;
@@ -1017,6 +1022,8 @@
   text-transform: uppercase;
   letter-spacing: 0.05em; line-height: 2;
   text-align: center;
+  opacity: 0;
+  animation: footerFadeIn 0.8s ease-out 0.4s forwards;
 }
 
 .footerCopy {
