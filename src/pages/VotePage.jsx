@@ -658,7 +658,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
             </span>
           </div>
           <button
-            className={styles.mobileActionBtn}
+            className={[styles.mobileActionBtn, (walletAddress && selected !== null && !isVoting && (!hasVoted || parseInt(hasVoted) !== selected)) ? styles.readyToVote : ''].filter(Boolean).join(' ')}
             onClick={handleMobileCta}
             disabled={walletAddress ? mobileVoteDisabled : false}
           >
