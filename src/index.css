@@ -4,12 +4,8 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-.uppercase, 
-[style*="uppercase"]:not(style),
-h6, 
-.eyebrow,
-.overline {
-  letter-spacing: var(--letter-spacing-uppercase) !important;
+.title, .heroMicrocopy, .accent {
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
 :root {
