@@ -4,11 +4,14 @@ const WalletContext = createContext(null);
 
 export function WalletProvider({ children }) {
   const [walletAddress, setWalletAddress] = useState(null);
+  const [isConnecting, setIsConnecting] = useState(false);
 
   async function connectWallet() {
+    setIsConnecting(true);
     const provider = window.LeatherProvider || window.StacksProvider || window.XverseProviders?.StacksProvider;
     if (!provider) {
       alert('Please install Leather (leather.io) or Xverse (xverse.app) to continue.');
+      setIsConnecting(false);
       return null;
     }
     try {
@@ -19,12 +22,15 @@ export function WalletProvider({ children }) {
       );
       if (!stxAddr) {
         alert('Could not find STX address. Make sure your wallet is set to Mainnet.');
+        setIsConnecting(false);
         return null;
       }
       setWalletAddress(stxAddr.address);
+      setIsConnecting(false);
       return stxAddr.address;
     } catch (e) {
       console.error('Wallet connect error:', e);
+      setIsConnecting(false);
       return null;
     }
   }
@@ -34,7 +40,7 @@ export function WalletProvider({ children }) {
   }
 
   return (
-    <WalletContext.Provider value={{ walletAddress, connectWallet, disconnectWallet }}>
+    <WalletContext.Provider value={{ walletAddress, isConnecting, connectWallet, disconnectWallet }}>
       {children}
     </WalletContext.Provider>
   );

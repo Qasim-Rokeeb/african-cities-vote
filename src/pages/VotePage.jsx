@@ -45,6 +45,22 @@ function getYesterdayTrend(pollId, optionId) {
   return normalized - 4;
 }
 
+function buildSparklinePath(values) {
+  const width = 86;
+  const height = 20;
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const span = Math.max(1, max - min);
+
+  return values
+    .map((value, index) => {
+      const x = (index / (values.length - 1)) * width;
+      const y = height - ((value - min) / span) * height;
+      return `${index === 0 ? 'M' : 'L'}${x.toFixed(2)} ${y.toFixed(2)}`;
+    })
+    .join(' ');
+}
+
 export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, onPrev, onJumpToPoll }) {
   const { walletAddress, connectWallet } = useWallet();
 
@@ -53,10 +69,12 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
   const [selected,     setSelected]     = useState(null);
   const [hasVoted,     setHasVoted]     = useState(false);
   const [isVoting,     setIsVoting]     = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [status,       setStatus]       = useState({ msg: '', type: '' });
-  const [toast,        setToast]        = useState({ open: false, message: '' });
+  const [toast,        setToast]        = useState({ open: false, title: '', message: '', txid: '' });
   const [momentum,     setMomentum]     = useState({});
   const [compareIds,   setCompareIds]   = useState([]);
+  const [shakeConnect, setShakeConnect] = useState(false);
   const previousVotesRef = useRef(null);
 
   // ── Load votes ──────────────────────────────────────────────────────────────
@@ -111,9 +129,11 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
     return () => clearInterval(t);
   }, [loadVotes]);
 
-  function refreshNow() {
-    loadVotes();
+  async function refreshNow() {
+    setIsRefreshing(true);
+    await loadVotes();
     setRefreshIn(30);
+    setIsRefreshing(false);
   }
 
   // ── Check if wallet voted when wallet connects ──────────────────────────────
@@ -158,16 +178,16 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
         result?.id;
       if (txid) {
         setHasVoted(true);
-        setStatus({
-          msg: `✓ Vote cast! <a href="https://explorer.hiro.so/txid/${txid}?chain=mainnet" target="_blank" rel="noreferrer">View TX ↗</a> — confirms in ~10 min.`,
-          type: 'success',
-        });
+        setStatus({ msg: '', type: '' });
+        const selectedOption = poll.options.find(o => o.id === selected)?.label || 'selected option';
         setToast({
           open: true,
-          message: `Vote submitted for ${poll.options.find(o => o.id === selected)?.label || 'selected option'}!`,
+          title: 'Vote Recorded',
+          message: `${selectedOption} has been added on-chain.`,
+          txid,
         });
         setTimeout(() => {
-          setToast({ open: false, message: '' });
+          setToast({ open: false, title: '', message: '', txid: '' });
         }, 4200);
         setTimeout(loadVotes, 5000);
       } else {
@@ -225,6 +245,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
   const selectedLabel = poll.options.find(o => o.id === selected)?.label;
   const mobileVoteDisabled = !walletAddress || !selected || hasVoted || isVoting;
   const mobileCtaLabel = !walletAddress ? 'Connect Wallet' : btnLabel();
+  const showMobileSelectionBar = Boolean(selectedLabel) && !hasVoted;
 
   function handleMobileCta() {
     if (!walletAddress) {
@@ -245,6 +266,9 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
       return [...prev, optionId];
     });
   }
+
+  // Generate an ARIA live string for status
+  const ariaLiveStatus = status?.msg || '';
 
   const comparedOptions = compareIds
     .map(id => poll.options.find(opt => opt.id === id))
@@ -289,14 +313,20 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
                 ].join(' ')}
                 onClick={() => onJumpToPoll(idx)}
                 aria-current={isActive ? 'step' : undefined}
+                aria-label={`Jump to poll ${idx + 1}`}
               >
-                <span className={styles.timelineDot} />
+                <span className={styles.timelineDot} aria-hidden="true" />
                 <span className={styles.timelineText}>Poll {idx + 1}</span>
               </button>
             );
           })}
         </div>
       </aside>
+
+      {/* Screen Reader ARIA Live Region for Status Updates */}
+      <div aria-live="polite" aria-atomic="true" style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(1px, 1px, 1px, 1px)' }}>
+        {ariaLiveStatus}
+      </div>
 
       <div className={styles.container}>
 
@@ -324,27 +354,33 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
         </header>
 
         <div className={styles.liveRow}>
-          <span className={styles.livePill} title="Vote totals auto-refresh every 30 seconds">Votes refresh in {refreshIn}s</span>
-          <button className={styles.refreshBtn} onClick={refreshNow} title="Fetch latest vote totals now" aria-label="Refresh live vote totals">
-            Refresh Votes
+          <span className={styles.livePill} title="Vote totals auto-refresh every 30 seconds">
+            Votes refresh in <span className={styles.refreshDigit}>{refreshIn}</span>s
+          </span>
+          <button className={styles.refreshBtn} onClick={refreshNow} disabled={isRefreshing} title="Fetch latest vote totals now" aria-label="Refresh live vote totals">
+            {isRefreshing ? <span className={styles.refreshSpinner} aria-hidden="true" /> : 'Refresh Votes'}
           </button>
         </div>
 
         {/* Wallet connect */}
         {!walletAddress && (
           <div className={styles.walletPrompt}>
-            <button className={styles.connectBtn} onClick={connectWallet}>
+            <button 
+              className={`${styles.connectBtn} ${shakeConnect ? styles.shakeBtn : ''}`.trim()} 
+              onClick={connectWallet}
+            >
               Connect Wallet to Vote
             </button>
             <p className={styles.walletHint}>Requires Leather or Xverse wallet on Mainnet</p>
           </div>
         )}
 
-        {/* Options grid */}
         <div className={styles.grid}>
           {poll.options.map(opt => {
             const count = votes?.[opt.id] ?? 0;
             const pct   = total > 0 ? Math.round((count / total) * 100) : 0;
+            const displayCount = walletAddress ? count : '?';
+            const displayPct = walletAddress ? Math.round(pct) : '?';
             const isSelected = selected === opt.id;
             const momentumDelta = momentum[opt.id] ?? 0;
             const meterWidth = Math.min(Math.abs(momentumDelta) * 8, 100);
@@ -358,6 +394,14 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
             const yesterdayValue = `${yesterdayDelta > 0 ? '+' : ''}${yesterdayDelta}`;
             const isCompared = compareIds.includes(opt.id);
             const compareAtLimit = compareIds.length >= 3 && !isCompared;
+            const trendSeed = Math.max(0, count - Math.max(1, Math.abs(yesterdayDelta) * 2));
+            const trendBump = Math.max(0, trendSeed + Math.round(momentumDelta * 2));
+            const trendPoints = [trendSeed, Math.max(0, Math.round((trendSeed + count) / 2)), trendBump, count];
+            const sparklinePath = buildSparklinePath(trendPoints);
+            const inlineMeterWidth = Math.min(Math.abs(momentumDelta) * 14, 100);
+            const inlineMeterLabel = momentumDelta > 0
+              ? `+${momentumDelta.toFixed(1)} pp`
+              : `${momentumDelta.toFixed(1)} pp`;
 
             return (
               <div
@@ -369,6 +413,8 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
                 ].join(' ')}
                 onClick={() => !cardsDisabled && setSelected(opt.id)}
                 role="button"
+                aria-pressed={isSelected}
+                aria-disabled={cardsDisabled}
                 tabIndex={cardsDisabled ? -1 : 0}
                 onKeyDown={e => e.key === 'Enter' && !cardsDisabled && setSelected(opt.id)}
               >
@@ -396,12 +442,36 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
                   </span>
                 </div>
                 <div className={styles.optLabel}>{opt.label}</div>
+                <div className={styles.cityStatsStrip}>
+                  <div className={styles.sparklineWrap} aria-hidden="true">
+                    <svg viewBox="0 0 86 20" className={styles.sparkline} preserveAspectRatio="none">
+                      <path d={sparklinePath} className={styles.sparklinePath} />
+                    </svg>
+                  </div>
+                  <div className={styles.inlineMomentum}>
+                    <div className={styles.inlineMomentumTrack}>
+                      <div
+                        className={[
+                          styles.inlineMomentumFill,
+                          momentumDelta > 0 ? styles.inlineMomentumFillUp : '',
+                          momentumDelta < 0 ? styles.inlineMomentumFillDown : '',
+                        ].join(' ')}
+                        style={{ width: `${inlineMeterWidth}%` }}
+                      />
+                    </div>
+                    <span className={styles.inlineMomentumLabel}>{inlineMeterLabel}</span>
+                  </div>
+                </div>
                 <div className={styles.optionTagsRow}>
                   <div className={styles.optDetail}>{opt.detail}</div>
                   <span className={styles.cultureTag}>{meta.tag}</span>
                 </div>
                 <div className={[styles.optVotes, votes === null ? styles.loadingStat : ''].join(' ')}>
-                  {votes === null ? 'Loading votes...' : `${count} vote${count !== 1 ? 's' : ''}`}
+                  {walletAddress ? (
+                    votes === null ? 'Loading votes...' : `${count} vote${count !== 1 ? 's' : ''}`
+                  ) : (
+                    'Connect to view votes'
+                  )}
                 </div>
                 <div className={styles.miniTrendRow}>
                   <span
@@ -417,12 +487,13 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
                   <span className={styles.miniTrendLabel}>since yesterday</span>
                 </div>
                 <div className={styles.barBg}>
-                  <div
+                  {walletAddress && pct > 0 && <div
                     className={[styles.barFill, votes === null ? styles.barLoading : ''].join(' ')}
                     style={{ width: `${pct}%` }}
-                  />
+                  />}
                 </div>
-                {pct > 0 && <div className={styles.pct}>{pct}%</div>}
+                {walletAddress && pct > 0 && <div className={styles.pct}>{pct}%</div>}
+                {!walletAddress && <div className={styles.pct}>?%</div>}
 
                 <div className={styles.momentumWrap}>
                   <div className={styles.momentumHeader}>
@@ -460,11 +531,11 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
             <div className={styles.compareDrawerHead}>
               <div>
                 <p className={styles.compareDrawerLabel}>Compare Cities</p>
-                <h3 className={styles.compareDrawerTitle}>
+                <h2 className={styles.compareDrawerTitle}>
                   {compareIds.length < 2
                     ? 'Select at least 2 options to compare side-by-side'
                     : `Comparing ${compareIds.length} options`}
-                </h3>
+                </h2>
               </div>
               <button
                 type="button"
@@ -478,7 +549,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
             <div className={styles.compareGrid}>
               {comparedOptions.map(item => (
                 <article key={item.id} className={styles.compareCard}>
-                  <h4 className={styles.compareName}>{item.label}</h4>
+                  <h3 className={styles.compareName}>{item.label}</h3>
                   <p className={styles.compareCountry}>{item.meta.flag} {item.meta.country}</p>
                   <p className={styles.compareStat}>Population: <strong>{item.meta.population}</strong></p>
                   <p className={styles.compareStat}>Tag: <strong>{item.meta.tag}</strong></p>
@@ -546,17 +617,23 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
         </section>
 
         {/* Vote button */}
-        <button
-          className={[
-            styles.voteBtn,
-            walletAddress && selected && !hasVoted && !isVoting ? styles.readyToVote : '',
-          ].join(' ')}
-          onClick={castVote}
-          disabled={!walletAddress || !selected || hasVoted || isVoting}
+        <div 
+          className={styles.voteBtnWrapper}
+          onMouseEnter={() => !walletAddress && setShakeConnect(true)}
+          onMouseLeave={() => !walletAddress && setShakeConnect(false)}
         >
-          {isVoting && <span className={styles.buttonSpinner} aria-hidden="true" />}
-          <span>{btnLabel()}</span>
-        </button>
+          <button
+            className={[
+              styles.voteBtn,
+              walletAddress && selected && !hasVoted && !isVoting ? styles.readyToVote : '',
+            ].join(' ')}
+            onClick={castVote}
+            disabled={!walletAddress || !selected || hasVoted || isVoting}
+          >
+            {isVoting && <span className={styles.buttonSpinner} aria-hidden="true" />}
+            <span>{btnLabel()}</span>
+          </button>
+        </div>
 
         <p className={styles.voteMicrocopy}>One wallet can vote once per poll. Confirmed votes cannot be edited.</p>
 
@@ -564,8 +641,23 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
           Tip: review the live percentages above before you commit your final vote.
         </p>
 
-        <div className={styles.mobileActionBar}>
+        <div className={[
+          styles.mobileActionBar,
+          showMobileSelectionBar ? styles.mobileActionBarVisible : '',
+        ].join(' ')}>
           <div className={styles.mobileMetaRow}>
+            <p className={styles.mobileSelectionLabel}>Your Selection</p>
+            <span className={styles.mobileSelectedState}>Selected: {selectedLabel}</span>
+          </div>
+          <div className={styles.mobileActionRow}>
+            <button
+              type="button"
+              className={styles.mobileEditBtn}
+              onClick={() => setSelected(null)}
+              aria-label="Choose a different option"
+            >
+              Edit
+            </button>
             <span className={styles.mobileWalletState}>
               <span
                 className={[
@@ -575,17 +667,9 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
               />
               {walletAddress ? 'Wallet connected' : 'Wallet not connected'}
             </span>
-            <span
-              className={[
-                styles.mobileSelectedState,
-                selectedLabel ? '' : styles.mobileSelectedEmpty,
-              ].join(' ')}
-            >
-              {selectedLabel ? `Selected: ${selectedLabel}` : 'No option selected'}
-            </span>
           </div>
           <button
-            className={styles.mobileActionBtn}
+            className={[styles.mobileActionBtn, (walletAddress && selected !== null && !isVoting && (!hasVoted || parseInt(hasVoted) !== selected)) ? styles.readyToVote : ''].filter(Boolean).join(' ')}
             onClick={handleMobileCta}
             disabled={walletAddress ? mobileVoteDisabled : false}
           >
@@ -634,26 +718,29 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
 
         {toast.open && (
           <div className={styles.toast} role="status" aria-live="polite">
-            <div className={styles.toastTitle}>Vote Submitted</div>
+            <div className={styles.toastHead}>
+              <span className={styles.toastCheck} aria-hidden="true">✓</span>
+              <div>
+                <div className={styles.toastTitle}>{toast.title || 'Vote Submitted'}</div>
+                <div className={styles.toastSubtitle}>Success</div>
+              </div>
+            </div>
             <div className={styles.toastMessage}>{toast.message}</div>
             <div className={styles.toastActions}>
-              <button
-                type="button"
-                className={styles.toastActionBtn}
-                onClick={() => {
-                  setToast({ open: false, message: '' });
-                  setStatus({
-                    msg: 'Undo is not available for confirmed on-chain votes. Your transaction is permanent once submitted.',
-                    type: 'loading',
-                  });
-                }}
-              >
-                Undo?
-              </button>
+              {toast.txid && (
+                <a
+                  className={styles.toastActionBtn}
+                  href={`https://explorer.hiro.so/txid/${toast.txid}?chain=mainnet`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  View TX ↗
+                </a>
+              )}
               <button
                 type="button"
                 className={styles.toastDismissBtn}
-                onClick={() => setToast({ open: false, message: '' })}
+                onClick={() => setToast({ open: false, title: '', message: '', txid: '' })}
               >
                 Dismiss
               </button>

@@ -1,13 +1,59 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useWallet } from '../WalletContext';
+import { POLLS, fetchVoteCounts, mapVotesToOptions } from '../stacksUtils';
 import styles from './Navbar.module.css';
 
 export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
-  const { walletAddress, connectWallet, disconnectWallet } = useWallet();
+  const { walletAddress, isConnecting, connectWallet, disconnectWallet } = useWallet();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [recentVotes, setRecentVotes] = useState(0);
+  const [showLivePulse, setShowLivePulse] = useState(false);
+  const lastTotalVotesRef = useRef(null);
+  const voteDeltasRef = useRef([]);
+  const pulseTimerRef = useRef(null);
   const isHome = activePollIndex === -1;
   const locationLabel = isHome ? 'Home' : `Poll ${activePollIndex + 1}`;
   const progress = isHome ? 0 : Math.round(((activePollIndex + 1) / totalPolls) * 100);
+
+  const loadRecentVotes = useCallback(async () => {
+    try {
+      const totals = await Promise.all(
+        POLLS.map(async poll => {
+          const raw = await fetchVoteCounts(poll.id);
+          if (!raw) return null;
+          const mapped = mapVotesToOptions(raw, poll.options);
+          return Object.values(mapped).reduce((sum, votes) => sum + votes, 0);
+        })
+      );
+
+      if (totals.some(total => total == null)) return;
+
+      const now = Date.now();
+      const totalVotes = totals.reduce((sum, total) => sum + total, 0);
+      const previousTotal = lastTotalVotesRef.current;
+
+      let nextDeltas = voteDeltasRef.current.filter(entry => now - entry.at <= 60000);
+
+      if (previousTotal != null && totalVotes > previousTotal) {
+        const delta = totalVotes - previousTotal;
+        nextDeltas = [...nextDeltas, { at: now, count: delta }];
+
+        setShowLivePulse(true);
+        if (pulseTimerRef.current) {
+          clearTimeout(pulseTimerRef.current);
+        }
+        pulseTimerRef.current = setTimeout(() => {
+          setShowLivePulse(false);
+        }, 750);
+      }
+
+      voteDeltasRef.current = nextDeltas;
+      setRecentVotes(nextDeltas.reduce((sum, entry) => sum + entry.count, 0));
+      lastTotalVotesRef.current = totalVotes;
+    } catch {
+      // Keep last known values if live reads fail temporarily.
+    }
+  }, []);
 
   useEffect(() => {
     const onScroll = () => {
@@ -21,6 +67,18 @@ export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
       window.removeEventListener('scroll', onScroll);
     };
   }, []);
+
+  useEffect(() => {
+    loadRecentVotes();
+    const intervalId = setInterval(loadRecentVotes, 12000);
+
+    return () => {
+      clearInterval(intervalId);
+      if (pulseTimerRef.current) {
+        clearTimeout(pulseTimerRef.current);
+      }
+    };
+  }, [loadRecentVotes]);
 
   return (
     <nav className={`${styles.nav} ${isScrolled ? styles.navScrolled : ''}`.trim()}>
@@ -40,17 +98,37 @@ export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
         <div className={styles.progressTrack} aria-label="Voting flow progress">
           <div className={styles.progressFill} style={{ width: `${progress}%` }} />
         </div>
+        <div className={styles.liveVotes} aria-live="polite">
+          <span className={`${styles.liveDot} ${showLivePulse ? styles.liveDotActive : ''}`.trim()} aria-hidden="true" />
+          <span>{recentVotes} votes in last 60s</span>
+        </div>
       </div>
 
       <div className={styles.wallet}>
         {walletAddress ? (
-          <div className={styles.connected} onClick={disconnectWallet} title="Click to disconnect">
-            <span className={styles.dot} />
-            {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
-          </div>
+          <button className={styles.connected} onClick={disconnectWallet}>
+            <div 
+              className={styles.identicon}
+              style={{
+                background: `linear-gradient(135deg, #${walletAddress.substring(2, 8)} 0%, #${walletAddress.substring(walletAddress.length - 6)} 100%)`
+              }}
+              aria-hidden="true"
+            />
+            <span className={styles.addressText}>{walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}</span>
+            <span className={styles.disconnectText}>Disconnect</span>
+          </button>
         ) : (
-          <button className={styles.connectBtn} onClick={connectWallet}>
-            Connect Wallet
+          <button className={styles.connectBtn} onClick={connectWallet} disabled={isConnecting} aria-live="polite">
+            {isConnecting ? (
+              <>
+                <span className={styles.spinner} aria-hidden="true" />
+                <span style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(1px, 1px, 1px, 1px)' }}>
+                  Connecting wallet...
+                </span>
+              </>
+            ) : (
+              'Connect Wallet'
+            )}
           </button>
         )}
       </div>

@@ -36,9 +36,16 @@
   transition: transform 0.18s ease;
 }
 
-.brand:hover,
+.brand:hover {
+  transform: translateY(-1px);
+}
+
 .brand:focus-visible {
   transform: translateY(-1px);
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(232, 184, 75, 0.24);
+  border-radius: var(--radius-sm);
 }
 
 .brandActive {
@@ -122,6 +129,45 @@
   transition: width 0.25s ease;
 }
 
+.liveVotes {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(245, 224, 177, 0.92);
+}
+
+.liveDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(232, 184, 75, 0.7);
+  box-shadow: 0 0 0 0 rgba(232, 184, 75, 0.45);
+  animation: pulse 2s infinite;
+}
+
+.liveDotActive {
+  background: #ffd97a;
+  animation: votePing 0.75s ease;
+}
+
+@keyframes votePing {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 217, 122, 0.65);
+  }
+  70% {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 8px rgba(255, 217, 122, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 217, 122, 0);
+  }
+}
+
 @media (max-width: 400px) {
   .brandName { display: none; }
 }
@@ -149,28 +195,50 @@
 .wallet { display: flex; align-items: center; }
 
 .connectBtn {
-  background: linear-gradient(90deg, var(--earth), #d1984f);
+  background: var(--deep-2);
   color: var(--sand);
-  border: none;
+  border: 1px solid var(--earth);
   min-height: 40px;
   padding: 0 16px;
   font-family: var(--font-ui);
+  text-transform: uppercase;
   font-size: 12px;
   letter-spacing: 0.05em;
   cursor: pointer;
-  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  transition: all 0.2s ease;
   border-radius: var(--radius-sm);
 }
 
 .connectBtn:hover {
-  background: linear-gradient(90deg, var(--rust), #d06a3e);
+  background: var(--earth);
+  color: var(--deep);
   transform: translateY(-1px);
   box-shadow: 0 8px 18px rgba(184, 76, 30, 0.35);
 }
 
 .connectBtn:focus-visible {
-  outline: 2px solid rgba(232, 184, 75, 0.7);
+  outline: 2px solid var(--gold);
   outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(232, 184, 75, 0.24);
+}
+
+.connectBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(232, 184, 75, 0.3);
+  border-radius: 50%;
+  border-top-color: var(--gold);
+  animation: spin 0.8s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 .connected {
@@ -181,28 +249,56 @@
   color: var(--gold);
   cursor: pointer;
   padding: 6px 12px;
-  border: 1px solid rgba(232, 184, 75, 0.2);
+  border: 1px solid rgba(232, 184, 75, 0.3);
   background: rgba(232, 184, 75, 0.05);
   border-radius: var(--radius-sm);
-  transition: border-color 0.2s, transform 0.16s;
+  box-shadow: 0 0 0 1px rgba(232, 184, 75, 0.1) inset;
+  transition: border-color 0.2s, background-color 0.2s, transform 0.16s;
 }
 
 .connected:hover {
-  border-color: rgba(232, 184, 75, 0.5);
+  border-color: rgba(255, 107, 107, 0.5);
+  background: rgba(255, 107, 107, 0.05);
   transform: translateY(-1px);
 }
 
 .connected:focus-visible {
-  outline: 2px solid rgba(232, 184, 75, 0.7);
+  outline: 2px solid var(--gold);
   outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(232, 184, 75, 0.24);
 }
 
-.dot {
-  width: 7px;
-  height: 7px;
+.addressText {
+  display: block;
+}
+
+.disconnectText {
+  display: none;
+  font-weight: 500;
+  color: #ff6b6b; /* Red tint for disconnect */
+}
+
+.connected:hover .addressText {
+  display: none;
+}
+
+.connected:hover .disconnectText {
+  display: block;
+}
+
+.identicon {
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  background: var(--gold);
-  animation: pulse 2s infinite;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1), 0 0 0px 0px rgba(232, 184, 75, 0);
+  animation: identiconPulse 3s ease-in-out infinite;
+}
+
+@keyframes identiconPulse {
+  0%, 100% { box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1), 0 0 0px 0px rgba(232, 184, 75, 0); }
+  50% { box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1), 0 0 8px 1px rgba(232, 184, 75, 0.4); }
 }
 
 @keyframes pulse {
