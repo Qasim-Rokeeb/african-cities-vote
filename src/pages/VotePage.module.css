@@ -277,8 +277,9 @@
 }
 
 .refreshBtn:focus-visible {
-  outline: 2px solid rgba(163, 196, 171, 0.7);
+  outline: 2px solid rgba(163, 196, 171, 0.9);
   outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(163, 196, 171, 0.24);
 }
 
 .refreshBtn:disabled {
