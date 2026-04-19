@@ -682,6 +682,7 @@
   border: 1px solid rgba(232,184,75,0.35);
   border-radius: var(--radius-md);
   background: linear-gradient(140deg, rgba(232,184,75,0.12), rgba(26,16,8,0.72));
+  box-shadow: 0 12px 40px rgba(232, 184, 75, 0.08);
   padding: 14px;
   animation: fadeUp 0.35s ease both;
 }
