@@ -310,8 +310,9 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
                 ].join(' ')}
                 onClick={() => onJumpToPoll(idx)}
                 aria-current={isActive ? 'step' : undefined}
+                aria-label={`Jump to poll ${idx + 1}`}
               >
-                <span className={styles.timelineDot} />
+                <span className={styles.timelineDot} aria-hidden="true" />
                 <span className={styles.timelineText}>Poll {idx + 1}</span>
               </button>
             );
