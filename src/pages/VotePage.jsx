@@ -357,11 +357,12 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
           </div>
         )}
 
-        {/* Options grid */}
         <div className={styles.grid}>
           {poll.options.map(opt => {
             const count = votes?.[opt.id] ?? 0;
             const pct   = total > 0 ? Math.round((count / total) * 100) : 0;
+            const displayCount = walletAddress ? count : '?';
+            const displayPct = walletAddress ? Math.round(pct) : '?';
             const isSelected = selected === opt.id;
             const momentumDelta = momentum[opt.id] ?? 0;
             const meterWidth = Math.min(Math.abs(momentumDelta) * 8, 100);
@@ -446,7 +447,11 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
                   <span className={styles.cultureTag}>{meta.tag}</span>
                 </div>
                 <div className={[styles.optVotes, votes === null ? styles.loadingStat : ''].join(' ')}>
-                  {votes === null ? 'Loading votes...' : `${count} vote${count !== 1 ? 's' : ''}`}
+                  {walletAddress ? (
+                    votes === null ? 'Loading votes...' : `${count} vote${count !== 1 ? 's' : ''}`
+                  ) : (
+                    'Connect to view votes'
+                  )}
                 </div>
                 <div className={styles.miniTrendRow}>
                   <span
@@ -462,12 +467,13 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
                   <span className={styles.miniTrendLabel}>since yesterday</span>
                 </div>
                 <div className={styles.barBg}>
-                  <div
+                  {walletAddress && pct > 0 && <div
                     className={[styles.barFill, votes === null ? styles.barLoading : ''].join(' ')}
                     style={{ width: `${pct}%` }}
-                  />
+                  />}
                 </div>
-                {pct > 0 && <div className={styles.pct}>{pct}%</div>}
+                {walletAddress && pct > 0 && <div className={styles.pct}>{pct}%</div>}
+                {!walletAddress && <div className={styles.pct}>?%</div>}
 
                 <div className={styles.momentumWrap}>
                   <div className={styles.momentumHeader}>
