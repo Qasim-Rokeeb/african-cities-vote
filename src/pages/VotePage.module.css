@@ -205,6 +205,7 @@
   font-size: clamp(2.1rem, 5.8vw, 3.3rem);
   font-weight: 700; line-height: 1.1;
   color: var(--sand); margin-bottom: 10px;
+  text-wrap: balance;
 }
 
 .question { font-family: var(--font-body); font-size: 12px; color: #c6b7a3; line-height: 1.65; }
