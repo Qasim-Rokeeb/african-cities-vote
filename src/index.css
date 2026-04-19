@@ -1,4 +1,16 @@
+* {
+  --letter-spacing-uppercase: 0.05em;
+}
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+.uppercase, 
+[style*="uppercase"]:not(style),
+h6, 
+.eyebrow,
+.overline {
+  letter-spacing: var(--letter-spacing-uppercase) !important;
+}
 
 :root {
   --sand: #f0e6d3;
