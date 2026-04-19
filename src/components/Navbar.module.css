@@ -238,6 +238,24 @@
   outline-offset: 3px;
 }
 
+.addressText {
+  display: block;
+}
+
+.disconnectText {
+  display: none;
+  font-weight: 500;
+  color: #ff6b6b; /* Red tint for disconnect */
+}
+
+.connected:hover .addressText {
+  display: none;
+}
+
+.connected:hover .disconnectText {
+  display: block;
+}
+
 .identicon {
   width: 18px;
   height: 18px;

@@ -106,7 +106,7 @@ export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
 
       <div className={styles.wallet}>
         {walletAddress ? (
-          <div className={styles.connected} onClick={disconnectWallet} title="Click to disconnect">
+          <button className={styles.connected} onClick={disconnectWallet}>
             <div 
               className={styles.identicon}
               style={{
@@ -114,8 +114,9 @@ export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
               }}
               aria-hidden="true"
             />
-            {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
-          </div>
+            <span className={styles.addressText}>{walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}</span>
+            <span className={styles.disconnectText}>Disconnect</span>
+          </button>
         ) : (
           <button className={styles.connectBtn} onClick={connectWallet}>
             Connect Wallet
