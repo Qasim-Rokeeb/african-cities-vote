@@ -1351,11 +1351,19 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
 }
 
 .toastActionBtn:hover,
 .toastDismissBtn:hover {
-  background: rgba(255,255,255,0.55);
+  background: rgba(255,255,255,0.65);
+  border-color: rgba(26,16,8,0.4);
+}
+
+.toastActionBtn:active,
+.toastDismissBtn:active {
+  transform: scale(0.96);
+  background: rgba(255,255,255,0.45);
 }
 
 @keyframes toastCheckPop {
