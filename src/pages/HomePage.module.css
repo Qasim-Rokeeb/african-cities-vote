@@ -1001,6 +1001,7 @@
 .voteArrow {
   font-size: 13px; color: var(--earth); font-weight: 500;
   transition: color 0.2s, transform 0.2s;
+  padding-right: 4px;
 }
 
 .pollCard:hover .voteArrow {
