@@ -667,9 +667,9 @@
 }
 
 .searchInput:focus-visible {
-  outline: 2px solid rgba(232,184,75,0.55);
+  outline: 2px solid var(--gold);
   outline-offset: 2px;
-  border-color: rgba(232,184,75,0.5);
+  border-color: var(--gold);
   box-shadow: 0 0 0 3px rgba(232,184,75,0.14);
 }
 
