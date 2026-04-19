@@ -927,6 +927,7 @@
   line-height: 1.7;
   animation: fadeUp 0.3s ease;
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
 }
 .status a { 
   color: var(--gold); 
