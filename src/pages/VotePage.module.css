@@ -17,6 +17,7 @@
   background: linear-gradient(180deg, rgba(26,16,8,0.42), rgba(26,16,8,0.24));
   border: 1px solid var(--border-soft);
   box-shadow: var(--shadow-soft);
+  min-height: calc(100vh - 120px);
 }
 
 .timelineNav {
