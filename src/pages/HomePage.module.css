@@ -970,9 +970,16 @@
   font-size: 11px;
   padding: 4px 10px;
   background: rgba(94,143,132,0.16);
+  border: 1px solid transparent;
   color: #2f5e55;
   letter-spacing: 0.05em;
-  transition: background 0.2s ease, transform 0.16s ease;
+  border-radius: 999px;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.16s ease;
+}
+
+.pollCard:hover .optionTag {
+  border-color: rgba(94,143,132,0.3);
+  background: rgba(94,143,132,0.22);
 }
 
 .optionTag:hover {
