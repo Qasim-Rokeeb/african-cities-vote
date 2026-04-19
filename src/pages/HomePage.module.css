@@ -292,6 +292,11 @@
   color: var(--muted);
 }
 
+.cityLookupInput:hover {
+  border-color: rgba(232, 184, 75, 0.4);
+  background: rgba(20, 14, 8, 0.7);
+}
+
 .cityLookupInput:focus-visible {
   outline: none;
   border-color: var(--gold);
@@ -669,6 +674,11 @@
 
 .searchInput::placeholder {
   color: #baa88f;
+}
+
+.searchInput:hover {
+  border-color: rgba(232, 184, 75, 0.4);
+  background: rgba(20, 14, 8, 0.7);
 }
 
 .searchInput:focus-visible {
