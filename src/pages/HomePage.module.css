@@ -581,6 +581,13 @@
   max-width: 600px;
   margin-bottom: 24px;
   animation: fadeUp 0.5s ease 0.1s both;
+  transition: all 0.2s ease;
+  border-radius: var(--radius-sm);
+}
+
+.searchWrap:hover {
+  background: rgba(196, 129, 58, 0.03);
+  box-shadow: 0 4px 12px rgba(232, 184, 75, 0.05);
 }
 
 .filterChips {
