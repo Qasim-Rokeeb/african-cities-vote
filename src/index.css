@@ -68,6 +68,10 @@ body::before {
   background-size: 4px 4px;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.2;
+}
+
 a { color: var(--earth); text-decoration: none; }
 a:hover { color: var(--gold); }
 
