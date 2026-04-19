@@ -1170,6 +1170,7 @@
   color: var(--gold);
   margin-bottom: 6px;
   transition: transform 0.3s ease, text-shadow 0.3s ease;
+  text-wrap: balance;
 }
 
 .emptyState:hover .emptyStateTitle {
@@ -1184,6 +1185,7 @@
   max-width: 320px;
   margin: 0 auto;
   transition: color 0.3s ease;
+  text-wrap: pretty;
 }
 
 .emptyState:hover .emptyStateText {
