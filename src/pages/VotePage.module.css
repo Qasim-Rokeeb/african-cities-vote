@@ -366,7 +366,7 @@
 .optCard {
   background: var(--card); color: var(--deep);
   border: 1px solid var(--border-soft);
-  padding: 20px 18px 16px;
+  padding: 24px 24px 20px;
   cursor: pointer; position: relative; overflow: hidden;
   transition: border-color 0.2s, transform 0.24s ease, box-shadow 0.24s ease;
   user-select: none; outline: none;

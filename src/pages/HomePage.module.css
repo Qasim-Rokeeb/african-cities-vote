@@ -709,7 +709,7 @@
 .pollCard {
   background: var(--card);
   border: 2px solid transparent;
-  padding: 28px 24px 20px;
+  padding: 32px 32px 24px;
   cursor: pointer;
   transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
   position: relative;
