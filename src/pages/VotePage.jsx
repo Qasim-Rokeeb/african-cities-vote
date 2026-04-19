@@ -73,6 +73,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
   const [toast,        setToast]        = useState({ open: false, title: '', message: '', txid: '' });
   const [momentum,     setMomentum]     = useState({});
   const [compareIds,   setCompareIds]   = useState([]);
+  const [shakeConnect, setShakeConnect] = useState(false);
   const previousVotesRef = useRef(null);
 
   // ── Load votes ──────────────────────────────────────────────────────────────
@@ -350,7 +351,10 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
         {/* Wallet connect */}
         {!walletAddress && (
           <div className={styles.walletPrompt}>
-            <button className={styles.connectBtn} onClick={connectWallet}>
+            <button 
+              className={`${styles.connectBtn} ${shakeConnect ? styles.shakeBtn : ''}`.trim()} 
+              onClick={connectWallet}
+            >
               Connect Wallet to Vote
             </button>
             <p className={styles.walletHint}>Requires Leather or Xverse wallet on Mainnet</p>
@@ -597,17 +601,23 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
         </section>
 
         {/* Vote button */}
-        <button
-          className={[
-            styles.voteBtn,
-            walletAddress && selected && !hasVoted && !isVoting ? styles.readyToVote : '',
-          ].join(' ')}
-          onClick={castVote}
-          disabled={!walletAddress || !selected || hasVoted || isVoting}
+        <div 
+          className={styles.voteBtnWrapper}
+          onMouseEnter={() => !walletAddress && setShakeConnect(true)}
+          onMouseLeave={() => !walletAddress && setShakeConnect(false)}
         >
-          {isVoting && <span className={styles.buttonSpinner} aria-hidden="true" />}
-          <span>{btnLabel()}</span>
-        </button>
+          <button
+            className={[
+              styles.voteBtn,
+              walletAddress && selected && !hasVoted && !isVoting ? styles.readyToVote : '',
+            ].join(' ')}
+            onClick={castVote}
+            disabled={!walletAddress || !selected || hasVoted || isVoting}
+          >
+            {isVoting && <span className={styles.buttonSpinner} aria-hidden="true" />}
+            <span>{btnLabel()}</span>
+          </button>
+        </div>
 
         <p className={styles.voteMicrocopy}>One wallet can vote once per poll. Confirmed votes cannot be edited.</p>
 
