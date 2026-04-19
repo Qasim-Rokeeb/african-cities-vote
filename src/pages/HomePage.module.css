@@ -619,6 +619,10 @@
   transition: transform 0.16s, background 0.2s, border-color 0.2s;
 }
 
+.filterChip:active {
+  transform: scale(0.96) !important;
+}
+
 .filterChip:hover {
   transform: translateY(-1px);
   border-color: rgba(232,184,75,0.55);
