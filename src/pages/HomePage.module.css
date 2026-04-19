@@ -1128,6 +1128,14 @@
   padding: 24px 18px;
   font-size: 12px;
   text-align: center;
+  transition: all 0.3s ease;
+}
+
+.emptyState:hover {
+  border-color: rgba(196,129,58,0.6);
+  background: linear-gradient(145deg, rgba(26,16,8,0.7), rgba(26,16,8,0.9));
+  box-shadow: inset 0 8px 16px rgba(0,0,0,0.15), 0 8px 24px rgba(196,129,58,0.08);
+  transform: translateY(-2px);
 }
 
 .emptyStateArt {
