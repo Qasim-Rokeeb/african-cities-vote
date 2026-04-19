@@ -928,8 +928,10 @@
 
 .pollQuestion {
   font-family: var(--font-body);
-  font-size: 12px; color: var(--muted);
-  margin-bottom: 16px; line-height: 1.6;
+  font-size: 13px; 
+  color: rgba(198, 183, 163, 0.85);
+  margin-bottom: 16px; 
+  line-height: 1.6;
 }
 
 .pollOptions {
