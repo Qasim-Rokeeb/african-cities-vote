@@ -387,8 +387,9 @@
 
 .primaryHeroBtn:focus-visible,
 .secondaryHeroBtn:focus-visible {
-  outline: none;
-  box-shadow: var(--ring);
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(232, 184, 75, 0.24);
 }
 
 .statsStrip {
