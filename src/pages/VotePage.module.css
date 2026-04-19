@@ -1366,6 +1366,13 @@
   border-color: rgba(26,16,8,0.4);
 }
 
+.toastActionBtn:focus-visible,
+.toastDismissBtn:focus-visible {
+  outline: 2px solid var(--deep);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(26, 16, 8, 0.15);
+}
+
 .toastActionBtn:active,
 .toastDismissBtn:active {
   transform: scale(0.96);
