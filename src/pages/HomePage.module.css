@@ -1087,6 +1087,12 @@
   border-color: rgba(212,175,55,0.4);
 }
 
+.footerLinks a:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(232, 184, 75, 0.24);
+}
+
 .footerHandles {
   display: flex;
   flex-wrap: wrap;
@@ -1098,7 +1104,14 @@
 
 .footerHandles a {
   color: #b6a088;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, outline 0.2s;
+  border-radius: 4px;
+}
+
+.footerHandles a:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(232, 184, 75, 0.24);
 }
 
 .footerHandles a:hover {
