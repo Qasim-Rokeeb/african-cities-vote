@@ -966,7 +966,7 @@
   font-family: var(--font-display);
   font-size: 1.05rem; font-weight: 700;
   cursor: pointer; letter-spacing: 0.02em;
-  transition: background 0.2s, color 0.2s, transform 0.15s;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
   border-radius: var(--radius-sm);
   margin-bottom: 28px;
   animation: fadeUp 0.4s ease 0.25s both;
