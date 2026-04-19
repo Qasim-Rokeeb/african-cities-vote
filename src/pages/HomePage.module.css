@@ -658,9 +658,10 @@
 }
 
 .sortSelect:focus-visible {
-  outline: none;
-  border-color: rgba(232,184,75,0.55);
+  outline: 2px solid var(--gold);
+  border-color: var(--gold);
   box-shadow: 0 0 0 3px rgba(232,184,75,0.16);
+  outline-offset: 2px;
 }
 
 .searchWrap::before {
