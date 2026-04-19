@@ -4,7 +4,7 @@ import { POLLS, fetchVoteCounts, mapVotesToOptions } from '../stacksUtils';
 import styles from './Navbar.module.css';
 
 export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
-  const { walletAddress, connectWallet, disconnectWallet } = useWallet();
+  const { walletAddress, isConnecting, connectWallet, disconnectWallet } = useWallet();
   const [isScrolled, setIsScrolled] = useState(false);
   const [recentVotes, setRecentVotes] = useState(0);
   const [showLivePulse, setShowLivePulse] = useState(false);
@@ -118,8 +118,12 @@ export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
             <span className={styles.disconnectText}>Disconnect</span>
           </button>
         ) : (
-          <button className={styles.connectBtn} onClick={connectWallet}>
-            Connect Wallet
+          <button className={styles.connectBtn} onClick={connectWallet} disabled={isConnecting}>
+            {isConnecting ? (
+              <span className={styles.spinner} aria-hidden="true" />
+            ) : (
+              'Connect Wallet'
+            )}
           </button>
         )}
       </div>
