@@ -123,6 +123,7 @@ export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
               aria-hidden="true"
             />
             <span className={styles.addressText}>
+                <span className={styles.connectionDot} title="Connected" aria-hidden="true" />
                 {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
                 <span className={styles.copyIcon} onClick={handleCopy} title="Copy Address">
                   {copied ? '✓' : '📋'}
