@@ -104,6 +104,11 @@ a:hover { color: var(--gold); }
   box-shadow: 0 0 0 4px rgba(232, 184, 75, 0.24);
 }
 
+::-moz-selection {
+  background: rgba(232, 184, 75, 0.3);
+  color: var(--sand);
+}
+
 ::selection {
   background: rgba(232, 184, 75, 0.3);
   color: var(--sand);
