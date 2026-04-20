@@ -81,18 +81,24 @@ function OdometerCounter({ value, suffix = '', ariaLabel }) {
   return (
     <span className={styles.odometer} aria-label={ariaLabel}>
       <span className={styles.odometerDigits}>
-        {digits.map((digit, i) => (
-          <span className={styles.odometerWindow} key={i}>
-            <span
-              className={styles.odometerTrack}
-              style={{ transform: `translateY(-${Number(digit) * 1.1}em)` }}
-            >
-              {Array.from({ length: 10 }).map((_, n) => (
-                <span key={n} className={styles.odometerDigit}>{n}</span>
-              ))}
+        {digits.map((digit, i) => {
+          const digitVal = Number(digit);
+          return (
+            <span className={styles.odometerWindow} key={i}>
+              <span
+                className={styles.odometerTrack}
+                style={{ 
+                  transform: `translateY(-${digitVal * 1.1}em)`,
+                  transition: 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)' 
+                }}
+              >
+                {Array.from({ length: 10 }).map((_, n) => (
+                  <span key={n} className={styles.odometerDigit}>{n}</span>
+                ))}
+              </span>
             </span>
-          </span>
-        ))}
+          );
+        })}
       </span>
       {suffix && <span className={styles.odometerSuffix}>{suffix}</span>}
     </span>
