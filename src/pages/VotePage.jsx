@@ -419,6 +419,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
                 aria-disabled={cardsDisabled}
                 tabIndex={cardsDisabled ? -1 : 0}
                 onKeyDown={e => e.key === 'Enter' && !cardsDisabled && setSelected(opt.id)}
+                title={!walletAddress ? 'Connect wallet to vote' : ''}
               >
                 <div className={styles.optionMetaHeader}>
                   <span className={styles.optionIcon} aria-hidden="true">{meta.icon}</span>
@@ -623,6 +624,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
           className={styles.voteBtnWrapper}
           onMouseEnter={() => !walletAddress && setShakeConnect(true)}
           onMouseLeave={() => !walletAddress && setShakeConnect(false)}
+          title={!walletAddress ? 'Connect wallet to vote' : ''}
         >
           <button
             className={[
@@ -631,6 +633,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
             ].join(' ')}
             onClick={castVote}
             disabled={!walletAddress || !selected || hasVoted || isVoting}
+            title={!walletAddress ? 'Connect wallet to vote' : ''}
           >
             {isVoting && <div className={styles.buttonSpinner} aria-hidden="true" />}
             {isVoting ? 'Voting...' : <span>{btnLabel()}</span>}
@@ -674,6 +677,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
             className={[styles.mobileActionBtn, (walletAddress && selected !== null && !isVoting && (!hasVoted || parseInt(hasVoted) !== selected)) ? styles.readyToVote : ''].filter(Boolean).join(' ')}
             onClick={handleMobileCta}
             disabled={walletAddress ? mobileVoteDisabled : false}
+            title={!walletAddress ? 'Connect wallet to vote' : ''}
           >
             {isVoting && <span className={styles.buttonSpinner} aria-hidden="true" />}
             <span>{mobileCtaLabel}</span>
