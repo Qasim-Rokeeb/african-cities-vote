@@ -401,6 +401,12 @@
   background: rgba(232,184,75,0.24);
 }
 
+.primaryHeroBtn:active,
+.secondaryHeroBtn:active {
+  transform: translateY(1px) scale(0.96);
+  transition: transform 0.1s ease;
+}
+
 .primaryHeroBtn:hover {
   background: linear-gradient(90deg, #ffe399, #ffd064);
   border-color: rgba(255, 227, 153, 0.95);
