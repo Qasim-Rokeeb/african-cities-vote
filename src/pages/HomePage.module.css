@@ -481,6 +481,13 @@
   padding: 8px;
   display: grid;
   gap: 3px;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.2s ease, border-color 0.2s ease;
+}
+
+.leaderItem:hover {
+  transform: translateY(-2px);
+  background: rgba(38,24,13,0.7);
+  border-color: rgba(232, 184, 75, 0.4);
 }
 
 .leaderRank {
