@@ -148,6 +148,15 @@ button:active {
   transform: scale(0.98);
 }
 
+button:disabled,
+input:disabled,
+select:disabled,
+[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 ::-moz-selection {
   background: rgba(232, 184, 75, 0.3);
   color: var(--sand);
