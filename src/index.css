@@ -99,6 +99,13 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.2;
 }
 
+.flex-gap-2 { display: flex; gap: var(--space-2); }
+.flex-gap-3 { display: flex; gap: var(--space-3); }
+.flex-gap-4 { display: flex; gap: var(--space-4); }
+
+.grid-gap-3 { display: grid; gap: var(--space-3); }
+.grid-gap-4 { display: grid; gap: var(--space-4); }
+
 p {
   line-height: 1.6;
   max-width: 65ch;
