@@ -70,7 +70,9 @@
 
 .brand:hover .brandIcon,
 .brand:focus-visible .brandIcon {
-  transform: rotate(-8deg) scale(1.04);
+  transform: rotate(-10deg) scale(1.08);
+  border-color: rgba(232,184,75,0.7);
+  box-shadow: 0 0 12px rgba(232,184,75,0.25);
 }
 
 .brandName {
