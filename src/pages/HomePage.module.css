@@ -973,6 +973,25 @@
   color: var(--deep);
   background: linear-gradient(90deg, #ffd97a, #ffcb55);
   border: 1px solid rgba(255,217,122,0.85);
+  position: relative;
+  overflow: hidden;
+}
+
+.pollVoteBadge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transform: skewX(-20deg);
+  animation: shimmerBadge 3s infinite linear;
+}
+
+@keyframes shimmerBadge {
+  0% { left: -100%; }
+  20%, 100% { left: 200%; }
 }
 
 .pollNumber {
