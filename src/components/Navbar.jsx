@@ -6,6 +6,7 @@ import styles from './Navbar.module.css';
 export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
   const { walletAddress, isConnecting, connectWallet, disconnectWallet } = useWallet();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [copied, setCopied] = useState(false);
   const [recentVotes, setRecentVotes] = useState(0);
   const [showLivePulse, setShowLivePulse] = useState(false);
   const lastTotalVotesRef = useRef(null);
@@ -14,6 +15,13 @@ export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
   const isHome = activePollIndex === -1;
   const locationLabel = isHome ? 'Home' : `Poll ${activePollIndex + 1}`;
   const progress = isHome ? 0 : Math.round(((activePollIndex + 1) / totalPolls) * 100);
+
+  const handleCopy = (e) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(walletAddress);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   const loadRecentVotes = useCallback(async () => {
     try {
@@ -114,7 +122,12 @@ export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
               }}
               aria-hidden="true"
             />
-            <span className={styles.addressText}>{walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}</span>
+            <span className={styles.addressText}>
+                {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+                <span className={styles.copyIcon} onClick={handleCopy} title="Copy Address">
+                  {copied ? '✓' : '📋'}
+                </span>
+            </span>
             <span className={styles.disconnectText}>Disconnect</span>
           </button>
         ) : (
