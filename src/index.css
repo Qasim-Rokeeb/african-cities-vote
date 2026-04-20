@@ -142,6 +142,7 @@ button {
   outline: 2px solid rgba(232, 184, 75, 0.9);
   outline-offset: 3px;
   box-shadow: 0 0 0 4px rgba(232, 184, 75, 0.24);
+  transition: outline 0.1s ease, box-shadow 0.1s ease;
 }
 
 button {
