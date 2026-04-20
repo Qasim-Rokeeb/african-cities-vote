@@ -998,7 +998,8 @@
   justify-content: center;
   gap: 8px;
   width: 100%;
-  background: var(--gold); color: var(--deep);
+  background: var(--gold); 
+  color: var(--deep);
   border: none;
   min-height: 52px;
   padding: 0 24px;
@@ -1009,6 +1010,46 @@
   border-radius: var(--radius-sm);
   margin-bottom: 28px;
   animation: fadeUp 0.4s ease 0.25s both;
+}
+
+.voteBtn:hover:not(:disabled) { background: var(--earth); color: var(--sand); transform: translateY(-2px); }
+.voteBtn:active:not(:disabled) { transform: translateY(0); }
+.voteBtn:disabled { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
+.voteBtn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(232, 184, 75, 0.24);
+}
+
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--muted-text);
+  border: 1px solid var(--border-strong);
+  min-height: 44px;
+  padding: 0 20px;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: var(--radius-sm);
+}
+
+.backBtn:hover:not(:disabled) { 
+  background: rgba(196,129,58,0.1); 
+  color: var(--sand); 
+  border-color: var(--earth);
+  transform: translateY(-1px); 
+}
+
+.backBtn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
 }
 
 .voteHint {
