@@ -460,19 +460,19 @@ export default function HomePage({ onSelectPoll }) {
           <div className={styles.statCard}>
             <span className={styles.statLabel}>Total On-chain Votes</span>
             <strong className={`${styles.statValue} ${votePulse ? styles.statValuePulse : ''}`.trim()}>
-              <OdometerCounter value={totalVotes} ariaLabel={`${totalVotes} total on-chain votes`} />
+              {isLoadingVotes ? <div className={`${styles.skeletonBlock} ${styles.skeletonStatText}`} /> : <OdometerCounter value={totalVotes} ariaLabel={`${totalVotes} total on-chain votes`} />}
             </strong>
           </div>
           <div className={styles.statCard}>
             <span className={styles.statLabel}>Live Participation</span>
             <strong className={styles.statValue}>
-              <OdometerCounter value={liveParticipation} suffix="%" ariaLabel={`${liveParticipation} percent live participation`} />
+              {isLoadingVotes ? <div className={`${styles.skeletonBlock} ${styles.skeletonStatText}`} /> : <OdometerCounter value={liveParticipation} suffix="%" ariaLabel={`${liveParticipation} percent live participation`} />}
             </strong>
           </div>
           <div className={styles.statCard}>
             <span className={styles.statLabel}>Total Votes Today</span>
             <strong className={styles.statValue}>
-              <OdometerCounter value={votesToday} ariaLabel={`${votesToday} total votes today`} />
+              {isLoadingVotes ? <div className={`${styles.skeletonBlock} ${styles.skeletonStatText}`} /> : <OdometerCounter value={votesToday} ariaLabel={`${votesToday} total votes today`} />}
             </strong>
           </div>
           <div className={styles.statCard}>
@@ -481,17 +481,25 @@ export default function HomePage({ onSelectPoll }) {
           </div>
         </div>
 
-        {cityLeaders.length > 0 && (
+        {(isLoadingVotes || cityLeaders.length > 0) && (
           <section className={styles.leaderboardStrip} aria-label="Top 3 city leaderboard">
             <p className={styles.leaderboardLabel}>Top 3 Cities</p>
             <div className={styles.leaderboardRow}>
-              {cityLeaders.map((city, i) => (
-                <div key={city.id} className={styles.leaderItem}>
-                  <span className={styles.leaderRank}>#{i + 1}</span>
-                  <span className={styles.leaderName}>{city.label}</span>
-                  <span className={styles.leaderVotes}>{city.votes} vote{city.votes !== 1 ? 's' : ''}</span>
-                </div>
-              ))}
+              {isLoadingVotes ? (
+                Array.from({ length: 3 }).map((_, i) => (
+                  <div key={`leader-skeleton-${i}`} className={styles.leaderItem}>
+                    <div className={`${styles.skeletonBlock} ${styles.skeletonStatText}`} style={{ width: '120px' }} />
+                  </div>
+                ))
+              ) : (
+                cityLeaders.map((city, i) => (
+                  <div key={city.id} className={styles.leaderItem}>
+                    <span className={styles.leaderRank}>#{i + 1}</span>
+                    <span className={styles.leaderName}>{city.name}</span>
+                    <span className={styles.leaderVotes}>{city.votes.toLocaleString()} votes</span>
+                  </div>
+                ))
+              )}
             </div>
           </section>
         )}
