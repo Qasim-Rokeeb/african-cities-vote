@@ -121,7 +121,11 @@ p {
   max-width: 65ch;
 }
 
-a { color: var(--earth); text-decoration: none; }
+a { 
+  color: var(--earth); 
+  text-decoration: none; 
+  transition: all 0.2s ease-in-out;
+}
 a:hover { color: var(--gold); }
 
 button {
