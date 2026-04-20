@@ -78,6 +78,10 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.2;
 }
 
+p {
+  line-height: 1.6;
+}
+
 a { color: var(--earth); text-decoration: none; }
 a:hover { color: var(--gold); }
 
