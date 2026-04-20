@@ -161,10 +161,23 @@
   font-size: 13px; cursor: pointer;
   transition: color 0.2s, transform 0.2s;
   padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.backBtn::before {
+  content: '←';
+  opacity: 0;
+  transform: translateX(10px);
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .backBtn:hover { 
   color: var(--sand); 
   transform: translateX(-3px);
+}
+.backBtn:hover::before {
+  opacity: 1;
+  transform: translateX(0);
 }
 .backBtn:focus-visible {
   outline: 2px solid var(--gold);
