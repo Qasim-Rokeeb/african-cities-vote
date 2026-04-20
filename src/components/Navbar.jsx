@@ -113,6 +113,7 @@ export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
       </div>
 
       <div className={styles.wallet}>
+        <div className={styles.networkBadge}>Testnet</div>
         {walletAddress ? (
           <button className={styles.connected} onClick={disconnectWallet}>
             <div 

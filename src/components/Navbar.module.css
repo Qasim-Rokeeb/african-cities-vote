@@ -192,7 +192,20 @@
   }
 }
 
-.wallet { display: flex; align-items: center; }
+.wallet { display: flex; align-items: center; gap: 12px; }
+
+.networkBadge {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 8px;
+  background: rgba(94, 143, 132, 0.15);
+  border: 1px solid rgba(94, 143, 132, 0.4);
+  color: var(--accent-cool);
+  border-radius: var(--radius-sm);
+  user-select: none;
+}
 
 .connectBtn {
   background: var(--deep-2);
