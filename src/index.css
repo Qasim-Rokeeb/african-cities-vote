@@ -148,6 +148,10 @@ button:active {
   transform: scale(0.98);
 }
 
+body.is-loading-tx {
+  cursor: wait !important;
+}
+
 button:disabled,
 input:disabled,
 select:disabled,

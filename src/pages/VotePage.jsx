@@ -155,6 +155,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
 
     setIsVoting(true);
     setStatus({ msg: `Opening wallet to vote for "${selected}"...`, type: 'loading' });
+    document.body.classList.add('is-loading-tx');
 
     try {
       const fnArg = encodeStringAsciiCV(selected);
@@ -210,6 +211,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
       });
     } finally {
       setIsVoting(false);
+      document.body.classList.remove('is-loading-tx');
     }
   }
 
