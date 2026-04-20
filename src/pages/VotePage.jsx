@@ -632,8 +632,8 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
             onClick={castVote}
             disabled={!walletAddress || !selected || hasVoted || isVoting}
           >
-            {isVoting && <span className={styles.buttonSpinner} aria-hidden="true" />}
-            <span>{btnLabel()}</span>
+            {isVoting && <div className={styles.buttonSpinner} aria-hidden="true" />}
+            {isVoting ? 'Voting...' : <span>{btnLabel()}</span>}
           </button>
         </div>
 
