@@ -1,4 +1,4 @@
-.page { min-height: 100vh; position: relative; overflow: hidden; }
+.page { min-height: 100vh; position: relative; overflow: hidden; animation: fadeIn 0.6s ease-out forwards; }
 
 .page::before {
   content: '';

@@ -2,6 +2,11 @@
   --letter-spacing-uppercase: 0.05em;
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 .title, .heroMicrocopy, .accent {
