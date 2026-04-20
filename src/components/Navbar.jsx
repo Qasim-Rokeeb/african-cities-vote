@@ -116,7 +116,7 @@ export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
         </div>
         <div className={styles.liveVotes} aria-live="polite">
           <span className={`${styles.liveDot} ${showLivePulse ? styles.liveDotActive : ''}`.trim()} aria-hidden="true" />
-          <span>{recentVotes} votes in last 60s</span>
+          <span>{recentVotes.toLocaleString()} votes in last 60s</span>
         </div>
       </div>
 
