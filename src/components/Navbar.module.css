@@ -244,6 +244,11 @@
   box-shadow: 0 8px 18px rgba(184, 76, 30, 0.35);
 }
 
+.connectBtn:active {
+  transform: translateY(1px) scale(0.96);
+  box-shadow: 0 2px 4px rgba(184, 76, 30, 0.25);
+}
+
 .connectBtn:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 3px;
