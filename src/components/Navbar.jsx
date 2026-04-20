@@ -8,6 +8,7 @@ export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [copied, setCopied] = useState(false);
   const [recentVotes, setRecentVotes] = useState(0);
+  const [isDisconnecting, setIsDisconnecting] = useState(false);
   const [showLivePulse, setShowLivePulse] = useState(false);
   const lastTotalVotesRef = useRef(null);
   const voteDeltasRef = useRef([]);
@@ -21,6 +22,13 @@ export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
     navigator.clipboard.writeText(walletAddress);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleDisconnect = async () => {
+    if (isDisconnecting) return;
+    setIsDisconnecting(true);
+    await disconnectWallet();
+    setIsDisconnecting(false);
   };
 
   const loadRecentVotes = useCallback(async () => {
@@ -115,7 +123,7 @@ export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
       <div className={styles.wallet}>
         <div className={styles.networkBadge}>Testnet</div>
         {walletAddress ? (
-          <button className={styles.connected} onClick={disconnectWallet}>
+          <button className={styles.connected} onClick={handleDisconnect} disabled={isDisconnecting}>
             <div 
               className={styles.identicon}
               style={{
