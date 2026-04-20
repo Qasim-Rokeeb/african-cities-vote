@@ -63,7 +63,16 @@
   text-overflow: ellipsis;
 }
 
-html, body, #root { min-height: 100vh; }
+html, body, #root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  padding-bottom: 64px;
+}
 html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--nav-h) + 20px);
