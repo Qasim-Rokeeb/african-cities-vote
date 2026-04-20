@@ -269,7 +269,20 @@
 }
 
 .addressText {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.copyIcon {
+  font-size: 14px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.copyIcon:hover {
+  opacity: 1;
 }
 
 .disconnectText {
