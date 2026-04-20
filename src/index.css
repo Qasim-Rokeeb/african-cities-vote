@@ -56,6 +56,12 @@
   letter-spacing: var(--letter-spacing-uppercase, 0.05em);
 }
 
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 html, body, #root { min-height: 100vh; }
 html {
   scroll-behavior: smooth;
