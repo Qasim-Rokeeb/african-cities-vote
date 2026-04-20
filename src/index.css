@@ -161,6 +161,25 @@ select:disabled,
   pointer-events: none;
 }
 
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--rust);
+  color: var(--sand);
+  padding: 12px 20px;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-strong);
+  z-index: 9999;
+  font-weight: 500;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 ::-moz-selection {
   background: rgba(232, 184, 75, 0.3);
   color: var(--sand);
