@@ -205,6 +205,19 @@
   color: var(--accent-cool);
   border-radius: var(--radius-sm);
   user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.networkBadge::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background-color: var(--accent-cool);
+  border-radius: 50%;
+  animation: pulseDot 3s infinite ease-out;
 }
 
 .connectBtn {
