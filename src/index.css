@@ -12,6 +12,23 @@
   color: var(--deep);
 }
 
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--deep);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--muted);
+  border-radius: var(--radius-sm, 8px);
+  border: 2px solid var(--deep);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--earth);
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
