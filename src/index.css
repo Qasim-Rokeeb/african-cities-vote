@@ -12,6 +12,11 @@
   color: var(--deep);
 }
 
+/* Custom Text Caret */
+input, textarea, [contenteditable="true"] {
+  caret-color: var(--gold);
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
