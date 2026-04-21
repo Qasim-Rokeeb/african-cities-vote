@@ -18,6 +18,18 @@
   border-radius: var(--radius-md);
   border: 1px solid var(--border-soft);
   transition: top 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  animation: navDropIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes navDropIn {
+  from {
+    transform: translateY(-100%) scale(0.98);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
 }
 
 .navScrolled {
