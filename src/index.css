@@ -176,8 +176,20 @@ p {
   max-width: 65ch;
 }
 
+hr {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg, 
+    transparent 0%, 
+    rgba(232, 184, 75, 0.4) 50%, 
+    transparent 100%
+  );
+  margin: var(--space-6) 0;
+}
+
 a { 
-  color: var(--earth); 
+  color: var(--earth);  
   text-decoration: none; 
   transition: all 0.2s ease-in-out;
   position: relative;
