@@ -137,8 +137,9 @@ body::before {
   background-size: 4px 4px;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, .title, .font-cinzel {
   line-height: 1.2;
+  letter-spacing: 0.03em;
 }
 
 .flex-gap-2 { display: flex; gap: var(--space-2); }
