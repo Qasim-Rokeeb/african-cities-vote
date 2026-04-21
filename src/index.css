@@ -175,8 +175,28 @@ a {
   color: var(--earth); 
   text-decoration: none; 
   transition: all 0.2s ease-in-out;
+  position: relative;
 }
+
+/* Base animated underline for non-button links */
+a:not([class])::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--gold);
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
 a:hover { color: var(--gold); }
+a:not([class]):hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
 
 button {
   min-height: 44px;
