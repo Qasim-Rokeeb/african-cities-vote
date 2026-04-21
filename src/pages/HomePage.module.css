@@ -836,8 +836,8 @@
 }
 
 .pollCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 48px rgba(0,0,0,0.3), 0 8px 16px rgba(196,129,58,0.12);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-strong), 0 8px 16px rgba(196,129,58,0.12);
   border-color: rgba(196,129,58,0.4);
 }
 
