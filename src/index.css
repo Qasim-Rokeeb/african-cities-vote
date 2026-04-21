@@ -3,13 +3,15 @@
 }
 
 ::selection {
-  background-color: var(--gold);
-  color: var(--deep);
+  background-color: rgba(232, 184, 75, 0.4);
+  color: var(--sand);
+  text-shadow: 0 0 8px rgba(232, 184, 75, 0.5);
 }
 
 ::-moz-selection {
-  background-color: var(--gold);
-  color: var(--deep);
+  background-color: rgba(232, 184, 75, 0.4);
+  color: var(--sand);
+  text-shadow: 0 0 8px rgba(232, 184, 75, 0.5);
 }
 
 /* Custom Text Caret */
