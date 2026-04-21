@@ -2,6 +2,16 @@
   --letter-spacing-uppercase: 0.05em;
 }
 
+::selection {
+  background-color: var(--gold);
+  color: var(--deep);
+}
+
+::-moz-selection {
+  background-color: var(--gold);
+  color: var(--deep);
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
