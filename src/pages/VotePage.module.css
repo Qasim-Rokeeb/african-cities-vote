@@ -445,14 +445,31 @@
 }
 
 .optCard {
-  background: var(--card); color: var(--deep);
-  border: 1px solid var(--border-soft);
+  background: rgba(250, 245, 236, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(232, 184, 75, 0.15);
   padding: 24px 24px 20px;
-  cursor: pointer; position: relative; overflow: hidden;
-  transition: border-color 0.2s, transform 0.24s ease, box-shadow 0.24s ease;
-  user-select: none; outline: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  user-select: none;
+  outline: none;
   border-radius: var(--radius-md);
   animation: fadeUp 0.4s ease backwards;
+  isolation: isolate;
+}
+
+.optCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(125deg, transparent 40%, rgba(232, 184, 75, 0.08) 50%, transparent 60%);
+  background-size: 200% 200%;
+  animation: glassBorder 6s linear infinite;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .optCard:nth-child(1) { animation-delay: 0.1s; }
@@ -468,25 +485,13 @@
   transform-origin: left; transition: transform 0.25s;
 }
 
-.optCard::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 16% 0%, rgba(232,184,75,0.2), transparent 58%);
-  opacity: 0;
-  transition: opacity 0.24s ease;
-  pointer-events: none;
-}
-
 .optCard:hover:not(.disabled), .optCard:focus:not(.disabled) {
-  border-color: var(--border-strong);
-  transform: translateY(-6px);
-  box-shadow: 0 18px 36px rgba(196,129,58,0.24), 0 6px 16px rgba(26,16,8,0.22);
-}
-
-.optCard:active:not(.disabled) {
-  transform: translateY(-2px) scale(0.98);
-  box-shadow: 0 8px 16px rgba(196,129,58,0.18), 0 4px 8px rgba(26,16,8,0.15);
+  border-color: rgba(232, 184, 75, 0.4);
+  transform: translateY(-6px) scale(1.02);
+  background: rgba(250, 245, 236, 0.06);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(232, 184, 75, 0.2) inset;
 }
 
 .optCard:focus-visible:not(.disabled) {
@@ -1532,4 +1537,10 @@
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+@keyframes glassBorder {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
