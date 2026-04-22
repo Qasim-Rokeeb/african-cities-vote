@@ -54,6 +54,8 @@ input, textarea, [contenteditable="true"] {
   --deep-2: #2a190d;
   --rust: #b84c1e;
   --gold: #e8b84b;
+  --primary: var(--gold);
+  --primary-hover: #ffd97a;
   --accent-cool: #5e8f84;
   --muted: #7a6550;
   --muted-text: #dfceba;
