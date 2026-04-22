@@ -656,6 +656,7 @@ export default function HomePage({ onSelectPoll }) {
             ))}
           </select>
         </div>
+        </div>
 
         <div id="poll-grid" className={styles.grid}>
           {isLoadingVotes && Array.from({ length: 4 }).map((_, i) => (
