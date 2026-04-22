@@ -725,10 +725,19 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
         {toast.open && (
           <div className={styles.toast} role="status" aria-live="polite">
             <div className={styles.toastHead}>
-              <span className={styles.toastCheck} aria-hidden="true">✓</span>
+              <div className={styles.cubeWrap}>
+                <div className={styles.cube}>
+                  <div className={styles.cubeFace} />
+                  <div className={styles.cubeFace} />
+                  <div className={styles.cubeFace} />
+                  <div className={styles.cubeFace} />
+                  <div className={styles.cubeFace} />
+                  <div className={styles.cubeFace} />
+                </div>
+              </div>
               <div>
-                <div className={styles.toastTitle}>{toast.title || 'Vote Submitted'}</div>
-                <div className={styles.toastSubtitle}>Success</div>
+                <div className={styles.toastTitle}>{toast.title || 'Vote Recorded'}</div>
+                <div className={styles.toastSubtitle}>On-Chain Success</div>
               </div>
             </div>
             <div className={styles.toastMessage}>{toast.message}</div>
