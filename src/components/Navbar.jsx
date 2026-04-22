@@ -6,7 +6,9 @@ import styles from './Navbar.module.css';
 export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
   const { walletAddress, isConnecting, connectWallet, disconnectWallet } = useWallet();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [copied, setCopied] = useState(false);
   const [recentVotes, setRecentVotes] = useState(0);
+  const [isDisconnecting, setIsDisconnecting] = useState(false);
   const [showLivePulse, setShowLivePulse] = useState(false);
   const lastTotalVotesRef = useRef(null);
   const voteDeltasRef = useRef([]);
@@ -14,6 +16,20 @@ export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
   const isHome = activePollIndex === -1;
   const locationLabel = isHome ? 'Home' : `Poll ${activePollIndex + 1}`;
   const progress = isHome ? 0 : Math.round(((activePollIndex + 1) / totalPolls) * 100);
+
+  const handleCopy = (e) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(walletAddress);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleDisconnect = async () => {
+    if (isDisconnecting) return;
+    setIsDisconnecting(true);
+    await disconnectWallet();
+    setIsDisconnecting(false);
+  };
 
   const loadRecentVotes = useCallback(async () => {
     try {
@@ -100,13 +116,14 @@ export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
         </div>
         <div className={styles.liveVotes} aria-live="polite">
           <span className={`${styles.liveDot} ${showLivePulse ? styles.liveDotActive : ''}`.trim()} aria-hidden="true" />
-          <span>{recentVotes} votes in last 60s</span>
+          <span>{recentVotes.toLocaleString()} votes in last 60s</span>
         </div>
       </div>
 
       <div className={styles.wallet}>
+        <div className={styles.networkBadge}>Testnet</div>
         {walletAddress ? (
-          <button className={styles.connected} onClick={disconnectWallet}>
+          <button className={styles.connected} onClick={handleDisconnect} disabled={isDisconnecting}>
             <div 
               className={styles.identicon}
               style={{
@@ -114,7 +131,13 @@ export default function Navbar({ activePollIndex, totalPolls, onNavigate }) {
               }}
               aria-hidden="true"
             />
-            <span className={styles.addressText}>{walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}</span>
+            <span className={styles.addressText} title={walletAddress}>
+                <span className={styles.connectionDot} title="Connected" aria-hidden="true" />
+                {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+                <span className={styles.copyIcon} onClick={handleCopy} title="Copy Address">
+                  {copied ? '✓' : '📋'}
+                </span>
+            </span>
             <span className={styles.disconnectText}>Disconnect</span>
           </button>
         ) : (

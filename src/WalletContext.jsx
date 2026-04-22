@@ -5,12 +5,18 @@ const WalletContext = createContext(null);
 export function WalletProvider({ children }) {
   const [walletAddress, setWalletAddress] = useState(null);
   const [isConnecting, setIsConnecting] = useState(false);
+  const [toastMsg, setToastMsg] = useState('');
+
+  const showToast = (msg) => {
+    setToastMsg(msg);
+    setTimeout(() => setToastMsg(''), 4500);
+  };
 
   async function connectWallet() {
     setIsConnecting(true);
     const provider = window.LeatherProvider || window.StacksProvider || window.XverseProviders?.StacksProvider;
     if (!provider) {
-      alert('Please install Leather (leather.io) or Xverse (xverse.app) to continue.');
+      showToast('Please install Leather (leather.io) or Xverse (xverse.app) to continue.');
       setIsConnecting(false);
       return null;
     }
@@ -21,7 +27,7 @@ export function WalletProvider({ children }) {
         a => a.symbol === 'STX' || a.address?.startsWith('SP') || a.address?.startsWith('SM')
       );
       if (!stxAddr) {
-        alert('Could not find STX address. Make sure your wallet is set to Mainnet.');
+        showToast('Could not find STX address. Make sure your wallet is set to Mainnet.');
         setIsConnecting(false);
         return null;
       }
@@ -42,6 +48,11 @@ export function WalletProvider({ children }) {
   return (
     <WalletContext.Provider value={{ walletAddress, isConnecting, connectWallet, disconnectWallet }}>
       {children}
+      {toastMsg && (
+        <div className="toast" role="alert">
+          {toastMsg}
+        </div>
+      )}
     </WalletContext.Provider>
   );
 }

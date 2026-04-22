@@ -27,6 +27,38 @@ const POLL_FILTER_TAGS = {
   'africa-startup-city': ['region', 'size', 'language'],
 };
 
+const CITY_COORDS = {
+  'lagos': { x: 38, y: 48 },
+  'nairobi': { x: 72, y: 56 },
+  'accra': { x: 34, y: 50 },
+  'cairo': { x: 68, y: 18 },
+  'capetown': { x: 55, y: 92 },
+  'kigali': { x: 66, y: 60 },
+};
+
+function DigitalMap({ hoveredCity }) {
+  return (
+    <div className={styles.digitalMapContainer}>
+      <svg viewBox="0 0 100 100" className={styles.africaMapSvg}>
+        <path
+          className={styles.africaPath}
+          d="M35,15 L65,12 L85,25 L88,40 L75,60 L65,95 L50,98 L35,85 L20,65 L10,50 L12,30 Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="0.5"
+          strokeDasharray="2 2"
+        />
+        {Object.entries(CITY_COORDS).map(([id, coord]) => (
+          <g key={id} className={hoveredCity === id ? styles.cityActive : styles.cityInactive}>
+            <circle cx={coord.x} cy={coord.y} r="1.5" className={styles.cityDot} />
+            <circle cx={coord.x} cy={coord.y} r="1.5" className={styles.cityPulse} />
+          </g>
+        ))}
+      </svg>
+    </div>
+  );
+}
+
 const CITY_SPOTLIGHTS = [
   {
     name: 'Lagos',
@@ -74,25 +106,69 @@ const CITY_SPOTLIGHTS = [
   },
 ];
 
+function truncateAddress(addr) {
+  if (!addr) return '';
+  return `${addr.slice(0, 5)}...${addr.slice(-4)}`;
+}
+
+function WalletBadge({ address }) {
+  if (!address) return <span className={styles.walletStatus}>Not Connected</span>;
+  
+  const hue = Array.from(address).reduce((acc, char) => acc + char.charCodeAt(0), 0) % 360;
+  
+  return (
+    <div className={styles.walletBadge}>
+      <div 
+        className={styles.identicon} 
+        style={{ background: `linear-gradient(${hue}deg, var(--gold), var(--accent-cool))` }}
+      />
+      <span className={styles.walletAddress}>{truncateAddress(address)}</span>
+    </div>
+  );
+}
+
+function OnChainSeal() {
+  return (
+    <div className={styles.onChainSeal}>
+      <svg viewBox="0 0 100 100" className={styles.sealSvg}>
+        <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none" />
+        <text className={styles.sealText}>
+          <textPath xlinkHref="#circlePath">
+            ON-CHAIN VERIFIED • STACKS MAINNET • 
+          </textPath>
+        </text>
+      </svg>
+      <div className={styles.sealCenter}>✓</div>
+    </div>
+  );
+}
+
 function OdometerCounter({ value, suffix = '', ariaLabel }) {
   const numeric = Math.max(0, Math.floor(Number(value) || 0));
   const digits = String(numeric).split('');
 
   return (
     <span className={styles.odometer} aria-label={ariaLabel}>
+      <span className={styles.odometerScanline} />
       <span className={styles.odometerDigits}>
-        {digits.map((digit, i) => (
-          <span className={styles.odometerWindow} key={i}>
-            <span
-              className={styles.odometerTrack}
-              style={{ transform: `translateY(-${Number(digit) * 1.1}em)` }}
-            >
-              {Array.from({ length: 10 }).map((_, n) => (
-                <span key={n} className={styles.odometerDigit}>{n}</span>
-              ))}
+        {digits.map((digit, i) => {
+          const digitVal = Number(digit);
+          return (
+            <span className={styles.odometerWindow} key={i}>
+              <span
+                className={styles.odometerTrack}
+                style={{ 
+                  transform: `translateY(-${digitVal * 1.1}em)`,
+                  transition: 'transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)' 
+                }}
+              >
+                {Array.from({ length: 10 }).map((_, n) => (
+                  <span key={n} className={styles.odometerDigit}>{n}</span>
+                ))}
+              </span>
             </span>
-          </span>
-        ))}
+          );
+        })}
       </span>
       {suffix && <span className={styles.odometerSuffix}>{suffix}</span>}
     </span>
@@ -115,6 +191,7 @@ export default function HomePage({ onSelectPoll }) {
   const [spotlightVisible, setSpotlightVisible] = useState(true);
   const [spotlightPaused, setSpotlightPaused] = useState(false);
   const [votePulse, setVotePulse] = useState(false);
+  const [hoveredCity, setHoveredCity] = useState(null);
   const spotlightIndexRef = useRef(0);
   const spotlightFadeTimerRef = useRef(null);
   const previousTotalVotesRef = useRef(0);
@@ -352,9 +429,12 @@ export default function HomePage({ onSelectPoll }) {
     <div className={styles.page}>
       <div className={styles.blob1} />
       <div className={styles.blob2} />
+      <div className={styles.blob3} />
+      <DigitalMap hoveredCity={hoveredCity} />
 
       <div className={styles.container}>
         <header className={styles.header}>
+          <OnChainSeal />
           <p className={styles.eyebrow}>On-chain · Stacks Mainnet · 5 Active Polls</p>
           <h1 className={styles.title}>
             Vote For Africa&apos;s
@@ -384,10 +464,16 @@ export default function HomePage({ onSelectPoll }) {
         >
           <div
             className={styles.citySpotlightImage}
-            style={{ backgroundImage: `url(${activeSpotlight.photo})` }}
             role="img"
             aria-label={`${activeSpotlight.name}, ${activeSpotlight.country}`}
-          />
+          >
+            <img
+              src={activeSpotlight.photo}
+              alt={`${activeSpotlight.name}, ${activeSpotlight.country}`}
+              loading="lazy"
+              draggable="false"
+            />
+          </div>
           <div className={styles.citySpotlightBody}>
             <p className={styles.citySpotlightLabel}>City Spotlight</p>
             <h2 className={styles.citySpotlightTitle}>
@@ -460,38 +546,48 @@ export default function HomePage({ onSelectPoll }) {
           <div className={styles.statCard}>
             <span className={styles.statLabel}>Total On-chain Votes</span>
             <strong className={`${styles.statValue} ${votePulse ? styles.statValuePulse : ''}`.trim()}>
-              <OdometerCounter value={totalVotes} ariaLabel={`${totalVotes} total on-chain votes`} />
+              {isLoadingVotes ? <div className={`${styles.skeletonBlock} ${styles.skeletonStatText}`} /> : <OdometerCounter value={totalVotes} ariaLabel={`${totalVotes} total on-chain votes`} />}
             </strong>
           </div>
           <div className={styles.statCard}>
             <span className={styles.statLabel}>Live Participation</span>
             <strong className={styles.statValue}>
-              <OdometerCounter value={liveParticipation} suffix="%" ariaLabel={`${liveParticipation} percent live participation`} />
+              {isLoadingVotes ? <div className={`${styles.skeletonBlock} ${styles.skeletonStatText}`} /> : <OdometerCounter value={liveParticipation} suffix="%" ariaLabel={`${liveParticipation} percent live participation`} />}
             </strong>
           </div>
           <div className={styles.statCard}>
             <span className={styles.statLabel}>Total Votes Today</span>
             <strong className={styles.statValue}>
-              <OdometerCounter value={votesToday} ariaLabel={`${votesToday} total votes today`} />
+              {isLoadingVotes ? <div className={`${styles.skeletonBlock} ${styles.skeletonStatText}`} /> : <OdometerCounter value={votesToday} ariaLabel={`${votesToday} total votes today`} />}
             </strong>
           </div>
-          <div className={styles.statCard}>
+          <div className={`${styles.statCard} ${walletAddress ? styles.statCardConnected : ''}`}>
             <span className={styles.statLabel}>Wallet</span>
-            <strong className={styles.statValue}>{walletAddress ? 'Connected' : 'Not Connected'}</strong>
+            <strong className={styles.statValue}>
+              <WalletBadge address={walletAddress} />
+            </strong>
           </div>
         </div>
 
-        {cityLeaders.length > 0 && (
+        {(isLoadingVotes || cityLeaders.length > 0) && (
           <section className={styles.leaderboardStrip} aria-label="Top 3 city leaderboard">
             <p className={styles.leaderboardLabel}>Top 3 Cities</p>
             <div className={styles.leaderboardRow}>
-              {cityLeaders.map((city, i) => (
-                <div key={city.id} className={styles.leaderItem}>
-                  <span className={styles.leaderRank}>#{i + 1}</span>
-                  <span className={styles.leaderName}>{city.label}</span>
-                  <span className={styles.leaderVotes}>{city.votes} vote{city.votes !== 1 ? 's' : ''}</span>
-                </div>
-              ))}
+              {isLoadingVotes ? (
+                Array.from({ length: 3 }).map((_, i) => (
+                  <div key={`leader-skeleton-${i}`} className={styles.leaderItem}>
+                    <div className={`${styles.skeletonBlock} ${styles.skeletonStatText}`} style={{ width: '120px' }} />
+                  </div>
+                ))
+              ) : (
+                cityLeaders.map((city, i) => (
+                  <div key={city.id} className={styles.leaderItem}>
+                    <span className={styles.leaderRank}>#{i + 1}</span>
+                    <span className={styles.leaderName}>{city.name}</span>
+                    <span className={styles.leaderVotes}>{city.votes.toLocaleString()} votes</span>
+                  </div>
+                ))
+              )}
             </div>
           </section>
         )}
@@ -528,7 +624,10 @@ export default function HomePage({ onSelectPoll }) {
             aria-label="Search available polls by title, question, or option"
           />
         </div>
+        
+        <div className={styles.blockDivider} aria-hidden="true" />
 
+        <div className={styles.pollsHeader} id="active-polls">
         <div className={styles.filterChips} aria-label="Quick poll filters">
           {FILTER_CHIPS.map(chip => (
             <button
@@ -557,6 +656,7 @@ export default function HomePage({ onSelectPoll }) {
             ))}
           </select>
         </div>
+        </div>
 
         <div id="poll-grid" className={styles.grid}>
           {isLoadingVotes && Array.from({ length: 4 }).map((_, i) => (
@@ -581,11 +681,22 @@ export default function HomePage({ onSelectPoll }) {
               key={poll.id}
               className={styles.pollCard}
               onClick={() => onSelectPoll(index)}
+              onMouseEnter={() => {
+                // If it's a city poll, try to find which city is being hovered if possible
+                // or just glow all cities in the poll
+                if (poll.id === 'african-cities-vote') {
+                  // For the main city poll, we don't know which card hover is which city yet
+                  // but we can just activate the map glow generally or based on spotlight
+                  setHoveredCity('all');
+                }
+              }}
+              onMouseLeave={() => setHoveredCity(null)}
               role="button"
               tabIndex={0}
               onKeyDown={e => e.key === 'Enter' && onSelectPoll(index)}
               style={{ animationDelay: `${i * 0.07}s` }}
             >
+              <div className={styles.scanLine} />
               <div className={styles.pollEmoji}>{poll.emoji}</div>
               <div className={styles.pollVoteBadge}>
                 {allVotes[poll.id] != null

@@ -155,6 +155,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
 
     setIsVoting(true);
     setStatus({ msg: `Opening wallet to vote for "${selected}"...`, type: 'loading' });
+    document.body.classList.add('is-loading-tx');
 
     try {
       const fnArg = encodeStringAsciiCV(selected);
@@ -210,6 +211,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
       });
     } finally {
       setIsVoting(false);
+      document.body.classList.remove('is-loading-tx');
     }
   }
 
@@ -379,8 +381,6 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
           {poll.options.map(opt => {
             const count = votes?.[opt.id] ?? 0;
             const pct   = total > 0 ? Math.round((count / total) * 100) : 0;
-            const displayCount = walletAddress ? count : '?';
-            const displayPct = walletAddress ? Math.round(pct) : '?';
             const isSelected = selected === opt.id;
             const momentumDelta = momentum[opt.id] ?? 0;
             const meterWidth = Math.min(Math.abs(momentumDelta) * 8, 100);
@@ -417,6 +417,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
                 aria-disabled={cardsDisabled}
                 tabIndex={cardsDisabled ? -1 : 0}
                 onKeyDown={e => e.key === 'Enter' && !cardsDisabled && setSelected(opt.id)}
+                title={!walletAddress ? 'Connect wallet to vote' : ''}
               >
                 <div className={styles.optionMetaHeader}>
                   <span className={styles.optionIcon} aria-hidden="true">{meta.icon}</span>
@@ -445,7 +446,23 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
                 <div className={styles.cityStatsStrip}>
                   <div className={styles.sparklineWrap} aria-hidden="true">
                     <svg viewBox="0 0 86 20" className={styles.sparkline} preserveAspectRatio="none">
-                      <path d={sparklinePath} className={styles.sparklinePath} />
+                      <defs>
+                        <filter id="glow">
+                          <feGaussianBlur stdDeviation="1.5" result="coloredBlur" />
+                          <feMerge>
+                            <feMergeNode in="coloredBlur" />
+                            <feMergeNode in="SourceGraphic" />
+                          </feMerge>
+                        </filter>
+                      </defs>
+                      <path 
+                        d={sparklinePath} 
+                        className={styles.sparklinePath} 
+                        style={{ 
+                          stroke: yesterdayDelta >= 0 ? '#00ffcc' : '#ff4d4d',
+                          filter: 'url(#glow)'
+                        }}
+                      />
                     </svg>
                   </div>
                   <div className={styles.inlineMomentum}>
@@ -621,6 +638,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
           className={styles.voteBtnWrapper}
           onMouseEnter={() => !walletAddress && setShakeConnect(true)}
           onMouseLeave={() => !walletAddress && setShakeConnect(false)}
+          title={!walletAddress ? 'Connect wallet to vote' : ''}
         >
           <button
             className={[
@@ -629,9 +647,10 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
             ].join(' ')}
             onClick={castVote}
             disabled={!walletAddress || !selected || hasVoted || isVoting}
+            title={!walletAddress ? 'Connect wallet to vote' : ''}
           >
-            {isVoting && <span className={styles.buttonSpinner} aria-hidden="true" />}
-            <span>{btnLabel()}</span>
+            {isVoting && <div className={styles.buttonSpinner} aria-hidden="true" />}
+            {isVoting ? 'Voting...' : <span>{btnLabel()}</span>}
           </button>
         </div>
 
@@ -672,6 +691,7 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
             className={[styles.mobileActionBtn, (walletAddress && selected !== null && !isVoting && (!hasVoted || parseInt(hasVoted) !== selected)) ? styles.readyToVote : ''].filter(Boolean).join(' ')}
             onClick={handleMobileCta}
             disabled={walletAddress ? mobileVoteDisabled : false}
+            title={!walletAddress ? 'Connect wallet to vote' : ''}
           >
             {isVoting && <span className={styles.buttonSpinner} aria-hidden="true" />}
             <span>{mobileCtaLabel}</span>
@@ -719,10 +739,19 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
         {toast.open && (
           <div className={styles.toast} role="status" aria-live="polite">
             <div className={styles.toastHead}>
-              <span className={styles.toastCheck} aria-hidden="true">✓</span>
+              <div className={styles.cubeWrap}>
+                <div className={styles.cube}>
+                  <div className={styles.cubeFace} />
+                  <div className={styles.cubeFace} />
+                  <div className={styles.cubeFace} />
+                  <div className={styles.cubeFace} />
+                  <div className={styles.cubeFace} />
+                  <div className={styles.cubeFace} />
+                </div>
+              </div>
               <div>
-                <div className={styles.toastTitle}>{toast.title || 'Vote Submitted'}</div>
-                <div className={styles.toastSubtitle}>Success</div>
+                <div className={styles.toastTitle}>{toast.title || 'Vote Recorded'}</div>
+                <div className={styles.toastSubtitle}>On-Chain Success</div>
               </div>
             </div>
             <div className={styles.toastMessage}>{toast.message}</div>
