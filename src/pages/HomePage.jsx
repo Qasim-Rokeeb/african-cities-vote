@@ -608,7 +608,10 @@ export default function HomePage({ onSelectPoll }) {
             aria-label="Search available polls by title, question, or option"
           />
         </div>
+        
+        <div className={styles.blockDivider} aria-hidden="true" />
 
+        <div className={styles.pollsHeader} id="active-polls">
         <div className={styles.filterChips} aria-label="Quick poll filters">
           {FILTER_CHIPS.map(chip => (
             <button

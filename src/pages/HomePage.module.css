@@ -1520,3 +1520,36 @@
   35% { transform: scale(1.08); filter: brightness(1.15); }
   100% { transform: scale(1); filter: brightness(1); }
 }
+
+.blockDivider {
+  height: 1px;
+  width: 100%;
+  margin: 64px 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(232, 184, 75, 0.2) 10%,
+    rgba(232, 184, 75, 0.2) 90%,
+    transparent 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.blockDivider::after {
+  content: '■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■';
+  position: absolute;
+  top: -6px;
+  left: 0;
+  white-space: nowrap;
+  font-size: 8px;
+  color: var(--gold);
+  opacity: 0.3;
+  letter-spacing: 12px;
+  animation: slideBlocks 60s linear infinite;
+}
+
+@keyframes slideBlocks {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
