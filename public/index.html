@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <link rel="manifest" href="/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#1a1008" />
     <meta name="description" content="Africa Tech Votes — 5 on-chain polls about tech & crypto in Africa, built on Stacks." />
@@ -23,7 +24,7 @@
         You need to enable JavaScript to run this on-chain voting app.
       </div>
     </noscript>
-    <div id="root">
+    <main id="root" role="main" aria-label="Main content">
       <div style="min-height: 100vh; background-color: #1a1008; display: flex; flex-direction: column; gap: 20px; align-items: center; justify-content: center; font-family: 'Space Mono', monospace;">
         <style>
           .init-spinner {
@@ -43,9 +44,9 @@
           @keyframes init-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
           @keyframes init-pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
         </style>
-        <div class="init-spinner"></div>
+        <div class="init-spinner" role="status" aria-label="Loading"></div>
         <div class="init-text">Loading...</div>
       </div>
-    </div>
+    </main>
   </body>
 </html>
