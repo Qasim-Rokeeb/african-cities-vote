@@ -66,10 +66,64 @@
   margin-bottom: 96px;
   max-width: 720px;
   animation: fadeUp 0.5s ease both;
-  background: linear-gradient(120deg, rgba(232,184,75,0.18) 0%, rgba(94,143,132,0.13) 60%, rgba(196,129,58,0.18) 100%);
+  background: linear-gradient(120deg, rgba(232,184,75,0.08) 0%, rgba(94,143,132,0.05) 60%, rgba(196,129,58,0.08) 100%);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(232, 184, 75, 0.15);
   border-radius: var(--radius-lg);
-  box-shadow: 0 6px 32px rgba(232,184,75,0.08);
+  box-shadow: 0 6px 32px rgba(0, 0, 0, 0.2);
   padding: 32px 32px 24px 32px;
+}
+
+.digitalMapContainer {
+  position: fixed;
+  top: 50%;
+  right: 5%;
+  transform: translateY(-50%);
+  width: 400px;
+  height: 400px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.3;
+  mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+}
+
+.africaMapSvg {
+  width: 100%;
+  height: 100%;
+  color: var(--gold);
+}
+
+.africaPath {
+  stroke-width: 0.8;
+  opacity: 0.4;
+  filter: drop-shadow(0 0 2px var(--gold));
+}
+
+.cityDot {
+  fill: var(--gold);
+  filter: drop-shadow(0 0 5px var(--gold));
+}
+
+.cityPulse {
+  fill: var(--gold);
+  opacity: 0;
+  transform-origin: center;
+}
+
+.cityActive .cityPulse {
+  animation: cityPing 2s infinite ease-out;
+}
+
+.cityActive .cityDot {
+  fill: #fff;
+  filter: drop-shadow(0 0 10px var(--gold));
+  transform: scale(1.5);
+  transition: transform 0.3s ease, fill 0.3s ease;
+}
+
+@keyframes cityPing {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(5); opacity: 0; }
 }
 
 .eyebrow {

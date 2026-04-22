@@ -27,6 +27,38 @@ const POLL_FILTER_TAGS = {
   'africa-startup-city': ['region', 'size', 'language'],
 };
 
+const CITY_COORDS = {
+  'lagos': { x: 38, y: 48 },
+  'nairobi': { x: 72, y: 56 },
+  'accra': { x: 34, y: 50 },
+  'cairo': { x: 68, y: 18 },
+  'capetown': { x: 55, y: 92 },
+  'kigali': { x: 66, y: 60 },
+};
+
+function DigitalMap({ hoveredCity }) {
+  return (
+    <div className={styles.digitalMapContainer}>
+      <svg viewBox="0 0 100 100" className={styles.africaMapSvg}>
+        <path
+          className={styles.africaPath}
+          d="M35,15 L65,12 L85,25 L88,40 L75,60 L65,95 L50,98 L35,85 L20,65 L10,50 L12,30 Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="0.5"
+          strokeDasharray="2 2"
+        />
+        {Object.entries(CITY_COORDS).map(([id, coord]) => (
+          <g key={id} className={hoveredCity === id ? styles.cityActive : styles.cityInactive}>
+            <circle cx={coord.x} cy={coord.y} r="1.5" className={styles.cityDot} />
+            <circle cx={coord.x} cy={coord.y} r="1.5" className={styles.cityPulse} />
+          </g>
+        ))}
+      </svg>
+    </div>
+  );
+}
+
 const CITY_SPOTLIGHTS = [
   {
     name: 'Lagos',
@@ -121,6 +153,7 @@ export default function HomePage({ onSelectPoll }) {
   const [spotlightVisible, setSpotlightVisible] = useState(true);
   const [spotlightPaused, setSpotlightPaused] = useState(false);
   const [votePulse, setVotePulse] = useState(false);
+  const [hoveredCity, setHoveredCity] = useState(null);
   const spotlightIndexRef = useRef(0);
   const spotlightFadeTimerRef = useRef(null);
   const previousTotalVotesRef = useRef(0);
@@ -359,6 +392,7 @@ export default function HomePage({ onSelectPoll }) {
       <div className={styles.blob1} />
       <div className={styles.blob2} />
       <div className={styles.blob3} />
+      <DigitalMap hoveredCity={hoveredCity} />
 
       <div className={styles.container}>
         <header className={styles.header}>
@@ -602,6 +636,16 @@ export default function HomePage({ onSelectPoll }) {
               key={poll.id}
               className={styles.pollCard}
               onClick={() => onSelectPoll(index)}
+              onMouseEnter={() => {
+                // If it's a city poll, try to find which city is being hovered if possible
+                // or just glow all cities in the poll
+                if (poll.id === 'african-cities-vote') {
+                  // For the main city poll, we don't know which card hover is which city yet
+                  // but we can just activate the map glow generally or based on spotlight
+                  setHoveredCity('all');
+                }
+              }}
+              onMouseLeave={() => setHoveredCity(null)}
               role="button"
               tabIndex={0}
               onKeyDown={e => e.key === 'Enter' && onSelectPoll(index)}
