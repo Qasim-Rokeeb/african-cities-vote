@@ -46,6 +46,10 @@
   margin-bottom: 96px;
   max-width: 720px;
   animation: fadeUp 0.5s ease both;
+  background: linear-gradient(120deg, rgba(232,184,75,0.18) 0%, rgba(94,143,132,0.13) 60%, rgba(196,129,58,0.18) 100%);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 6px 32px rgba(232,184,75,0.08);
+  padding: 32px 32px 24px 32px;
 }
 
 .eyebrow {
