@@ -458,16 +458,31 @@
 
 .statCard {
   padding: 12px;
-  border: 1px solid var(--border-soft);
-  background: linear-gradient(180deg, rgba(38,24,13,0.74), rgba(26,16,8,0.52));
+  border: 1px solid rgba(232, 184, 75, 0.15);
+  background: linear-gradient(180deg, rgba(38, 24, 13, 0.74), rgba(26, 16, 8, 0.52));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-radius: var(--radius-sm);
-  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s ease, background 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.statCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(125deg, transparent 40%, rgba(232, 184, 75, 0.08) 50%, transparent 60%);
+  background-size: 200% 200%;
+  animation: glassBorder 6s linear infinite;
+  pointer-events: none;
 }
 
 .statCard:hover {
-  transform: translateY(-2px);
-  border-color: rgba(232, 184, 75, 0.4);
-  background: linear-gradient(180deg, rgba(46,30,16,0.8), rgba(30,20,10,0.6));
+  transform: translateY(-3px) scale(1.02);
+  border-color: rgba(232, 184, 75, 0.45);
+  background: linear-gradient(180deg, rgba(46, 30, 16, 0.8), rgba(30, 20, 10, 0.6));
+  box-shadow: 0 8px 32px rgba(232, 184, 75, 0.12);
 }
 
 .statLabel {
@@ -512,19 +527,23 @@
 }
 
 .leaderItem {
-  border: 1px solid rgba(196,129,58,0.25);
+  border: 1px solid rgba(196, 129, 58, 0.2);
   border-radius: var(--radius-sm);
-  background: rgba(26,16,8,0.48);
+  background: rgba(26, 16, 8, 0.48);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   padding: 8px;
   display: grid;
   gap: 3px;
-  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.2s ease, border-color 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  position: relative;
 }
 
 .leaderItem:hover {
-  transform: translateY(-2px);
-  background: rgba(38,24,13,0.7);
-  border-color: rgba(232, 184, 75, 0.4);
+  transform: translateY(-2px) scale(1.01);
+  background: rgba(38, 24, 13, 0.7);
+  border-color: rgba(232, 184, 75, 0.5);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
 .leaderRank {
@@ -842,21 +861,27 @@
 }
 
 .pollCard {
-  background: var(--card);
-  border: 2px solid transparent;
+  background: rgba(250, 245, 236, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(232, 184, 75, 0.15);
   padding: 32px 32px 24px;
   cursor: pointer;
-  transition: border-color 0.25s ease, transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.25s ease;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   position: relative;
   animation: fadeUp 0.5s ease both;
   isolation: isolate;
   border-radius: var(--radius-md);
+  overflow: hidden;
 }
 
 .pollCard:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-strong), 0 8px 16px rgba(196,129,58,0.12);
-  border-color: rgba(196,129,58,0.4);
+  transform: translateY(-6px) scale(1.01);
+  background: rgba(250, 245, 236, 0.06);
+  border-color: rgba(232, 184, 75, 0.4);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(232, 184, 75, 0.2) inset;
 }
 
 .pollCard:active {
@@ -1307,6 +1332,12 @@
 @keyframes shimmer {
   from { background-position: 200% 0; }
   to { background-position: -200% 0; }
+}
+
+@keyframes glassBorder {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 @keyframes votePulse {
