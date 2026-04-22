@@ -114,7 +114,6 @@ function truncateAddress(addr) {
 function WalletBadge({ address }) {
   if (!address) return <span className={styles.walletStatus}>Not Connected</span>;
   
-  // Simple deterministic color based on address
   const hue = Array.from(address).reduce((acc, char) => acc + char.charCodeAt(0), 0) % 360;
   
   return (
@@ -124,6 +123,22 @@ function WalletBadge({ address }) {
         style={{ background: `linear-gradient(${hue}deg, var(--gold), var(--accent-cool))` }}
       />
       <span className={styles.walletAddress}>{truncateAddress(address)}</span>
+    </div>
+  );
+}
+
+function OnChainSeal() {
+  return (
+    <div className={styles.onChainSeal}>
+      <svg viewBox="0 0 100 100" className={styles.sealSvg}>
+        <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none" />
+        <text className={styles.sealText}>
+          <textPath xlinkHref="#circlePath">
+            ON-CHAIN VERIFIED • STACKS MAINNET • 
+          </textPath>
+        </text>
+      </svg>
+      <div className={styles.sealCenter}>✓</div>
     </div>
   );
 }
