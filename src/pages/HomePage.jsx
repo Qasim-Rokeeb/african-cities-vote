@@ -390,10 +390,16 @@ export default function HomePage({ onSelectPoll }) {
         >
           <div
             className={styles.citySpotlightImage}
-            style={{ backgroundImage: `url(${activeSpotlight.photo})` }}
             role="img"
             aria-label={`${activeSpotlight.name}, ${activeSpotlight.country}`}
-          />
+          >
+            <img
+              src={activeSpotlight.photo}
+              alt={`${activeSpotlight.name}, ${activeSpotlight.country}`}
+              loading="lazy"
+              draggable="false"
+            />
+          </div>
           <div className={styles.citySpotlightBody}>
             <p className={styles.citySpotlightLabel}>City Spotlight</p>
             <h2 className={styles.citySpotlightTitle}>
