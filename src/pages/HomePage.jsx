@@ -545,7 +545,7 @@ export default function HomePage({ onSelectPoll }) {
               {isLoadingVotes ? <div className={`${styles.skeletonBlock} ${styles.skeletonStatText}`} /> : <OdometerCounter value={votesToday} ariaLabel={`${votesToday} total votes today`} />}
             </strong>
           </div>
-          <div className={styles.statCard}>
+          <div className={`${styles.statCard} ${walletAddress ? styles.statCardConnected : ''}`}>
             <span className={styles.statLabel}>Wallet</span>
             <strong className={styles.statValue}>
               <WalletBadge address={walletAddress} />
