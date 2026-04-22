@@ -434,6 +434,7 @@ export default function HomePage({ onSelectPoll }) {
 
       <div className={styles.container}>
         <header className={styles.header}>
+          <OnChainSeal />
           <p className={styles.eyebrow}>On-chain · Stacks Mainnet · 5 Active Polls</p>
           <h1 className={styles.title}>
             Vote For Africa&apos;s
