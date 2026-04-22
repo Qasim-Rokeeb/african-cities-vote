@@ -679,6 +679,7 @@ export default function HomePage({ onSelectPoll }) {
               onKeyDown={e => e.key === 'Enter' && onSelectPoll(index)}
               style={{ animationDelay: `${i * 0.07}s` }}
             >
+              <div className={styles.scanLine} />
               <div className={styles.pollEmoji}>{poll.emoji}</div>
               <div className={styles.pollVoteBadge}>
                 {allVotes[poll.id] != null
