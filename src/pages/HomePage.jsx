@@ -106,6 +106,28 @@ const CITY_SPOTLIGHTS = [
   },
 ];
 
+function truncateAddress(addr) {
+  if (!addr) return '';
+  return `${addr.slice(0, 5)}...${addr.slice(-4)}`;
+}
+
+function WalletBadge({ address }) {
+  if (!address) return <span className={styles.walletStatus}>Not Connected</span>;
+  
+  // Simple deterministic color based on address
+  const hue = Array.from(address).reduce((acc, char) => acc + char.charCodeAt(0), 0) % 360;
+  
+  return (
+    <div className={styles.walletBadge}>
+      <div 
+        className={styles.identicon} 
+        style={{ background: `linear-gradient(${hue}deg, var(--gold), var(--accent-cool))` }}
+      />
+      <span className={styles.walletAddress}>{truncateAddress(address)}</span>
+    </div>
+  );
+}
+
 function OdometerCounter({ value, suffix = '', ariaLabel }) {
   const numeric = Math.max(0, Math.floor(Number(value) || 0));
   const digits = String(numeric).split('');
@@ -524,7 +546,9 @@ export default function HomePage({ onSelectPoll }) {
           </div>
           <div className={styles.statCard}>
             <span className={styles.statLabel}>Wallet</span>
-            <strong className={styles.statValue}>{walletAddress ? 'Connected' : 'Not Connected'}</strong>
+            <strong className={styles.statValue}>
+              <WalletBadge address={walletAddress} />
+            </strong>
           </div>
         </div>
 

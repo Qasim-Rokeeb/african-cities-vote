@@ -574,6 +574,37 @@
   color: var(--gold);
 }
 
+.walletBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(232, 184, 75, 0.08);
+  padding: 4px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(232, 184, 75, 0.15);
+}
+
+.identicon {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.walletAddress {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--gold);
+  letter-spacing: 0.02em;
+}
+
+.walletStatus {
+  font-size: 13px;
+  color: var(--muted);
+  font-family: var(--font-ui);
+}
+
 .statValuePulse {
   animation: votePulse 0.65s ease;
 }
