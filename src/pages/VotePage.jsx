@@ -448,7 +448,23 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
                 <div className={styles.cityStatsStrip}>
                   <div className={styles.sparklineWrap} aria-hidden="true">
                     <svg viewBox="0 0 86 20" className={styles.sparkline} preserveAspectRatio="none">
-                      <path d={sparklinePath} className={styles.sparklinePath} />
+                      <defs>
+                        <filter id="glow">
+                          <feGaussianBlur stdDeviation="1.5" result="coloredBlur" />
+                          <feMerge>
+                            <feMergeNode in="coloredBlur" />
+                            <feMergeNode in="SourceGraphic" />
+                          </feMerge>
+                        </filter>
+                      </defs>
+                      <path 
+                        d={sparklinePath} 
+                        className={styles.sparklinePath} 
+                        style={{ 
+                          stroke: yesterdayDelta >= 0 ? '#00ffcc' : '#ff4d4d',
+                          filter: 'url(#glow)'
+                        }}
+                      />
                     </svg>
                   </div>
                   <div className={styles.inlineMomentum}>

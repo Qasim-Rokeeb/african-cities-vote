@@ -544,10 +544,16 @@
 
 .sparklinePath {
   fill: none;
-  stroke: rgba(47,143,100,0.85);
-  stroke-width: 1.7;
+  stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: sparklineDraw 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes sparklineDraw {
+  to { stroke-dashoffset: 0; }
 }
 
 .inlineMomentum {
