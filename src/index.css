@@ -338,13 +338,15 @@ select:disabled,
 }
 
 .pulse-dot {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: var(--accent-cool);
+  background: #00ffcc;
   position: relative;
   display: inline-block;
   vertical-align: middle;
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.8), 0 0 20px rgba(0, 255, 204, 0.4);
+  animation: neonFlicker 4s infinite;
 }
 
 .pulse-dot::after {
@@ -355,14 +357,19 @@ select:disabled,
   transform: translate(-50%, -50%);
   width: 100%;
   height: 100%;
-  background: var(--accent-cool);
+  background: #00ffcc;
   border-radius: 50%;
   animation: ripplePulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+@keyframes neonFlicker {
+  0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% { opacity: 1; }
+  20%, 21.999%, 63%, 63.999%, 65%, 69.999% { opacity: 0.4; }
+}
+
 @keyframes ripplePulse {
-  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
-  100% { transform: translate(-50%, -50%) scale(3.5); opacity: 0; }
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+  100% { transform: translate(-50%, -50%) scale(4); opacity: 0; }
 }
 
 ::-moz-selection {
