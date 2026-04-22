@@ -400,8 +400,7 @@ select:disabled,
     display: none;
   }
 }
-  background: rgba(232, 184, 75, 0.5);
-}
+
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
