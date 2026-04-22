@@ -134,6 +134,7 @@ function OdometerCounter({ value, suffix = '', ariaLabel }) {
 
   return (
     <span className={styles.odometer} aria-label={ariaLabel}>
+      <span className={styles.odometerScanline} />
       <span className={styles.odometerDigits}>
         {digits.map((digit, i) => {
           const digitVal = Number(digit);
@@ -143,7 +144,7 @@ function OdometerCounter({ value, suffix = '', ariaLabel }) {
                 className={styles.odometerTrack}
                 style={{ 
                   transform: `translateY(-${digitVal * 1.1}em)`,
-                  transition: 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)' 
+                  transition: 'transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)' 
                 }}
               >
                 {Array.from({ length: 10 }).map((_, n) => (
