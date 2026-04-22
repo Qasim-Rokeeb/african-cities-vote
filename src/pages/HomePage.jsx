@@ -206,10 +206,10 @@ export default function HomePage({ onSelectPoll }) {
       const entries = await Promise.all(
         POLLS.map(async poll => {
           const raw = await fetchVoteCounts(poll.id);
-          if (!raw) return [poll.id, null];
+          if (!raw) return [poll.id, null, null];
           const mapped = mapVotesToOptions(raw, poll.options);
           const total = Object.values(mapped).reduce((a, b) => a + b, 0);
-          return [poll.id, total];
+          return [poll.id, total, mapped];
         })
       );
 
@@ -218,19 +218,24 @@ export default function HomePage({ onSelectPoll }) {
         setVotesError('Some live vote totals could not be loaded.');
       }
 
-      setAllVotes(
-        Object.fromEntries(entries.map(([id, total]) => [id, total ?? 0]))
-      );
+      const voteSummary = {};
+      const allMapped = {};
+      entries.forEach(([id, total, mapped]) => {
+        voteSummary[id] = total ?? 0;
+        allMapped[id] = mapped;
+      });
 
-      const cityPoll = POLLS.find(poll => poll.id === 'african-cities-vote') || POLLS[0];
-      const cityRaw = await fetchVoteCounts(cityPoll.id);
-      if (cityRaw) {
-        const mappedCityVotes = mapVotesToOptions(cityRaw, cityPoll.options);
+      setAllVotes(voteSummary);
+
+      const cityPollId = 'african-cities-vote';
+      const cityMapped = allMapped[cityPollId];
+      if (cityMapped) {
+        const cityPoll = POLLS.find(p => p.id === cityPollId);
         const rankedCities = cityPoll.options
           .map(option => ({
             id: option.id,
             label: option.label,
-            votes: mappedCityVotes[option.id] ?? 0,
+            votes: cityMapped[option.id] ?? 0,
           }))
           .sort((a, b) => b.votes - a.votes)
           .slice(0, 3);
@@ -240,7 +245,8 @@ export default function HomePage({ onSelectPoll }) {
       }
 
       setLastUpdatedAt(new Date());
-    } catch {
+    } catch (err) {
+      console.error('Failed to load votes:', err);
       setVotesError('Could not load live votes right now.');
     } finally {
       if (showLoading) {

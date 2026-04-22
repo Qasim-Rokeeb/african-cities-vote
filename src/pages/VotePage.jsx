@@ -146,11 +146,17 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
     });
   }, [walletAddress, poll.id]);
 
+  const providerRef = useRef(null);
+
+  useEffect(() => {
+    providerRef.current = window.LeatherProvider || window.StacksProvider || window.XverseProviders?.StacksProvider;
+  }, []);
+
   // ── Cast vote ───────────────────────────────────────────────────────────────
   async function castVote() {
     if (!walletAddress || !selected || hasVoted || isVoting) return;
 
-    const provider = window.LeatherProvider || window.StacksProvider || window.XverseProviders?.StacksProvider;
+    const provider = providerRef.current || window.LeatherProvider || window.StacksProvider || window.XverseProviders?.StacksProvider;
     if (!provider) { setStatus({ msg: 'Wallet not connected.', type: 'error' }); return; }
 
     setIsVoting(true);
