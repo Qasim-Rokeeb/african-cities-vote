@@ -326,21 +326,32 @@
 }
 
 .connectBtn {
-  background: var(--deep-2);
-  color: var(--sand);
-  border: 1px solid var(--earth);
-  min-height: 40px;
-  padding: 0 20px;
-  font-family: var(--font-ui); font-size: 13px;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--primary-hover) 100%);
+  color: var(--deep);
+  border: 2px solid var(--primary);
+  min-height: 44px;
+  padding: 0 28px;
+  font-family: var(--font-ui); font-size: 14px;
   text-transform: uppercase;
-  letter-spacing: 0.05em; cursor: pointer;
-  transition: all 0.2s ease;
-  border-radius: var(--radius-sm);
+  letter-spacing: 0.08em; cursor: pointer;
+  transition: background 0.3s, color 0.2s, border-color 0.2s, transform 0.18s;
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 16px rgba(232,184,75,0.13);
+  animation: connectBtnPulse 2.2s infinite alternate;
 }
-.connectBtn:hover { background: var(--earth); color: var(--deep); transform: translateY(-2px); }
+.connectBtn:hover {
+  background: linear-gradient(90deg, var(--primary-hover) 0%, var(--primary) 100%);
+  color: var(--deep-2);
+  border-color: var(--primary-hover);
+  transform: translateY(-2px) scale(1.04);
+}
 .connectBtn:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 3px;
+}
+@keyframes connectBtnPulse {
+  0% { box-shadow: 0 2px 16px rgba(232,184,75,0.13); }
+  100% { box-shadow: 0 4px 32px rgba(232,184,75,0.22); }
 }
 
 .walletHint {
