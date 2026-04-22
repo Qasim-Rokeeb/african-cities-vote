@@ -381,8 +381,6 @@ export default function VotePage({ poll, pollIndex, totalPolls, onBack, onNext, 
           {poll.options.map(opt => {
             const count = votes?.[opt.id] ?? 0;
             const pct   = total > 0 ? Math.round((count / total) * 100) : 0;
-            const displayCount = walletAddress ? count : '?';
-            const displayPct = walletAddress ? Math.round(pct) : '?';
             const isSelected = selected === opt.id;
             const momentumDelta = momentum[opt.id] ?? 0;
             const meterWidth = Math.min(Math.abs(momentumDelta) * 8, 100);
