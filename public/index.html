@@ -43,10 +43,61 @@
           }
           @keyframes init-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
           @keyframes init-pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+          /* Footer Styles */
+          .site-footer {
+            width: 100%;
+            background: linear-gradient(90deg, rgba(26,16,8,0.98) 0%, rgba(40,26,13,0.95) 100%);
+            color: #f0e6d3;
+            font-family: 'Inter', 'Space Mono', monospace, sans-serif;
+            padding: 32px 0 18px 0;
+            margin-top: 40px;
+            border-top: 1px solid #3a2716;
+            box-shadow: 0 -4px 32px 0 rgba(26,16,8,0.18);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            letter-spacing: 0.02em;
+            z-index: 10;
+          }
+          .site-footer .footer-links {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+          }
+          .site-footer .footer-links a {
+            color: #e8b84b;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+          }
+          .site-footer .footer-links a:hover {
+            color: #ffd97a;
+            text-decoration: underline;
+          }
+          .site-footer .footer-copy {
+            color: #bfa77a;
+            font-size: 0.95em;
+            opacity: 0.85;
+          }
+          @media (max-width: 600px) {
+            .site-footer { font-size: 0.95rem; padding: 24px 0 12px 0; }
+            .site-footer .footer-links { gap: 10px; }
+          }
         </style>
         <div class="init-spinner" role="status" aria-label="Loading"></div>
         <div class="init-text">Loading...</div>
       </div>
     </main>
+    <footer class="site-footer" role="contentinfo">
+      <div class="footer-links">
+        <a href="https://github.com/rokeb/african-cities-vote" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://twitter.com/rokeb_" target="_blank" rel="noopener noreferrer">Twitter</a>
+        <a href="mailto:hello@rokeb.com">Contact</a>
+      </div>
+      <div class="footer-copy">&copy; 2026 Africa Tech Votes. Built on Stacks. All rights reserved.</div>
+    </footer>
   </body>
 </html>
